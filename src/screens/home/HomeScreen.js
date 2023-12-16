@@ -10,8 +10,9 @@ export default function HomeScreen() {
       <View className="flex flex-1 bg-main-background px-5 pt-12">
           <View className="w-full h-full flex justify-start items-center gap-y-5">
 
-              <View className="w-full">
-                  <Text className="text-left text-xl font-medium">Welcome back, Vincent!</Text>
+              <View className="w-full flex flex-row items-center">
+                  <MaterialCommunityIcons name="account-circle" color="#CCCCCC" size={35} onPress={() => { navigation.navigate('ProfileScreen') }}/>
+                  <Text className="text-left text-lg font-medium ml-3">Welcome back, Vincent!</Text>
               </View>
 
               <View className="flex justify-center w-full">
@@ -48,15 +49,47 @@ export default function HomeScreen() {
               <View className="flex flex-row justify-between mt-3 w-full">
                   <View className="w-[45%]">
                     <TouchableOpacity className=" bg-[#E6FBFF] px-2 py-5 rounded-xl flex flex-row justify-around items-center shadow-sm shadow-[#ACA9A9]" onPress={() => navigation.navigate('HelpCenterScreen')}>
-                        <MaterialCommunityIcons name="headset" color="#39A7FF" size={30} />
-                        <Text className="text-left text-base font-medium">Help center</Text>
+                        <View className="w-1/3 flex justify-center items-center">
+                            <MaterialCommunityIcons name="headset" color="#39A7FF" size={30} />
+                        </View>
+                        <View className="w-[70%]">
+                            <Text className="text-left text-base font-medium">Help center</Text>
+                        </View>
                     </TouchableOpacity>
                   </View>
 
                   <View className="w-[45%]">
                     <TouchableOpacity className=" bg-[#E6FBFF] px-2 py-5 rounded-xl flex flex-row justify-around items-center shadow-sm shadow-[#ACA9A9]" onPress={() => navigation.navigate('FeedbackScreen')}>
-                        <MaterialCommunityIcons name="android-messages" color="#39A7FF" size={30} />
-                        <Text className="text-left text-base font-medium">Feedback</Text>
+                        <View className="w-1/3 flex justify-center items-center">
+                            <MaterialCommunityIcons name="android-messages" color="#39A7FF" size={30} />
+                        </View>
+                        <View className="w-[70%]">
+                            <Text className="text-left text-base font-medium">Feedback</Text>
+                        </View>
+                    </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View className="flex flex-row justify-between mt-3 w-full">
+                  <View className="w-[45%]">
+                    <TouchableOpacity className=" bg-[#E6FBFF] px-2 py-5 rounded-xl flex flex-row justify-around items-center shadow-sm shadow-[#ACA9A9]" onPress={() => navigation.navigate('AboutScreen')}>
+                        <View className="w-1/3 flex justify-center items-center">
+                            <MaterialCommunityIcons name="help-circle" color="#39A7FF" size={30} />
+                        </View>
+                        <View className="w-[70%]">
+                            <Text className="text-left text-base font-medium">Why Serfix?</Text>
+                        </View>                        
+                    </TouchableOpacity>
+                  </View>
+
+                  <View className="w-[45%]">
+                    <TouchableOpacity className=" bg-[#E6FBFF] px-2 py-5 rounded-xl flex flex-row justify-around items-center shadow-sm shadow-[#ACA9A9]" onPress={() => navigation.navigate('TermsScreen')}>
+                        <View className="w-1/3 flex justify-center items-center">
+                            <MaterialCommunityIcons name="file-check" color="#39A7FF" size={30} />
+                        </View>
+                        <View className="w-[70%]">
+                            <Text className="text-left text-base font-medium">T & C</Text>
+                        </View>
                     </TouchableOpacity>
                   </View>
               </View>

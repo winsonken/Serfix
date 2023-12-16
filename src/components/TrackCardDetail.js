@@ -7,7 +7,7 @@ import {
     useBottomSheetModal
 } from '@gorhom/bottom-sheet';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { useFocusEffect } from '@react-navigation/native';
 
 export default function TrackCardDetail(props) {
@@ -32,11 +32,8 @@ export default function TrackCardDetail(props) {
             index={props.index}
             snapPoints={props.snapPoints}
             backdropComponent={({ style }) => (
-              <View style={[style, { backgroundColor: 'rgba(0, 0, 0, 0.5)' }]}  />
+                <View style={[style, { backgroundColor: 'rgba(0, 0, 0, 0.5)' }]} onStartShouldSetResponder={() => { props.refs.current?.close() }} />
               )}    
-            enablePanDownToClose
-            enableDismissOnClose
-            
         >
           
             <View className="flex gap-y-3 justify-between h-full px-5">

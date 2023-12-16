@@ -19,6 +19,9 @@ import FeedbackScreen from '../screens/home/FeedbackScreen';
 import PaymentScreen from '../screens/home/PaymentScreen';
 import PaymentSuccessScreen from '../screens/home/PaymentSuccessScreen';
 import TrackCardDetail from '../components/TrackCardDetail';
+import AboutScreen from '../screens/home/AboutScreen';
+import TermsScreen from '../screens/home/TermsScreen';
+import ReportBugScreen from '../screens/home/ReportBugScreen';
 
 function ScreenNav() {
     const Tab = createBottomTabNavigator();
@@ -36,11 +39,14 @@ function HomePage() {
     const Stack = createStackNavigator();
     return (
         <Stack.Navigator screenOptions={{ headerStyle: {backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#ACA9A9'}, headerTitleStyle: { color: "#00A9FF", fontSize: 23}, headerTitleAlign:'center' }}>
-            <Stack.Screen name="Home" component={ScreenNav} options={{ headerShown: false }} />
+            <Stack.Screen name="Hocme" component={ScreenNav} options={{ headerShown: false }} />
             <Stack.Screen name="LaptopScreen" component={LaptopScreen} options={{ title: 'Laptop'}} />
             <Stack.Screen name="PhoneScreen" component={PhoneScreen} options={{ title: 'Phone'}} />
             <Stack.Screen name="PCScreen" component={PCScreen} options={{ title: 'PC'}} />
             <Stack.Screen name="HelpCenterScreen" component={HelpCenterScreen} options={{ title: 'Help Center' }} />
+            <Stack.Screen name="ReportBugScreen" component={ReportBugScreen} options={{ title: 'Report Bug' }} />
+            <Stack.Screen name="AboutScreen" component={AboutScreen} options={{ title: 'About Serfix'}} />
+            <Stack.Screen name="TermsScreen" component={TermsScreen} options={{ title: 'Terms & Condition'}} />
             <Stack.Screen name="FeedbackScreen" component={FeedbackScreen} options={{ title: 'Feedback & Suggestion' }} />
             <Stack.Screen name="PaymentScreen" component={PaymentScreen} options={{ title: 'Payment' }} />
             <Stack.Screen name="PaymentSuccessScreen" component={PaymentSuccessScreen} options={{ headerShown: false }} />

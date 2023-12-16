@@ -19,69 +19,69 @@ export default function PhoneScreen() {
 
     const blankStore = [];
     const store = [
-        { label: "BCS", value: "BCS"},
-        { label: "Grandmall", value: "Grandmall"},
-        { label: "Lucky Plaza", value: "Lucky Plaza"},
+        { label: "Store1", value: "Store1"},
+        { label: "Store2", value: "Store2"},
+        { label: "Store3", value: "Store3"},
     ];
 
     const serviceLaptop = [
         {
-            storeName: "BCS",
+            storeName: "Store1",
             categoryName: "LCD",
             price: 50000
         },
         {
-            storeName: "Grandmall",
+            storeName: "Store2",
             categoryName: "LCD",
             price: 60000
         },
         {
-            storeName: "Lucky Plaza",
+            storeName: "Store3",
             categoryName: "LCD",
             price: 80000
         },
         {
-            storeName: "BCS",
+            storeName: "Store1",
             categoryName: "Camera",
             price: 50000
         },
         {
-            storeName: "Grandmall",
+            storeName: "Store2",
             categoryName: "Camera",
             price: 60000
         },
         {
-            storeName: "Lucky Plaza",
+            storeName: "Store3",
             categoryName: "Camera",
             price: 80000
         },
         {
-            storeName: "BCS",
+            storeName: "Store1",
             categoryName: "Battery",
             price: 50000
         },
         {
-            storeName: "Grandmall",
+            storeName: "Store2",
             categoryName: "Battery",
             price: 60000
         },
         {
-            storeName: "Lucky Plaza",
+            storeName: "Store3",
             categoryName: "Battery",
             price: 80000
         },
         {
-            storeName: "BCS",
+            storeName: "Store1",
             categoryName: "Speaker",
             price: 50000
         },
         {
-            storeName: "Grandmall",
+            storeName: "Store2",
             categoryName: "Speaker",
             price: 60000
         },
         {
-            storeName: "Lucky Plaza",
+            storeName: "Store3",
             categoryName: "Speaker",
             price: 80000
         }
@@ -108,7 +108,7 @@ export default function PhoneScreen() {
                     <View className="flex gap-y-2">
                         <View className="flex gap-3">
                             <Text className="text-lg font-medium">Device</Text>
-                            <TextInput className="bg-[#CDF5FD] rounded-md px-3 py-2" placeholder="Device name"/>
+                            <TextInput className="bg-[#CDF5FD] rounded-md px-3 py-2" placeholder="Device name" placeholderTextColor={"#00A9FF"}/>
                         </View>
 
                         <View className="flex gap-3">
@@ -126,6 +126,7 @@ export default function PhoneScreen() {
                                     setPrice(0);
                                 }}
                                 value={categoryValue}
+                                placeholderStyle={{ color: "#00A9FF" }}
                             />
                         </View>
 
@@ -141,6 +142,7 @@ export default function PhoneScreen() {
                                 className="bg-[#CDF5FD] rounded-md px-3 py-2"
                                 onChange={(item) => {filterItem(item.value) }}
                                 value={locationValue}
+                                placeholderStyle={{ color: "#00A9FF" }}
                             />
                         </View>
 
@@ -151,12 +153,12 @@ export default function PhoneScreen() {
 
                         <View className="flex flex-col gap-y-3">
                             <Text className="text-lg font-medium">Notes</Text>
-                            <TextInput className="bg-[#CDF5FD] p-3 rounded-md" multiline placeholder="Notes" />
+                            <TextInput className="bg-[#CDF5FD] p-3 rounded-md" multiline placeholder="Notes" placeholderTextColor="#00A9FF" />
                         </View>
                         
                         <View className="flex items-end">
-                            <TouchableOpacity className="bg-main-blue w-1/3 flex items-center py-3 rounded mt-3" onPress={() => { navigation.navigate('PaymentScreen')}}>
-                                <Text className="text-[#FFFFFF] text-xl font-medium">Submit</Text>
+                            <TouchableOpacity className="bg-main-blue w-2/5 flex items-center py-2 rounded mt-3" onPress={() => { navigation.navigate('PaymentScreen')}}>
+                                <Text className="text-[#FFFFFF] text-lg font-medium">Checkout</Text>
                             </TouchableOpacity>
                         </View>
                     

@@ -20,11 +20,11 @@ export default function LoginScreen() {
 
                     <View className="flex gap-y-5 w-full">
                         <View>
-                            <TextInput placeholder="Email" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" />
+                            <TextInput placeholder="Email" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" />
                         </View>
 
                         <View>
-                            <TextInput placeholder="Password" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" />
+                            <TextInput placeholder="Password" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" />
                         </View>
                     </View>
 

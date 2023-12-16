@@ -10,6 +10,7 @@ module.exports = {
         'main-orange': '#FA8072',
         'main-blue': '#00A9FF',
         'second-blue': '#CDF5FD',
+        'third-blue': '#89CFF3',
         'main-background': '#FFFFFF',
         'main-text': '#FFFFFF'
       },

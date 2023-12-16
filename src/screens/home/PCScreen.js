@@ -11,78 +11,78 @@ export default function PCScreen() {
     const [price, setPrice] = useState(0);
 
     const category = [
-        { label: "Camera", value: "Camera"},
-        { label: "LCD", value: "LCD"},
-        { label: "Battery", value: "Battery"},
-        { label: "Speaker", value: "Speaker"},
+        { label: "Thermalpaste", value: "Thermalpaste"},
+        { label: "Cleaning", value: "Cleaning"},
+        { label: "Virus Protection", value: "Virus Protection"},
+        { label: "Troubleshooting", value: "Troubleshooting"},
     ];
 
     const blankStore = [];
     const store = [
-        { label: "BCS", value: "BCS"},
-        { label: "Grandmall", value: "Grandmall"},
-        { label: "Lucky Plaza", value: "Lucky Plaza"},
+        { label: "Store1", value: "Store1"},
+        { label: "Store2", value: "Store2"},
+        { label: "Store3", value: "Store3"},
     ];
 
     const serviceLaptop = [
         {
-            storeName: "BCS",
-            categoryName: "LCD",
+            storeName: "Store1",
+            categoryName: "Thermalpaste",
             price: 50000
         },
         {
-            storeName: "Grandmall",
-            categoryName: "LCD",
+            storeName: "Store2",
+            categoryName: "Thermalpaste",
             price: 60000
         },
         {
-            storeName: "Lucky Plaza",
-            categoryName: "LCD",
+            storeName: "Store3",
+            categoryName: "Thermalpaste",
             price: 80000
         },
         {
-            storeName: "BCS",
-            categoryName: "Camera",
+            storeName: "Store1",
+            categoryName: "Cleaning",
             price: 50000
         },
         {
-            storeName: "Grandmall",
-            categoryName: "Camera",
+            storeName: "Store2",
+            categoryName: "Cleaning",
             price: 60000
         },
         {
-            storeName: "Lucky Plaza",
-            categoryName: "Camera",
+            storeName: "Store3",
+            categoryName: "Cleaning",
             price: 80000
         },
         {
-            storeName: "BCS",
-            categoryName: "Battery",
+            storeName: "Store1",
+            categoryName: "Virus Protection",
             price: 50000
         },
         {
-            storeName: "Grandmall",
-            categoryName: "Battery",
+            storeName: "Store2",
+            categoryName: "Virus Protection",
             price: 60000
         },
         {
-            storeName: "Lucky Plaza",
-            categoryName: "Battery",
+            storeName: "Store3",
+            categoryName: "Virus Protection",
             price: 80000
         },
         {
-            storeName: "BCS",
-            categoryName: "Speaker",
+            storeName: "Store1",
+            categoryName: "Troubleshooting",
             price: 50000
         },
         {
-            storeName: "Grandmall",
-            categoryName: "Speaker",
+            storeName: "Store2",
+            categoryName: "Troubleshooting",
             price: 60000
         },
         {
-            storeName: "Lucky Plaza",
-            categoryName: "Speaker",
+            storeName: "Store3",
+            categoryName: "Troubleshooting",
             price: 80000
         }
     ]
@@ -108,7 +108,7 @@ export default function PCScreen() {
                     <View className="flex gap-y-2">
                         <View className="flex gap-3">
                             <Text className="text-lg font-medium">Device</Text>
-                            <TextInput className="bg-[#CDF5FD] rounded-md px-3 py-2" placeholder="Device name"/>
+                            <TextInput className="bg-[#CDF5FD] rounded-md px-3 py-2" placeholder="Device name" placeholderTextColor="#00A9FF" />
                         </View>
 
                         <View className="flex gap-3">
@@ -126,6 +126,7 @@ export default function PCScreen() {
                                     setPrice(0);
                                 }}
                                 value={categoryValue}
+                                placeholderStyle={{ color: "#00A9FF" }}
                             />
                         </View>
 
@@ -141,6 +142,7 @@ export default function PCScreen() {
                                 className="bg-[#CDF5FD] rounded-md px-3 py-2"
                                 onChange={(item) => {filterItem(item.value) }}
                                 value={locationValue}
+                                placeholderStyle={{ color: "#00A9FF" }}
                             />
                         </View>
 
@@ -151,12 +153,12 @@ export default function PCScreen() {
 
                         <View className="flex flex-col gap-y-3">
                             <Text className="text-lg font-medium">Notes</Text>
-                            <TextInput className="bg-[#CDF5FD] p-3 rounded-md" multiline placeholder="Notes" />
+                            <TextInput className="bg-[#CDF5FD] p-3 rounded-md" multiline placeholder="Notes" placeholderTextColor="#00A9FF" />
                         </View>
                         
                         <View className="flex items-end">
-                            <TouchableOpacity className="bg-main-blue w-1/3 flex items-center py-3 rounded mt-3" onPress={() => { navigation.navigate('PaymentScreen')}}>
-                                <Text className="text-[#FFFFFF] text-xl font-medium">Submit</Text>
+                            <TouchableOpacity className="bg-main-blue w-2/5 flex items-center py-2 rounded mt-3" onPress={() => { navigation.navigate('PaymentScreen')}}>
+                                <Text className="text-[#FFFFFF] text-lg font-medium">Checkout</Text>
                             </TouchableOpacity>
                         </View>
                     

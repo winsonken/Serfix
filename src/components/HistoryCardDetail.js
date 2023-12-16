@@ -25,7 +25,7 @@ export default function HistoryCardDetail(props) {
             index={props.index}
             snapPoints={props.snapPoints}
             backdropComponent={({ style }) => (
-                <View style={[style, { backgroundColor: 'rgba(0, 0, 0, 0.5)' }]} />
+                <View style={[style, { backgroundColor: 'rgba(0, 0, 0, 0.5)' }]} onStartShouldSetResponder={() => { props.refs.current?.close() }} />
             )}
         >
             <View className="flex gap-y-3 px-5">

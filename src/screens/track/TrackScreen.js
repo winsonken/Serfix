@@ -20,7 +20,7 @@ export default function TrackScreen({ route }) {
     {
         id: 1,
         device: "Samsung S9",
-        location: "Apple Store",
+        location: "Store1",
         price: 300000,
         service: 'Phone',
         problem: 'LCD',
@@ -31,7 +31,7 @@ export default function TrackScreen({ route }) {
     {
         id: 2,
         device: "Macbook Pro 13",
-        location: "Apple Store",
+        location: "Store1",
         price: 4000000,
         problem: 'LCD',
         service: 'Laptop',
@@ -42,7 +42,7 @@ export default function TrackScreen({ route }) {
     {
         id: 3,
         device: "PC",
-        location: "IT World",
+        location: "Store2",
         price: 4000000,
         problem: 'LCD',
         service: 'PC',
