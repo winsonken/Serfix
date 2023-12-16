@@ -10,8 +10,8 @@ export default function ReportBugScreen() {
             <ScrollView showsVerticalScrollIndicator={false} >
                 <View className="w-full h-full flex gap-y-10 pt-5">
                     <View>
-                        <Text className="text-2xl text-main-blue font-medium text-center">Anda menemukan bug?</Text>
-                        <Text className="text-2xl text-main-blue font-medium text-center">laporkan sekarang</Text>
+                        <Text className="text-2xl text-main-blue font-medium text-center">Found bug on this app?</Text>
+                        <Text className="text-2xl text-main-blue font-medium text-center">Report below!</Text>
                     </View>
 
                     <View className="flex gap-y-5">

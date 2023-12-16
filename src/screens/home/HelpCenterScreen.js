@@ -10,7 +10,7 @@ export default function HelpCenterScreen() {
         <View className="flex flex-1 bg-main-background px-5 py-5">
             <View className="flex w-full h-full">
                 <View className="flex justify-center items-center gap-y-5 flex-1">
-                    <Text className="text-2xl font-black text-main-blue">Kendala yang dialami</Text>
+                    <Text className="text-2xl font-black text-main-blue">Constraints with the app</Text>
 
                     <View className="flex flex-row items-center flex-wrap justify-center gap-2 w-full">
                         <TouchableOpacity className="bg-[#89CFF3] flex items-center px-2 py-1 rounded-xl shadow-sm shadow-[#ACA9A9]" onPress={() => { navigation.navigate('ReportBugScreen')}}>
