@@ -153,7 +153,7 @@ export default function LaptopScreen() {
 
                         <View className="flex flex-col gap-y-3">
                             <Text className="text-lg font-medium">Notes</Text>
-                            <TextInput className="bg-[#CDF5FD] p-3 rounded-md" multiline placeholder="Notes" placeholderTextColor="#00A9FF" />
+                            <TextInput className="bg-[#CDF5FD] p-3 rounded-md" multiline numberOfLines={3} textAlignVertical="top" placeholder="Notes" placeholderTextColor="#00A9FF" />
                         </View>
                         
                         <View className="flex items-end">
