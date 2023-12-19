@@ -12,7 +12,7 @@ export default function TrackScreen({ route }) {
     const serviceTrackStartDate = route.params?.serviceTrackStartDate;
     const serviceTrackStatus = route.params?.serviceTrackStatus;
     const serviceTrackIcon = route.params?.serviceTrackIcon;
-
+    
     const bottomSheetModalRef = useRef(null);
     const snapPoints = ["70%"];
     
