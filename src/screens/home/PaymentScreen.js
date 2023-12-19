@@ -2,6 +2,7 @@ import { View, Text, Image } from 'react-native'
 import React from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
 
 export default function PaymentScreen() {
     const navigation = useNavigation();
@@ -60,6 +61,8 @@ export default function PaymentScreen() {
                     </View>
                 </View>
             </View>
+
+            <StatusBar style="auto" />
         </View>
     )
 }

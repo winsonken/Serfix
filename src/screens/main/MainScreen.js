@@ -1,7 +1,8 @@
-import { View, Text, Image, StatusBar } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import React from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
+import { StatusBar } from 'expo-status-bar'
 
 export default function MainScreen() {
     const navigation = useNavigation();
@@ -21,7 +22,7 @@ export default function MainScreen() {
                 </View>
             </View>
             
-            {/* <StatusBar style="light" /> */}
+            <StatusBar style="auto" />
         </View>
     )
 }

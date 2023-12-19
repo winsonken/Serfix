@@ -1,17 +1,22 @@
 import { View, Text, Image } from 'react-native'
 import React from 'react'
-import { Link, useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { StatusBar } from 'expo-status-bar'
 
 export default function HomeScreen() {
-  const navigation = useNavigation();
+    const navigation = useNavigation();
+    const insets = useSafeAreaInsets();
+
     return (
-      <View className="flex flex-1 bg-main-background px-5 pt-12">
+      <View className="flex flex-1 bg-main-background px-5" style={{ paddingTop: insets.top }}>
+        
           <View className="w-full h-full flex justify-start items-center gap-y-5">
 
               <View className="w-full flex flex-row items-center">
-                  <MaterialCommunityIcons name="account-circle" color="#CCCCCC" size={35} onPress={() => { navigation.navigate('ProfileScreen') }}/>
+                  <MaterialCommunityIcons name="account-circle" color="#00A9FF" size={35} onPress={() => { navigation.navigate('ProfileScreen') }}/>
                   <Text className="text-left text-lg font-medium ml-3">Welcome back, Vincent!</Text>
               </View>
 
@@ -93,23 +98,9 @@ export default function HomeScreen() {
                     </TouchableOpacity>
                   </View>
               </View>
-
-              {/* <View className="flex w-full gap-y-5">
-                  <View className="flex flex-row justify-between">
-                      <Text className="text-sm font-medium">Top product</Text>
-                      <Text className="text-[#39A7FF] font-medium">View all</Text>
-                  </View>
-
-                  <View className="bg-[#E6FBFF] h-full">
-                      <Text>Laptop LCD</Text>
-                  </View>
-              </View> */}
-
-              {/* <View className="bg-main-blue w-full flex flex-row justify-center items-center h-1/5 rounded">
-                    <MaterialCommunityIcons name="help-circle" color="#FFFFFF" size={40} />
-                  <Text className="text-3xl text-[#FFFFFF] font-medium ml-3">Why serfix?</Text>
-              </View> */}
           </View>
+
+          <StatusBar style="auto" />
 
       </View>
     )

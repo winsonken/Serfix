@@ -2,6 +2,7 @@ import { View, Text, ScrollView } from 'react-native'
 import React, { useCallback, useMemo, useRef } from 'react'
 import TrackCard from '../../components/TrackCard';
 import TrackCardDetail from '../../components/TrackCardDetail';
+import { StatusBar } from 'expo-status-bar';
 
 export default function TrackScreen({ route }) {
     const serviceTrackDevice = route.params?.serviceTrackDevice;
@@ -88,6 +89,8 @@ export default function TrackScreen({ route }) {
                 serviceTrackStatus = {serviceTrackStatus}
                 serviceTrackIcon = {serviceTrackIcon}
             />
+
+            <StatusBar style="auto" />
         </View>
     )
 }

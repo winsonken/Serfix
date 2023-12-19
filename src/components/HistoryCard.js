@@ -24,6 +24,7 @@ export default function HistoryCard( props ) {
           <Text>Warranty: { props.serviceHistoryWarranty }</Text>
         </View>
       </TouchableOpacity>
+
     </View>
 
     

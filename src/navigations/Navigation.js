@@ -39,7 +39,7 @@ function HomePage() {
     const Stack = createStackNavigator();
     return (
         <Stack.Navigator screenOptions={{ headerStyle: {backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#ACA9A9'}, headerTitleStyle: { color: "#00A9FF", fontSize: 23}, headerTitleAlign:'center' }}>
-            <Stack.Screen name="Hocme" component={ScreenNav} options={{ headerShown: false }} />
+            <Stack.Screen name="Home" component={ScreenNav} options={{ headerShown: false }} />
             <Stack.Screen name="LaptopScreen" component={LaptopScreen} options={{ title: 'Laptop'}} />
             <Stack.Screen name="PhoneScreen" component={PhoneScreen} options={{ title: 'Phone'}} />
             <Stack.Screen name="PCScreen" component={PCScreen} options={{ title: 'PC'}} />

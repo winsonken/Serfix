@@ -1,5 +1,6 @@
 import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
+import { StatusBar } from 'expo-status-bar'
 
 export default function TermsScreen() {
   return (
@@ -90,6 +91,8 @@ export default function TermsScreen() {
                 </View>
             </View>
         </ScrollView>
+
+        <StatusBar style="auto" />
     </View>
   )
 }

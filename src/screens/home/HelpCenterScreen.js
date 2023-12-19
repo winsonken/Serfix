@@ -2,6 +2,7 @@ import { View, Text, Image } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { StatusBar } from 'expo-status-bar';
 
 export default function HelpCenterScreen() {
     const navigation = useNavigation();
@@ -40,6 +41,8 @@ export default function HelpCenterScreen() {
                     </View>
                 </View>
             </View>
+
+            <StatusBar style="auto" />
         </View>
     )
 }

@@ -3,6 +3,7 @@ import React, { useCallback, useMemo, useRef } from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import HistoryCard from '../../components/HistoryCard'
 import HistoryCardDetail from '../../components/HistoryCardDetail'
+import { StatusBar } from 'expo-status-bar'
 
 export default function HistoryScreen({ route }) {
     const serviceHistoryDevice = route.params?.serviceHistoryDevice;
@@ -114,6 +115,8 @@ export default function HistoryScreen({ route }) {
                 serviceHistoryStatus = {serviceHistoryStatus}
                 serviceHistoryIcon = {serviceHistoryIcon}
             />
+
+            <StatusBar style="auto" />
         </View>
     )
 }

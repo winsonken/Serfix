@@ -3,7 +3,7 @@ import React from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
-
+import { StatusBar } from 'expo-status-bar'
 
 export default function ProfileScreen() {
     const navigation = useNavigation();
@@ -79,7 +79,8 @@ export default function ProfileScreen() {
         </TouchableOpacity>
         
       </View>
-
+      
+      <StatusBar style="auto" />
     </View>
     )
 }

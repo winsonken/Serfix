@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { TextInput } from 'react-native-gesture-handler';
 import { Dropdown } from 'react-native-element-dropdown';
+import { StatusBar } from 'expo-status-bar';
 
 export default function PCScreen() {
     const navigation = useNavigation();
@@ -165,6 +166,8 @@ export default function PCScreen() {
                     </View>
                 </View>
             </ScrollView>
+
+            <StatusBar style="auto" />
         </View>
     )
 }

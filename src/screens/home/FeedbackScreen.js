@@ -2,6 +2,7 @@ import { View, Text, Image, TextInput, ScrollView } from 'react-native'
 import React from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
+import { StatusBar } from 'expo-status-bar'
 
 export default function FeedbackScreen() {
     const navigation = useNavigation();
@@ -22,6 +23,8 @@ export default function FeedbackScreen() {
                     </View>
                 </ScrollView>
             </View>
+
+            <StatusBar style="auto" />
         </View>
     )
 }
