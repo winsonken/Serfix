@@ -1,13 +1,29 @@
 import { View, Text, Image, TextInput, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { Link, useNavigation } from '@react-navigation/native'
+import { useNavigation, Link } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import axios from 'axios'
 
-export default function RegisterScreen() {
-    const navigation = useNavigation();
+const RegisterScreen = () => {
     const insets = useSafeAreaInsets();
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [password, setPass] = useState("");
+    const [message, setMessage] = useState("");
+    const navigation = useNavigation();
+    axios.defaults.withCredentials = true;
+
+    function handleSubmit() {
+        axios.post('http://localhost:8082/register', {username, email, phone, password})
+        .then(res => {
+            console.log(res);
+            alert('Data telah berhasil ditambah.');
+            navigation.navigate('LoginScreen');
+        }).catch(err => console.log(err));
+    }
 
     return (
         <View className="flex flex-1 bg-main-background px-5" style={{ paddingTop: insets.top }}>
@@ -25,24 +41,24 @@ export default function RegisterScreen() {
 
                             <View className="flex gap-y-5 w-full">
                                 <View>
-                                    <TextInput placeholder="Name" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" />
+                                    <TextInput placeholder="Name" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setUsername(text)}/>
                                 </View>
 
                                 <View>
-                                    <TextInput placeholder="Email" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" />
+                                    <TextInput placeholder="Email" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setEmail(text)}/>
                                 </View>
 
                                 <View>
-                                    <TextInput keyboardType='numeric' placeholder="Phone number" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" />
+                                    <TextInput keyboardType='numeric' placeholder="Phone number" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setPhone(text)}/>
                                 </View>
 
                                 <View>
-                                    <TextInput secureTextEntry={true} placeholder="Password" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" />
+                                    <TextInput secureTextEntry={true} placeholder="Password" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setPass(text)}/>
                                 </View>
                             </View>
 
                             <View className="w-full">
-                                <TouchableOpacity onPress={() => { navigation.navigate('HomePage')}} className="bg-main-blue w-full py-2 rounded-lg">
+                                <TouchableOpacity onPress={handleSubmit} className="bg-main-blue w-full py-2 rounded-lg">
                                     <Text className="text-center text-main-text text-lg font-medium">Register</Text>
                                 </TouchableOpacity>
                             </View>
@@ -63,3 +79,5 @@ export default function RegisterScreen() {
         </View>
     )
 }
+
+export default RegisterScreen

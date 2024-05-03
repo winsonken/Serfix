@@ -1,12 +1,49 @@
 import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios'
 
-export default function ProfileScreen() {
+const ProfileScreen = () => {
     const navigation = useNavigation();
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    axios.defaults.withCredentials = true;
+
+    AsyncStorage.getItem('username').then(value => {
+      setUsername(value)
+      console.log(value);
+    });
+    AsyncStorage.getItem('email').then(value => {
+      setEmail(value)
+      console.log(value);
+    });
+    AsyncStorage.getItem('phone').then(value => {
+      setPhone(value)
+      console.log(value);
+    });
+
+    function handleDelete() {
+      axios.get('http://localhost:8082/logout')
+        .then(res => {
+          console.log(res);
+          AsyncStorage.clear()
+            .then(() => {
+              alert("Log-out Success");
+              navigation.navigate('LoginScreen');
+            })
+            .catch(error => {
+              console.error('Error clearing AsyncStorage:', error);
+            });
+        })
+        .catch(err => {
+          console.error('Error logging out:', err);
+        });
+    }
     
     return (
     <View className="flex flex-1 bg-main-background px-2 py-5">
@@ -19,7 +56,7 @@ export default function ProfileScreen() {
           </View>
 
           <View>
-            <Text className="text-[#ACA9A9] font-bold text-base">Vincent</Text>
+            <Text className="text-[#ACA9A9] font-bold text-base">{username}</Text>
           </View>
         </View>
 
@@ -30,7 +67,7 @@ export default function ProfileScreen() {
           </View>
 
           <View>
-            <Text className="text-[#ACA9A9] font-bold text-base">example.email@gmail.com</Text>
+            <Text className="text-[#ACA9A9] font-bold text-base">{email}</Text>
           </View>
         </View>
 
@@ -41,18 +78,7 @@ export default function ProfileScreen() {
           </View>
 
           <View>
-            <Text className="text-[#ACA9A9] font-bold text-base">123456789</Text>
-          </View>
-        </View>
-
-        <View className="bg-[#FFFFFF] px-3 py-5 flex flex-row justify-between items-center rounded-lg shadow-sm shadow-[#ACA9A9] border-b border-[#CCCCCC]">
-          <View className="flex flex-row items-center gap-x-3">
-            <MaterialCommunityIcons name="lock" color="#00A9FF" size={30} />
-            <Text className="text-base font-medium">Password</Text>
-          </View>
-
-          <View>
-            <Text className="text-[#ACA9A9] font-bold text-base">**********</Text>
+            <Text className="text-[#ACA9A9] font-bold text-base">{phone}</Text>
           </View>
         </View>
 
@@ -67,7 +93,7 @@ export default function ProfileScreen() {
           </View>
         </TouchableOpacity>
         
-        <TouchableOpacity onPress={() => { navigation.navigate('LoginScreen') }} className="bg-main-blue px-3 py-3 mt-5 flex flex-row justify-center items-center rounded-lg shadow-sm shadow-[#ACA9A9]">
+        <TouchableOpacity onPress={handleDelete} className="bg-main-blue px-3 py-3 mt-5 flex flex-row justify-center items-center rounded-lg shadow-sm shadow-[#ACA9A9]">
           <View className="flex flex-row items-center gap-x-3">
             <MaterialCommunityIcons name="logout" color="#FFFFFF" size={30} />
             <Text className="text-base font-medium text-[#FFFFFF]">Logout</Text>
@@ -84,3 +110,5 @@ export default function ProfileScreen() {
     </View>
     )
 }
+
+export default ProfileScreen

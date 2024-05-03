@@ -4,12 +4,26 @@ import { useNavigation } from '@react-navigation/native';
 import { TextInput } from 'react-native-gesture-handler';
 import { Dropdown } from 'react-native-element-dropdown';
 import { StatusBar } from 'expo-status-bar';
+import axios from 'axios'
 
-export default function LaptopScreen() {
+const LaptopScreen = () => {
     const navigation = useNavigation();
     const [categoryValue, setCategoryValue] = useState("");
     const [locationValue, setLocationValue] = useState("");
     const [price, setPrice] = useState(0);
+    const [device, setDevice] = useState("");
+    const [category1, setCategory1] = useState("");
+    const [location, setLocation] = useState("");
+    const [notes, setNotes] = useState("");
+    axios.defaults.withCredentials = true;
+
+    function handleSubmit() {
+        axios.post('http://localhost:8082/data/laptop/services', {device, category1, location, notes})
+        .then(res => {
+            console.log(res);
+            navigation.navigate('PaymentScreen');
+        }).catch(err => console.log(err));
+    }
 
     const category = [
         { label: "Camera", value: "Camera"},
@@ -109,7 +123,7 @@ export default function LaptopScreen() {
                     <View className="flex gap-y-2">
                         <View className="flex gap-3">
                             <Text className="text-lg font-medium">Device</Text>
-                            <TextInput className="bg-[#CDF5FD] rounded-md px-3 py-2" placeholder="Device name" placeholderTextColor="#00A9FF"/>
+                            <TextInput className="bg-[#CDF5FD] rounded-md px-3 py-2" placeholder="Device name" placeholderTextColor="#00A9FF" onChangeText={text => setDevice(text)}/>
                         </View>
 
                         <View className="flex gap-3">
@@ -123,10 +137,10 @@ export default function LaptopScreen() {
                                 searchPlaceholder="Search category"
                                 className="bg-[#CDF5FD] rounded-md px-3 py-2"
                                 onChange={item => {
-                                    setCategoryValue(item.value);
+                                    setCategory1(item.value);
                                     setPrice(0);
                                 }}
-                                value={categoryValue}
+                                value={category1}
                                 placeholderStyle={{ color: "#00A9FF" }}
                             />
                         </View>
@@ -134,15 +148,15 @@ export default function LaptopScreen() {
                         <View className="flex gap-3">
                             <Text className="text-lg font-medium">Location</Text>
                             <Dropdown
-                                data={categoryValue != "" ? store : blankStore}
+                                data={category1 != "" ? store : blankStore}
                                 search
                                 labelField="label"
                                 valueField="value"
                                 placeholder="Select location"
                                 searchPlaceholder="Search location"
                                 className="bg-[#CDF5FD] rounded-md px-3 py-2"
-                                onChange={(item) => {filterItem(item.value) }}
-                                value={locationValue}
+                                onChange={item => setLocation(item.value)}
+                                value={location}
                                 placeholderStyle={{ color: "#00A9FF" }}
                             />
                         </View>
@@ -154,11 +168,11 @@ export default function LaptopScreen() {
 
                         <View className="flex flex-col gap-y-3">
                             <Text className="text-lg font-medium">Notes</Text>
-                            <TextInput className="bg-[#CDF5FD] p-3 rounded-md" multiline numberOfLines={3} textAlignVertical="top" placeholder="Notes" placeholderTextColor="#00A9FF" />
+                            <TextInput className="bg-[#CDF5FD] p-3 rounded-md" multiline numberOfLines={3} textAlignVertical="top" placeholder="Notes" placeholderTextColor="#00A9FF" onChangeText={text => setNotes(text)}/>
                         </View>
                         
                         <View className="flex items-end">
-                            <TouchableOpacity className="bg-main-blue w-2/5 flex items-center py-2 rounded mt-3" onPress={() => { navigation.navigate('PaymentScreen')}}>
+                            <TouchableOpacity className="bg-main-blue w-2/5 flex items-center py-2 rounded mt-3" onPress={handleSubmit}>
                                 <Text className="text-[#FFFFFF] text-lg font-medium">Checkout</Text>
                             </TouchableOpacity>
                         </View>
@@ -171,3 +185,5 @@ export default function LaptopScreen() {
         </View>
     )
 }
+
+export default LaptopScreen
