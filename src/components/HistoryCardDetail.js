@@ -34,10 +34,18 @@ export default function HistoryCardDetail(props) {
               <View className="flex gap-y-2">
                 <View className="flex flex-row justify-between items-center">
                   <View className="flex flex-row items-center gap-x-3">
+                    <MaterialCommunityIcons name="account" color="#222222" size={30} />
+                    <Text className="text-lg">User</Text>
+                  </View>
+                  <Text className="text-lg">{ props.serviceHistoryUser }</Text>
+                </View>
+
+                <View className="flex flex-row justify-between items-center">
+                  <View className="flex flex-row items-center gap-x-3">
                     <MaterialCommunityIcons name="tools" color="#222222" size={30} />
                     <Text className="text-lg">Service</Text>
                   </View>
-                  <Text className="text-lg">{ props.serviceHistoryService }</Text>
+                  <Text className="text-lg">{ props.serviceHistoryType?.replace(/^\w/, c => c.toUpperCase()) }</Text>
                 </View>
 
                 <View className="flex flex-row justify-between items-center">
@@ -45,7 +53,7 @@ export default function HistoryCardDetail(props) {
                     <MaterialCommunityIcons name="devices" color="#222222" size={30} />
                     <Text className="text-lg">Device</Text>
                   </View>
-                  <Text className="text-lg">{ props.serviceHistoryDevice }</Text>
+                  <Text className="text-lg">{ props.serviceHistoryDeviceName }</Text>
                 </View>
 
                 <View className="flex flex-row justify-between items-center">
@@ -61,7 +69,7 @@ export default function HistoryCardDetail(props) {
                     <MaterialCommunityIcons name="timelapse" color="#222222" size={30} />
                     <Text className="text-lg">Status</Text>
                   </View>
-                  <Text className="text-lg">{ props.serviceHistoryStatus }</Text>
+                  <Text className="text-lg">{ props.serviceHistoryStatus == 3 ? 'Completed' : '' }</Text>
                 </View>
 
                 <View className="flex flex-row justify-between items-center">
@@ -77,7 +85,7 @@ export default function HistoryCardDetail(props) {
                     <MaterialCommunityIcons name="calendar-month" color="#222222" size={30} />
                     <Text className="text-lg">Finish date</Text>
                   </View>
-                  <Text className="text-lg">{ props.serviceHistoryFinishDate }</Text>
+                  <Text className="text-lg">{ props.serviceHistoryEndDate }</Text>
                 </View>
 
                 <View className="flex flex-row justify-between items-center">
@@ -85,15 +93,7 @@ export default function HistoryCardDetail(props) {
                     <MaterialCommunityIcons name="alert-circle" color="#222222" size={30} />
                     <Text className="text-lg">Problem</Text>
                   </View>
-                  <Text className="text-lg">{ props.serviceHistoryProblem }</Text>
-                </View>
-
-                <View className="flex flex-row justify-between items-center">
-                  <View className="flex flex-row items-center gap-x-3">
-                    <MaterialCommunityIcons name="calendar-clock" color="#222222" size={30} />
-                    <Text className="text-lg">Warranty</Text>
-                  </View>
-                  <Text className="text-lg">{ props.serviceHistoryWarrantyDate }</Text>
+                  <Text className="text-lg">{ props.serviceHistoryCategory }</Text>
                 </View>
 
                 <View className="flex flex-row justify-between items-center">
@@ -101,9 +101,17 @@ export default function HistoryCardDetail(props) {
                     <MaterialCommunityIcons name="map-marker" color="#222222" size={30} />
                     <Text className="text-lg">Location</Text>
                   </View>
-                  <Text className="text-lg">{ props.serviceHistoryLocation }</Text>
+                  <Text className="text-lg">{ props.serviceHistoryStore }</Text>
                 </View>
               </View>
+
+              <View className="flex flex-row justify-between items-center">
+                  <View className="flex flex-row items-center gap-x-3">
+                    <MaterialCommunityIcons name="message-bulleted" color="#222222" size={30} />
+                    <Text className="text-lg">Notes</Text>
+                  </View>
+                  <Text className="text-lg">{ props.serviceHistoryNotes }</Text>
+                </View>
             </View>
         </BottomSheetModal>
     </BottomSheetModalProvider>

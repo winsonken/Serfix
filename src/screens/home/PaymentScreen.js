@@ -1,12 +1,26 @@
-import { View, Text, Image } from 'react-native'
-import React from 'react'
+import { View, Text, Image, Button, TouchableWithoutFeedback } from 'react-native'
+import React, { useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
+import * as DocumentPicker from 'expo-document-picker';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default function PaymentScreen() {
     const navigation = useNavigation();
+    
+    const [pickedDocument, setPickedDocument] = useState(null);
 
+    const pickDocument = async () => {
+        try {
+        const result = await DocumentPicker.getDocumentAsync();
+        setPickedDocument(result);
+        
+        } catch (error) {
+        console.error('Error while picking a document:', error);
+        }
+    };
+console.log(pickedDocument)
     return (
         <View className="flex flex-1 bg-main-background px-5 py-5">
             <View className="w-full h-full flex gap-y-10 pt-5">
@@ -33,32 +47,30 @@ export default function PaymentScreen() {
                     </View>
                 </View>
 
-                <View className="flex gap-y-5">
-                    <Text className="text-center text-xl text-[#ACA9A9] font-medium">Payment Method</Text>
-
-                    <View className="flex flex-row justify-between items-center">
-                        <View className="w-[30%]">
-                            <TouchableOpacity className="flex justify-between items-center bg-second-blue rounded-md h-24" onPress={() => { navigation.navigate('PaymentSuccessScreen')}}>
-                                <Image source={require('../../../assets/payment/credit-card.png')} />
-                                <Text className="font-medium pb-1">Credit Card</Text>
-                            </TouchableOpacity>
-                        </View>
-
-                        <View className="w-[30%]">
-                            <TouchableOpacity className="flex justify-between items-center bg-second-blue rounded-md h-24" onPress={() => { navigation.navigate('PaymentSuccessScreen')}}>
-                                <Image source={require('../../../assets/payment/transfer.png')} />
-                                <Text className="font-medium pb-1">Transfer</Text>
-                            </TouchableOpacity>
-                        </View>
-
-                        
-                        <View className="w-[30%]">
-                            <TouchableOpacity className="flex justify-between items-center bg-second-blue rounded-md h-24" onPress={() => { navigation.navigate('PaymentSuccessScreen')}}>
-                                <Image source={require('../../../assets/payment/e-money.png')} className="mt-3" />
-                                <Text className="font-medium pb-1">E-money</Text>
-                            </TouchableOpacity>
+                <View className="flex">
+                    <View className="flex flex-row">
+                        <Image source={require('../../../assets/payment/example-qr.png')} className="w-48 h-48"/>
+                        <View>
+                            <Text>Transfer to:</Text>
+                            <Text>Serfix 123456789</Text>
                         </View>
                     </View>
+                    
+                    <View className="mt-3">
+                        <TouchableWithoutFeedback onPress={pickDocument}>
+                            <View className="bg-second-blue p-2 rounded-md">
+                                <Text>{pickedDocument && pickedDocument.assets[0].name}</Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </View>
+
+                    <TouchableOpacity className="mt-12">
+                        <View className="flex flex-row justify-center items-center bg-main-blue w-full p-2 rounded-md">
+                            <MaterialCommunityIcons name="upload" color="#FFFFFF" size={30} />
+                            <Text className="text-lg text-center text-[#FFFFFF] font-medium">Upload payment image</Text>
+                        </View>
+                    </TouchableOpacity>
+                   
                 </View>
             </View>
 

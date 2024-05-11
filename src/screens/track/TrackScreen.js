@@ -5,52 +5,33 @@ import TrackCardDetail from '../../components/TrackCardDetail';
 import { StatusBar } from 'expo-status-bar';
 
 export default function TrackScreen({ route }) {
-    const serviceTrackDevice = route.params?.serviceTrackDevice;
-    const serviceTrackLocation = route.params?.serviceTrackLocation;
+    const serviceTrackUser = route.params?.serviceTrackUser;
+    const serviceTrackDeviceName = route.params?.serviceTrackDeviceName;
+    const serviceTrackCategory = route.params?.serviceTrackCategory
+    const serviceTrackStore = route.params?.serviceTrackStore;
     const serviceTrackPrice = route.params?.serviceTrackPrice;
-    const serviceTrackProblem = route.params?.serviceTrackProblem;
-    const serviceTrackService = route.params?.serviceTrackService;
-    const serviceTrackStartDate = route.params?.serviceTrackStartDate;
+    const serviceTrackNotes = route.params?.serviceTrackNotes;
     const serviceTrackStatus = route.params?.serviceTrackStatus;
-    const serviceTrackIcon = route.params?.serviceTrackIcon;
+    const serviceTrackType = route.params?.serviceTrackType;
+    const serviceTrackStartDate = route.params?.serviceTrackStartDate;
     
     const bottomSheetModalRef = useRef(null);
-    const snapPoints = ["70%"];
+    const snapPoints = ["80%"];
     
     const serviceTrack = [
-    {
-        id: 1,
-        device: "Samsung S9",
-        location: "Store1",
-        price: 300000,
-        service: 'Phone',
-        problem: 'LCD',
-        startDate: '05 January 2023',
-        status: 'On going',
-        icon: 'cellphone'
-    },
-    {
-        id: 2,
-        device: "Macbook Pro 13",
-        location: "Store1",
-        price: 4000000,
-        problem: 'LCD',
-        service: 'Laptop',
-        startDate: '05 January 2023',
-        status: 'On going',
-        icon: 'laptop'
-    },
-    {
-        id: 3,
-        device: "PC",
-        location: "Store2",
-        price: 4000000,
-        problem: 'LCD',
-        service: 'PC',
-        startDate: '05 January 2023',
-        status: 'On going',
-        icon: 'desktop-tower-monitor'
-    }
+        {
+            id: 1,
+            user: 'Vincent',
+            device_name: "Samsung S11",
+            category: 'Battery',
+            store: "Store1",
+            price: 300000,
+            notes: 'tes',
+            status: 2,
+            type: 'phone',
+            startDate: '05 January 2023',
+            endDate: '06 January 2023',
+        },
 ];
 
     return (
@@ -60,15 +41,16 @@ export default function TrackScreen({ route }) {
                     <View className="flex justify-center items-center">
                     { serviceTrack.map(allServiceTrack => (
                         <TrackCard 
-                            key = {allServiceTrack.id}
-                            serviceTrackDevice = {allServiceTrack.device}
-                            serviceTrackLocation = {allServiceTrack.location}
-                            serviceTrackPrice = {allServiceTrack.price}
-                            serviceTrackProblem = {allServiceTrack.problem}
-                            serviceTrackService = {allServiceTrack.service}
-                            serviceTrackStartDate = {allServiceTrack.startDate}
-                            serviceTrackStatus = {allServiceTrack.status}
-                            serviceTrackIcon = {allServiceTrack.icon}
+                            key = {allServiceTrack?.id}
+                            serviceTrackUser = {allServiceTrack?.user}
+                            serviceTrackDeviceName = {allServiceTrack?.device_name}
+                            serviceTrackCategory = {allServiceTrack?.category}
+                            serviceTrackStore = {allServiceTrack?.store}
+                            serviceTrackPrice = {allServiceTrack?.price}
+                            serviceTrackNotes = {allServiceTrack?.notes}
+                            serviceTrackStatus = {allServiceTrack?.status}
+                            serviceTrackType = {allServiceTrack?.type}
+                            serviceTrackStartDate = {allServiceTrack?.startDate}
                             bottomSheetModalRef = {bottomSheetModalRef}
                         />
                     ))}
@@ -80,14 +62,15 @@ export default function TrackScreen({ route }) {
                 refs={bottomSheetModalRef} 
                 index={0}
                 snapPoints={snapPoints}
-                serviceTrackDevice = {serviceTrackDevice}
-                serviceTrackLocation = {serviceTrackLocation}
+                serviceTrackUser = {serviceTrackUser}
+                serviceTrackDeviceName = {serviceTrackDeviceName}
+                serviceTrackCategory = {serviceTrackCategory}
+                serviceTrackStore = {serviceTrackStore}
                 serviceTrackPrice = {serviceTrackPrice}
-                serviceTrackProblem = {serviceTrackProblem}
-                serviceTrackService = {serviceTrackService}
-                serviceTrackStartDate = {serviceTrackStartDate}
+                serviceTrackNotes = {serviceTrackNotes}
                 serviceTrackStatus = {serviceTrackStatus}
-                serviceTrackIcon = {serviceTrackIcon}
+                serviceTrackType = {serviceTrackType}
+                serviceTrackStartDate = {serviceTrackStartDate}
             />
 
             <StatusBar style="auto" />

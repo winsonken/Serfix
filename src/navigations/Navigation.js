@@ -22,12 +22,15 @@ import TrackCardDetail from '../components/TrackCardDetail';
 import AboutScreen from '../screens/home/AboutScreen';
 import TermsScreen from '../screens/home/TermsScreen';
 import ReportBugScreen from '../screens/home/ReportBugScreen';
+import ServiceScreen from '../screens/service/ServiceScreen';
+import ServiceCardDetail from '../components/ServiceCardDetail';
 
 function ScreenNav() {
     const Tab = createBottomTabNavigator();
     return (
         <Tab.Navigator screenOptions={{ tabBarShowLabel: false, tabBarActiveTintColor: '#00A9FF', tabBarInactiveTintColor: '#CCCCCC', tabBarHideOnKeyboard: true, tabBarStyle: { height: 60 }, headerStyle: {backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#ACA9A9'}, headerTitleStyle: { color: "#00A9FF", fontSize: 23 }}}>
             <Tab.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false, title: 'Home', tabBarIcon: ({ color }) => ( <MaterialCommunityIcons name="home" color={color} size={28} /> ) }}/>
+            <Tab.Screen name="ServicePage" component={ServicePage} options={{ title: 'Services', headerTitleStyle: { color: "#00A9FF", fontSize: 23}, tabBarIcon: ({ color }) => ( <MaterialCommunityIcons name="wrench" color={color} size={28} /> ) }} />
             <Tab.Screen name="TrackPage" component={TrackPage} options={{ title: 'Track', headerTitleStyle: { color: "#00A9FF", fontSize: 23}, tabBarIcon: ({ color }) => ( <MaterialCommunityIcons name="map-marker" color={color} size={28} /> ) }} />
             <Tab.Screen name="HistoryScreen" component={HistoryScreen} options={{ title: 'History', tabBarIcon: ({ color }) => ( <MaterialCommunityIcons name="history" color={color} size={28} /> ) }} />
             <Tab.Screen name="ProfileScreen" component={ProfileScreen} options={{ title: 'Profile', tabBarIcon: ({ color }) => ( <MaterialCommunityIcons name="account" color={color} size={28} /> ) }} />
@@ -50,6 +53,16 @@ function HomePage() {
             <Stack.Screen name="FeedbackScreen" component={FeedbackScreen} options={{ title: 'Feedback & Suggestion' }} />
             <Stack.Screen name="PaymentScreen" component={PaymentScreen} options={{ title: 'Payment' }} />
             <Stack.Screen name="PaymentSuccessScreen" component={PaymentSuccessScreen} options={{ headerShown: false }} />
+        </Stack.Navigator>
+    )
+}
+
+function ServicePage() {
+    const Stack = createStackNavigator();
+    return (
+        <Stack.Navigator screenOptions={{ headerStyle: {backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#ACA9A9'}, headerTitleStyle: { color: "#00A9FF", fontSize: 23}, headerTitleAlign:'left' }}>
+            <Stack.Screen name="ServiceScreen" component={ServiceScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="ServiceCardDetail" component={ServiceCardDetail} options={{ headerShown: false }} />
         </Stack.Navigator>
     )
 }
