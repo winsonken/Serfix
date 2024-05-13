@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useNavigation, Link } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BackHandler, ToastAndroid } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const LoginScreen = () => {
     const insets = useSafeAreaInsets();
@@ -22,7 +23,7 @@ const LoginScreen = () => {
     axios.defaults.withCredentials = true;
   
     function handleSubmit() {
-      axios.post('http://localhost:8082/LoginScreen/', { user, password })
+      axios.post('http://localhost:8081/LoginScreen/', { user, password })
         .then(res => {
           console.log(res);
           setMessage(res.data.message);
@@ -93,6 +94,7 @@ const LoginScreen = () => {
         return () => backHandler.remove();
     }, [token]);     
     
+    const [showPassword, setShowPassword] = useState(false);
 
     return (
         <View className="flex flex-1 bg-main-background px-5" style={{ paddingTop: insets.top }}>
@@ -113,8 +115,12 @@ const LoginScreen = () => {
                                     <TextInput placeholder="Email" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setUser(text)}/>
                                 </View>
 
-                                <View>
-                                    <TextInput secureTextEntry={true} textContentType='password' placeholder="Password" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setPassword(text)}/>
+                                <View className="relative">
+                                    <TextInput secureTextEntry={!showPassword && true} textContentType='password' placeholder="Password" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setPassword(text)}/>
+                                    <View style={{ position: 'absolute', top: '50%', right: 15, transform: [{ translateY: -12.5 }] }}>
+                                        { !showPassword ? <MaterialCommunityIcons name="eye" color="#00A9FF" size={25} onPress={() => setShowPassword(!showPassword)}/>
+                                        : <MaterialCommunityIcons name="eye-off" color="#00A9FF" size={25} onPress={() => setShowPassword(!showPassword)}/> }
+                                    </View>
                                 </View>
                             </View>
 

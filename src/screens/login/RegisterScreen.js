@@ -5,6 +5,7 @@ import { useNavigation, Link } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import axios from 'axios'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const RegisterScreen = () => {
     const insets = useSafeAreaInsets();
@@ -17,13 +18,15 @@ const RegisterScreen = () => {
     axios.defaults.withCredentials = true;
 
     function handleSubmit() {
-        axios.post('http://localhost:8082/register', {username, email, phone, password})
+        axios.post('http://localhost:8081/register', {username, email, phone, password})
         .then(res => {
             console.log(res);
             alert('Data telah berhasil ditambah.');
             navigation.navigate('LoginScreen');
         }).catch(err => console.log(err));
     }
+
+    const [showPassword, setShowPassword] = useState(false);
 
     return (
         <View className="flex flex-1 bg-main-background px-5" style={{ paddingTop: insets.top }}>
@@ -52,8 +55,12 @@ const RegisterScreen = () => {
                                     <TextInput keyboardType='numeric' placeholder="Phone number" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setPhone(text)}/>
                                 </View>
 
-                                <View>
-                                    <TextInput secureTextEntry={true} placeholder="Password" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setPass(text)}/>
+                                <View className="relative">
+                                    <TextInput secureTextEntry={!showPassword && true} placeholder="Password" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setPass(text)}/>
+                                    <View style={{ position: 'absolute', top: '50%', right: 15, transform: [{ translateY: -12.5 }] }}>
+                                        { !showPassword ? <MaterialCommunityIcons name="eye" color="#00A9FF" size={25} onPress={() => setShowPassword(!showPassword)}/>
+                                        : <MaterialCommunityIcons name="eye-off" color="#00A9FF" size={25} onPress={() => setShowPassword(!showPassword)}/> }
+                                    </View>
                                 </View>
                             </View>
 
