@@ -28,7 +28,7 @@ const ProfileScreen = () => {
     });
 
     function handleDelete() {
-      axios.get('http://localhost:8081/logout')
+      axios.get('http://localhost:8082/logout')
         .then(res => {
           console.log(res);
           AsyncStorage.clear()

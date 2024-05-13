@@ -12,7 +12,7 @@ const ReportBugScreen = () => {
     axios.defaults.withCredentials = true;
 
     function handleSubmit() {
-        axios.post('http://localhost:8081/helpcenter/reportbug', {bug, desc})
+        axios.post('http://localhost:8082/helpcenter/reportbug', {bug, desc})
         .then(res => {
             console.log(res);
             alert('Terima kasih atas feedback anda');
