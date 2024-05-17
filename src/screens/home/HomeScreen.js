@@ -1,5 +1,6 @@
 import { View, Text, Image } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -7,15 +8,55 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BackHandler, ToastAndroid } from 'react-native';
 
 const HomeScreen = () => {
     const [username, setUsername] = useState("");
+    const [token, setToken] = useState('');
     const navigation = useNavigation();
     const insets = useSafeAreaInsets();
-    AsyncStorage.getItem('username').then(value => {
-        setUsername(value)
-        console.log(value);
-    });
+    useEffect(() => {
+        AsyncStorage.getItem('username').then(value => {
+            setUsername(value)
+            console.log(value);
+        });
+
+        AsyncStorage.getItem('token').then(value => {
+            setToken(value);
+        });
+    }, []);
+
+    useFocusEffect(
+        useCallback(() => {
+            let backPressCount = 0;
+            const TIMEOUT_DURATION = 2000; // 2 seconds
+
+            const backAction = () => {
+                if (token) {
+                    if (backPressCount === 1) {
+                        BackHandler.exitApp();
+                        return true;
+                    } else {
+                        backPressCount++;
+                        ToastAndroid.show('Press back again to close the app', ToastAndroid.SHORT);
+                        setTimeout(() => {
+                            backPressCount = 0;
+                        }, TIMEOUT_DURATION);
+                        return true;
+                    }
+                } else {
+                    return false;
+                }
+            };
+
+            const backHandler = BackHandler.addEventListener(
+                'hardwareBackPress',
+                backAction
+            );
+
+            return () => backHandler.remove();
+        }, [token])
+    );
     
 
     return (

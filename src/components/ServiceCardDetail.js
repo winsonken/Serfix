@@ -9,11 +9,48 @@ import {
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { useFocusEffect } from '@react-navigation/native';
+import axios from 'axios'
 
-export default function ServiceCardDetail(props) {
+function ServiceCardDetail(props) {
     const bottomSheetModalRef = useRef(null);
 
     // Close modal on button click
+    function validation() {
+      const id = props.serviceId;
+      axios.put(`http://localhost:8081/admin-page-ongoing/${id}`)
+        .then(res => {
+            console.log(res);
+            alert('Berhasil', 'Data telah berhasil diupdate.')
+            props.refs.current?.close();
+            props.fetchDataValidation();
+        }).catch(err => console.log(err));
+      
+    }
+
+    function accept() {
+      const id = props.serviceId;
+      axios.put(`http://localhost:8081/admin-page-accept/${id}`)
+        .then(res => {
+            console.log(res);
+            alert('Berhasil', 'Data telah berhasil diupdate.')
+            props.refs.current?.close();
+            props.fetchDataValidation();
+        }).catch(err => console.log(err));
+      
+    }
+
+    function reject() {
+      const id = props.serviceId;
+      axios.put(`http://localhost:8081/admin-page-reject/${id}`)
+        .then(res => {
+            console.log(res);
+            alert('Berhasil', 'Data telah berhasil diupdate.')
+            props.refs.current?.close();
+            props.fetchDataValidation();
+        }).catch(err => console.log(err));
+      
+    }
+ 
     function closeModal() {
       props.refs.current?.close();
     }
@@ -134,18 +171,18 @@ export default function ServiceCardDetail(props) {
 
               { props.serviceStatus == 1 &&
                 <View className="flex flex-row justify-end gap-3">
-                    <TouchableOpacity className="bg-red-500 flex justify-center items-center px-3 py-2 rounded-md" onPress={closeModal}>
+                    <TouchableOpacity className="bg-red-500 flex justify-center items-center px-3 py-2 rounded-md" onPress={reject}>
                         <Text className="text-xl text-[#FFFFFF] font-medium">Reject</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity className="bg-green-500 flex justify-center items-center px-3 py-2 rounded-md" onPress={closeModal}>
+                    <TouchableOpacity className="bg-green-500 flex justify-center items-center px-3 py-2 rounded-md" onPress={accept}>
                         <Text className="text-xl text-[#FFFFFF] font-medium">Accept</Text>
                     </TouchableOpacity>
                 </View>
               }
               
               { props.serviceStatus == 2 &&
-                <TouchableOpacity className="bg-main-blue flex justify-center items-center p-3 rounded-md" onPress={closeModal}>
+                <TouchableOpacity className="bg-main-blue flex justify-center items-center p-3 rounded-md" onPress={validation}>
                     <Text className="text-xl text-[#FFFFFF] font-medium">Finish</Text>
                 </TouchableOpacity>
               }
@@ -155,3 +192,5 @@ export default function ServiceCardDetail(props) {
     
   )
 }
+
+export default ServiceCardDetail;

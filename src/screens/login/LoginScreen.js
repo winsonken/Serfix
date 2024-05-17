@@ -55,44 +55,7 @@ const LoginScreen = () => {
         if (token) {
             navigation.navigate('HomePage');
         }
-    }, [token]);
-
-    useEffect(() => {
-        let backPressCount = 0;
-        const TIMEOUT_DURATION = 2000; // 2 seconds
-    
-        const backAction = () => {
-            if (token) {
-                // If user is authenticated (has token)
-                if (backPressCount === 1) {
-                    // If it's the second back press, close the app
-                    BackHandler.exitApp();
-                    return true; // Prevent default behavior
-                } else {
-                    // If it's the first back press, show a message and increment the count
-                    backPressCount++;
-                    ToastAndroid.show('Press back again to close the app', ToastAndroid.SHORT);
-                    setTimeout(() => {
-                        // Reset the count after the timeout duration
-                        backPressCount = 0;
-                    }, TIMEOUT_DURATION);
-                    return true; // Prevent default behavior
-                }
-            } else {
-                // If user is not authenticated (no token), allow default back button behavior
-                return false;
-            }
-        };
-    
-        // Add event listener for back button press
-        const backHandler = BackHandler.addEventListener(
-            'hardwareBackPress',
-            backAction
-        );
-    
-        // Remove event listener on component unmount
-        return () => backHandler.remove();
-    }, [token]);     
+    }, [token]);    
     
     const [showPassword, setShowPassword] = useState(false);
 

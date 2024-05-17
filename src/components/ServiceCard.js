@@ -8,7 +8,7 @@ export default function ServiceCard( props ) {
   const navigation = useNavigation();
   function presentModal() {
     props.bottomSheetModalRef.current?.present();
-    navigation.navigate('ServiceScreen', { serviceUser: props.serviceUser, serviceDeviceName: props.serviceDeviceName, serviceCategory: props.serviceCategory, serviceStore: props.serviceStore, servicePrice: props.servicePrice, serviceNotes: props.serviceNotes, serviceStatus: props.serviceStatus, serviceType: props.serviceType, serviceStartDate: props.serviceStartDate, serviceEndDate: props.serviceEndDate })
+    navigation.navigate('ServiceScreen', {serviceId: props.serviceId, serviceUser: props.serviceUser, serviceDeviceName: props.serviceDeviceName, serviceCategory: props.serviceCategory, serviceStore: props.serviceStore, servicePrice: props.servicePrice, serviceNotes: props.serviceNotes, serviceStatus: props.serviceStatus, serviceType: props.serviceType, serviceStartDate: props.serviceStartDate, serviceEndDate: props.serviceEndDate, fetchDataValidation: props.fetchDataValidation, activeTabs: props.activeTabs})
   }
 
   return (

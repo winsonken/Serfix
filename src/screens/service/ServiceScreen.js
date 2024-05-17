@@ -1,15 +1,21 @@
 import { View, Text, ScrollView, TouchableWithoutFeedback } from 'react-native'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react'
 import TrackCard from '../../components/TrackCard';
 import TrackCardDetail from '../../components/TrackCardDetail';
 import { StatusBar } from 'expo-status-bar';
 import ServiceCard from '../../components/ServiceCard';
 import ServiceCardDetail from '../../components/ServiceCardDetail';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
-export default function ServiceScreen({ route }) {
+function ServiceScreen({ route }) {
+    const [services, setServices] = useState([]);
+    const [activeTabs, setActiveTabs] = useState(1);
+    const serviceId = route.params?.serviceId;
     const serviceUser = route.params?.serviceUser;
     const serviceDeviceName = route.params?.serviceDeviceName;
-    const serviceCategory = route.params?.serviceCategory
+    const serviceCategory = route.params?.serviceCategory;
     const serviceStore = route.params?.serviceStore;
     const servicePrice = route.params?.servicePrice;
     const serviceNotes = route.params?.serviceNotes;
@@ -17,48 +23,31 @@ export default function ServiceScreen({ route }) {
     const serviceType = route.params?.serviceType;
     const serviceStartDate = route.params?.serviceStartDate;
     const serviceEndDate = route.params?.serviceEndDate;
-    
-    const service = [
-        {
-            id: 1,
-            user: 'Jonathan',
-            device_name: "Samsung S9",
-            category: 'Battery',
-            store: "Store1",
-            price: 300000,
-            notes: 'tes',
-            status: 1,
-            type: 'phone',
-            startDate: '',
-            endDate: '',
-        },
-        {
-            id: 2,
-            user: 'Jonathan',
-            device_name: "Samsung S10",
-            category: 'Battery',
-            store: "Store1",
-            price: 300000,
-            notes: 'tes',
-            status: 2,
-            type: 'phone',
-            startDate: '05 January 2023',
-            endDate: '',
-        },
-        {
-            id: 3,
-            user: 'Vincent',
-            device_name: "Samsung S11",
-            category: 'Battery',
-            store: "Store1",
-            price: 300000,
-            notes: 'tes',
-            status: 3,
-            type: 'phone',
-            startDate: '05 January 2023',
-            endDate: '06 January 2023',
-        },
-    ];
+
+    useEffect(() => {
+        fetchDataValidation(activeTabs);
+    }, [activeTabs]);
+
+    const refreshData = () => {
+        fetchDataValidation(activeTabs); // Call the fetch function to refresh the data
+    };
+
+    const fetchDataValidation = async (status) => {
+        try {
+            const response = await axios.get(`http://localhost:8081/admin-page/${status}`);
+            const data = response.data.data.filter(item => item.status === status);
+            setServices(data);
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                // Handle 404 error (data not found)
+                setServices([]);
+            } else {
+                console.error('Error fetching data:', error);
+            }
+        }
+    };
+
+    const filterService = services.filter(e => e.status === activeTabs);
 
     const tabs = [
         { id: 1, name: 'Service'},
@@ -66,40 +55,36 @@ export default function ServiceScreen({ route }) {
         { id: 3, name: 'Completed'},
     ]
 
-    const [activeTabs, setActiveTabs] = useState(1);
-    const filterService = service?.filter(e => e?.status == activeTabs)
-
     const bottomSheetModalRef = useRef(null);
     const snapPoints = [activeTabs == 1 ? "100%" : "80%"];
 
     return (
         <View className="flex flex-1 px-5 py-5 bg-main-background">
             <View className="flex flex-row gap-2">
-                { tabs?.map((allTabs, index) => (
-                <TouchableWithoutFeedback key={allTabs?.id} onPress={() => setActiveTabs(allTabs?.id)}>
-                    <View className={`px-3 py-2 ml-2 rounded-md ${activeTabs == allTabs?.id ? 'bg-main-blue' : 'bg-second-blue' }`}>
-                        <Text className="font-bold">{allTabs?.name}</Text>
-                    </View>
-                </TouchableWithoutFeedback>
+                {tabs.map((tab) => (
+                    <TouchableWithoutFeedback key={tab.id} onPress={() => setActiveTabs(tab.id)}>
+                        <View className={`px-3 py-2 ml-2 rounded-md ${activeTabs === tab.id ? 'bg-main-blue' : 'bg-second-blue'}`}>
+                            <Text className="font-bold">{tab.name}</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
                 ))}
             </View>
             <View className="flex w-full h-full">
                 <ScrollView showsVerticalScrollIndicator={false} >
                     <View className="flex justify-center items-center">
-                    { filterService.map(allService => (
+                    {services?.map((service) => (
                         <ServiceCard
-                            key = {allService?.id}
-                            serviceUser = {allService?.user}
-                            serviceDeviceName = {allService?.device_name}
-                            serviceCategory = {allService?.category}
-                            serviceStore = {allService?.store}
-                            servicePrice = {allService?.price}
-                            serviceNotes = {allService?.notes}
-                            serviceStatus = {allService?.status}
-                            serviceType = {allService?.type}
-                            serviceStartDate = {allService?.startDate}
-                            serviceEndDate = {allService?.endDate}
-                            bottomSheetModalRef = {bottomSheetModalRef}
+                        serviceId={service.id}
+                        serviceUser={service.iduser}
+                        serviceDeviceName={service.device_name}
+                        serviceCategory={service.category}
+                        serviceStore={service.store}
+                        servicePrice={service.price}
+                        serviceNotes={service.notes}
+                        serviceStatus={service.status}
+                        serviceStartDate = {service.start_date}
+                        serviceType={service.type}
+                        bottomSheetModalRef={bottomSheetModalRef}
                         />
                     ))}
                     </View>
@@ -107,22 +92,34 @@ export default function ServiceScreen({ route }) {
             </View>
             
             <ServiceCardDetail 
-                refs={bottomSheetModalRef} 
+                refs={bottomSheetModalRef}
                 index={0}
+                service = {services}
                 snapPoints={snapPoints}
-                serviceUser = {serviceUser}
-                serviceDeviceName = {serviceDeviceName}
-                serviceCategory = {serviceCategory}
-                serviceStore = {serviceStore}
-                servicePrice = {servicePrice}
-                serviceNotes = {serviceNotes}
-                serviceStatus = {serviceStatus}
-                serviceType = {serviceType}
-                serviceStartDate = {serviceStartDate}
-                serviceEndDate = {serviceEndDate}
+                serviceId = {serviceId}
+                serviceUser={serviceUser}
+                serviceDeviceName={serviceDeviceName}
+                serviceCategory={serviceCategory}
+                serviceStore={serviceStore}
+                servicePrice={servicePrice}
+                serviceNotes={serviceNotes}
+                serviceStatus={serviceStatus}
+                serviceType={serviceType}
+                serviceStartDate={serviceStartDate}
+                serviceEndDate={serviceEndDate}
+                activeTabs = {activeTabs}
+                fetchDataValidation={fetchDataValidation}
             />
+
+        <View className="absolute right-3 bottom-3">
+            <TouchableOpacity className="bg-main-blue px-3 py-1 rounded-md" onPress={refreshData}>
+                <Text className="text-sm text-[#FFFFFF] font-bold">Refresh</Text>
+            </TouchableOpacity>
+        </View>
 
             <StatusBar style="auto" />
         </View>
     )
 }
+
+export default ServiceScreen

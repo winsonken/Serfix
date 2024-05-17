@@ -57,14 +57,14 @@ console.log(pickedDocument)
                     </View>
                     
                     <View className="mt-3">
-                        <TouchableWithoutFeedback onPress={pickDocument}>
+                        <TouchableWithoutFeedback>
                             <View className="bg-second-blue p-2 rounded-md">
                                 <Text>{pickedDocument && pickedDocument.assets[0].name}</Text>
                             </View>
                         </TouchableWithoutFeedback>
                     </View>
 
-                    <TouchableOpacity className="mt-12">
+                    <TouchableOpacity className="mt-12" onPress={pickDocument}>
                         <View className="flex flex-row justify-center items-center bg-main-blue w-full p-2 rounded-md">
                             <MaterialCommunityIcons name="upload" color="#FFFFFF" size={30} />
                             <Text className="text-lg text-center text-[#FFFFFF] font-medium">Upload payment image</Text>
