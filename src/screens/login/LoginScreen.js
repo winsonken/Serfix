@@ -23,7 +23,7 @@ const LoginScreen = () => {
     axios.defaults.withCredentials = true;
   
     function handleSubmit() {
-      axios.post('http://localhost:8081/LoginScreen/', { user, password })
+      axios.post('http://localhost:8082/LoginScreen/', { user, password })
         .then(res => {
           console.log(res);
           setMessage(res.data.message);

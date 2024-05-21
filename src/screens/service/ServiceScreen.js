@@ -12,6 +12,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 function ServiceScreen({ route }) {
     const [services, setServices] = useState([]);
     const [activeTabs, setActiveTabs] = useState(1);
+    const bottomSheetModalRef = useRef(null);
+
     const serviceId = route.params?.serviceId;
     const serviceUser = route.params?.serviceUser;
     const serviceDeviceName = route.params?.serviceDeviceName;
@@ -34,7 +36,7 @@ function ServiceScreen({ route }) {
 
     const fetchDataValidation = async (status) => {
         try {
-            const response = await axios.get(`http://localhost:8081/admin-page/${status}`);
+            const response = await axios.get(`http://localhost:8082/admin-page/${status}`);
             const data = response.data.data.filter(item => item.status === status);
             setServices(data);
         } catch (error) {
@@ -54,8 +56,6 @@ function ServiceScreen({ route }) {
         { id: 2, name: 'On going'},
         { id: 3, name: 'Completed'},
     ]
-
-    const bottomSheetModalRef = useRef(null);
     const snapPoints = [activeTabs == 1 ? "100%" : "80%"];
 
     return (
