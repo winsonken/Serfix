@@ -1,5 +1,6 @@
 import { View, Text, ScrollView, TouchableWithoutFeedback } from 'react-native'
 import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react'
+import { useFocusEffect } from '@react-navigation/native';
 import TrackCard from '../../components/TrackCard';
 import TrackCardDetail from '../../components/TrackCardDetail';
 import { StatusBar } from 'expo-status-bar';
@@ -25,18 +26,17 @@ function ServiceScreen({ route }) {
     const serviceType = route.params?.serviceType;
     const serviceStartDate = route.params?.serviceStartDate;
     const serviceEndDate = route.params?.serviceEndDate;
+    const serviceImage = route.params?.serviceImage;
 
-    useEffect(() => {
-        fetchDataValidation(activeTabs);
-    }, [activeTabs]);
-
-    const refreshData = () => {
-        fetchDataValidation(activeTabs); // Call the fetch function to refresh the data
-    };
+    useFocusEffect(
+        useCallback(() => {
+            fetchDataValidation(activeTabs);
+        }, [activeTabs])
+    );
 
     const fetchDataValidation = async (status) => {
         try {
-            const response = await axios.get(`http://localhost:8082/admin-page/${status}`);
+            const response = await axios.get(`http://localhost:8081/admin-page/${status}`);
             const data = response.data.data.filter(item => item.status === status);
             setServices(data);
         } catch (error) {
@@ -74,6 +74,7 @@ function ServiceScreen({ route }) {
                     <View className="flex justify-center items-center">
                     {services?.map((service) => (
                         <ServiceCard
+                        serviceImage = {service.image}
                         serviceId={service.id}
                         serviceUser={service.iduser}
                         serviceDeviceName={service.device_name}
@@ -107,15 +108,10 @@ function ServiceScreen({ route }) {
                 serviceType={serviceType}
                 serviceStartDate={serviceStartDate}
                 serviceEndDate={serviceEndDate}
+                serviceImage = {serviceImage}
                 activeTabs = {activeTabs}
                 fetchDataValidation={fetchDataValidation}
             />
-
-        <View className="absolute right-3 bottom-3">
-            <TouchableOpacity className="bg-main-blue px-3 py-1 rounded-md" onPress={refreshData}>
-                <Text className="text-sm text-[#FFFFFF] font-bold">Refresh</Text>
-            </TouchableOpacity>
-        </View>
 
             <StatusBar style="auto" />
         </View>

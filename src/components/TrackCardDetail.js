@@ -10,7 +10,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { useFocusEffect } from '@react-navigation/native';
 
-export default function TrackCardDetail(props) {
+function TrackCardDetail(props) {
     const bottomSheetModalRef = useRef(null);
 
     // Close modal on button click
@@ -122,3 +122,5 @@ export default function TrackCardDetail(props) {
     
   )
 }
+
+export default TrackCardDetail

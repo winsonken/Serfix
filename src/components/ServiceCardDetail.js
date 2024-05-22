@@ -1,5 +1,5 @@
-import { View, Text, Image } from 'react-native';
-import React, { useCallback, useRef } from 'react';
+import { View, Text, Image, ActivityIndicator } from 'react-native';
+import React, { useCallback, useRef, useState } from 'react';
 import {
     BottomSheetModal,
     BottomSheetModalProvider,
@@ -11,6 +11,8 @@ import axios from 'axios';
 
 function ServiceCardDetail(props) {
     const bottomSheetModalRef = useRef(null);
+    const [imageLoading, setImageLoading] = useState(true);
+    const [imageError, setImageError] = useState(false);
 
     const handleApiCall = async (url) => {
         try {
@@ -25,9 +27,9 @@ function ServiceCardDetail(props) {
         }
     };
 
-    const validation = () => handleApiCall('http://localhost:8082/admin-page-ongoing');
-    const accept = () => handleApiCall('http://localhost:8082/admin-page-accept');
-    const reject = () => handleApiCall('http://localhost:8082/admin-page-reject');
+    const validation = () => handleApiCall('http://localhost:8081/admin-page-ongoing');
+    const accept = () => handleApiCall('http://localhost:8081/admin-page-accept');
+    const reject = () => handleApiCall('http://localhost:8081/admin-page-reject');
 
     const closeModal = () => props.refs.current?.close();
 
@@ -52,7 +54,23 @@ function ServiceCardDetail(props) {
                     
                     {props.serviceStatus == 1 &&
                         <View className="flex justify-center w-full">
-                            <Image source={require('../../assets/banner.png')} className="w-full h-32 rounded-md" />
+                            {imageLoading && <ActivityIndicator size="large" color="#0000ff" />}
+                            <Image
+                                source={{ uri: `http://localhost:8081/uploads/${props.serviceImage}` }}
+                                style={{ width: '100%', height: 128, borderRadius: 3 }}
+                                onLoadStart={() => setImageLoading(true)}
+                                onLoad={() => {
+                                    setImageLoading(false);
+                                    console.log("Image loaded successfully");
+                                    console.log(props.serviceImage)
+                                }}
+                                onError={() => {
+                                    setImageLoading(false);
+                                    setImageError(true);
+                                    console.log("Error loading image");
+                                }}
+                            />
+                            {imageError && <Text style={{ color: 'red' }}>Failed to load image</Text>}
                         </View>
                     }
                     

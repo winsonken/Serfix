@@ -22,8 +22,18 @@ const PaymentScreen = () => {
     const pickDocument = async () => {
         try {
             const result = await DocumentPicker.getDocumentAsync();
-                setPickedDocument(result);
-                console.log("Picked document:", result);
+            console.log("Document picker result:", result);
+                if (result.assets && result.assets.length > 0) {
+                    const document = result.assets[0];
+                    if (document && document.uri && document.name) {
+                        setPickedDocument(document);
+                        console.log("Picked document (assets):", document);
+                    } else {
+                        console.error('Invalid document structure in assets');
+                    }
+                } else {
+                    console.error('Document picker returned no assets');
+                }
         } catch (error) {
             console.error('Error while picking a document:', error);
         }
@@ -32,7 +42,7 @@ const PaymentScreen = () => {
     const handleUpload = async () => {
         console.log("handleUpload function called");
 
-        if (!pickedDocument) {
+        if (!pickedDocument || !pickedDocument.uri || !pickedDocument.name) {
             console.error('No file selected for upload');
             return;
         }
@@ -44,16 +54,20 @@ const PaymentScreen = () => {
             type: pickedDocument.mimeType || 'application/octet-stream',
         });
 
+        formData.append('service_id', serviceId);
+
         console.log("FormData constructed:", formData);
 
         try {
             console.log("Sending request to server...");
-            const response = await axios.post('http://192.168.100.7:8082/uploadbukti', formData, {
+            const response = await axios.post('http://192.168.100.7:8081/uploadbukti', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
             console.log("Response received:", response.data);
+            alert("Bukti telah berhasil di upload, silahkan menunggu konfirmasi dari admin.")
+            navigation.navigate('HomeScreen');
         } catch (error) {
             if (error.response) {
                 console.error('Server responded with an error:', error.response.data);

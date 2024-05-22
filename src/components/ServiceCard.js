@@ -21,6 +21,7 @@ export default function ServiceCard(props) {
             serviceType: props.serviceType,
             serviceStartDate: props.serviceStartDate,
             serviceEndDate: props.serviceEndDate,
+            serviceImage : props.serviceImage,
             fetchDataValidation: props.fetchDataValidation,
             activeTabs: props.activeTabs,
         });

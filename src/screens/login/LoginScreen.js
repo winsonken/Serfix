@@ -23,7 +23,7 @@ const LoginScreen = () => {
     axios.defaults.withCredentials = true;
   
     function handleSubmit() {
-      axios.post('http://localhost:8082/LoginScreen/', { user, password })
+      axios.post('http://localhost:8081/LoginScreen/', { user, password })
         .then(res => {
           console.log(res);
           setMessage(res.data.message);
@@ -34,6 +34,7 @@ const LoginScreen = () => {
             AsyncStorage.setItem('username', res.data.name);
             AsyncStorage.setItem('email', res.data.email);
             AsyncStorage.setItem('phone', JSON.stringify(res.data.phone));
+            AsyncStorage.setItem('role', res.data.role);
             navigation.navigate('HomePage');
           } else {
             alert("gagal");
