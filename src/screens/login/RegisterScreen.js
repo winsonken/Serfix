@@ -8,6 +8,8 @@ import axios from 'axios';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const RegisterScreen = () => {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
     const insets = useSafeAreaInsets();
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -19,7 +21,7 @@ const RegisterScreen = () => {
     axios.defaults.withCredentials = true;
 
     function handleSubmit() {
-        axios.post('http://192.168.100.7:8082/register', {username, email, phone, password})
+        axios.post(`${API_URL}register`, {username, email, phone, password})
         .then(res => {
             console.log(res);
             alert('Data telah berhasil ditambah.');

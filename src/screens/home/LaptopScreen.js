@@ -8,6 +8,8 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LaptopScreen = () => {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
+    
     const navigation = useNavigation();
     const [id, setId] = useState("");
     const [username, setUsername] = useState("");
@@ -41,7 +43,7 @@ const LaptopScreen = () => {
             return;
         }
 
-        axios.post('http://192.168.100.7:8082/data/laptop/services', { device, category1, selectedLocation, price, notes, id, username })
+        axios.post(`${API_URL}data/laptop/services`, { device, category1, selectedLocation, price, notes, id, username })
             .then(res => {
                 navigation.navigate('PaymentScreen', { serviceId: res.data.id, price: res.data.price, category: res.data.category, type: res.data.type });
             }).catch(err => console.log(err));
@@ -67,7 +69,7 @@ const LaptopScreen = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('http://192.168.100.7:8082/data/laptop/categories?type=Laptop');
+            const response = await axios.get(`${API_URL}data/laptop/categories?type=Laptop`);
             setCategories(response.data.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -76,7 +78,7 @@ const LaptopScreen = () => {
 
     const fetchLocation = async () => {
         try {
-            const response = await axios.get('http://192.168.100.7:8082/data/laptop/location?type=Laptop&category=' + category1);
+            const response = await axios.get(`${API_URL}data/laptop/location?type=Laptop&category=` + category1);
             setLocation(response.data.data || []);
         } catch (error) {
             console.error('Error fetching location:', error);
@@ -92,7 +94,7 @@ const LaptopScreen = () => {
     const handleLocationChange = async (item) => {
         setSelectedLocation(item.value); // Update selected location
         try {
-            const response = await axios.get(`http://192.168.100.7:8082/data/laptop/price?category=${category1}&location=${item.value}`);
+            const response = await axios.get(`${API_URL}data/laptop/price?category=${category1}&location=${item.value}`);
             const priceData = response.data.data;
             if (priceData) {
                 setPrice(priceData.price);

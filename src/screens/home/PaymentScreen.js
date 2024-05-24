@@ -8,6 +8,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import axios from 'axios';
 
 const PaymentScreen = () => {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
+    
     const navigation = useNavigation();
     const route = useRoute();
     const { serviceId, price, category, type } = route.params;
@@ -49,7 +51,7 @@ const PaymentScreen = () => {
 
         try {
             console.log("Sending request to server...");
-            const response = await axios.post('http://192.168.100.7:8082/uploadbukti', formData, {
+            const response = await axios.post(`${API_URL}uploadbukti`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

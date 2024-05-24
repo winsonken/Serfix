@@ -9,6 +9,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 function HistoryScreen({ route }) {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
     const [id, setId] = useState("");
     const [serviceHistory, setServiceHistory] = useState([]);
     const serviceHistoryUser = route.params?.serviceHistoryUser;
@@ -41,7 +43,7 @@ function HistoryScreen({ route }) {
 
     const fetchDataHistory = async (id) => {
         try {
-            const response = await axios.get(`http://192.168.100.7:8082/history/${id}`);
+            const response = await axios.get(`${API_URL}history/${id}`);
             const data = response.data.data;
             setServiceHistory(data);
         } catch (error) {
@@ -54,7 +56,7 @@ function HistoryScreen({ route }) {
     };
 
     const bottomSheetModalRef = useRef(null);
-    const snapPoints = ["80%"];
+    const snapPoints = ["70%"];
 
     return (
         <View className="flex flex-1 bg-main-background px-5 py-5">

@@ -8,6 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
 
 const ProfileScreen = () => {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
     const navigation = useNavigation();
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -25,7 +27,7 @@ const ProfileScreen = () => {
     });
 
     function handleDelete() {
-      axios.get('http://192.168.100.7:8082/logout')
+      axios.get(`${API_URL}logout`)
         .then(res => {
           AsyncStorage.clear()
             .then(() => {

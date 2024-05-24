@@ -10,6 +10,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
 function ServiceCardDetail(props) {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
     const bottomSheetModalRef = useRef(null);
     const [imageLoading, setImageLoading] = useState(true);
     const [imageError, setImageError] = useState(false);
@@ -27,9 +29,9 @@ function ServiceCardDetail(props) {
         }
     };
 
-    const validation = () => handleApiCall('http://192.168.100.7:8082/admin-page-ongoing');
-    const accept = () => handleApiCall('http://192.168.100.7:8082/admin-page-accept');
-    const reject = () => handleApiCall('http://192.168.100.7:8082/admin-page-reject');
+    const validation = () => handleApiCall(`${API_URL}admin-page-ongoing`);
+    const accept = () => handleApiCall(`${API_URL}admin-page-accept`);
+    const reject = () => handleApiCall(`${API_URL}admin-page-reject`);
 
     const closeModal = () => props.refs.current?.close();
 
@@ -61,7 +63,7 @@ function ServiceCardDetail(props) {
                         <View className="flex justify-center w-full">
                             {imageLoading && <ActivityIndicator size="large" color="#0000ff" />}
                             <Image
-                                source={{ uri: `http://192.168.100.7:8082/uploads/${props.serviceImage}` }}
+                                source={{ uri: `${API_URL}uploads/${props.serviceImage}` }}
                                 style={{ width: '100%', height: 128, borderRadius: 3 }}
                                 onLoadStart={() => {
                                     setImageLoading(true);

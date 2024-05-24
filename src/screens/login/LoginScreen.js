@@ -10,6 +10,8 @@ import { BackHandler, ToastAndroid } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const LoginScreen = () => {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
     const insets = useSafeAreaInsets();
     const [user, setUser] = useState ('');
     const [password, setPassword] = useState ('');
@@ -23,7 +25,7 @@ const LoginScreen = () => {
     axios.defaults.withCredentials = true;
   
     function handleSubmit() {
-      axios.post('http://192.168.100.7:8082/LoginScreen/', { user, password })
+      axios.post(`${API_URL}LoginScreen/`, { user, password })
         .then(res => {
           setMessage(res.data.message);
           if (res.data.status === 'success') {

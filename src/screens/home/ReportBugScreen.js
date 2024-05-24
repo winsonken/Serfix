@@ -6,13 +6,15 @@ import { StatusBar } from 'expo-status-bar'
 import axios from 'axios'
 
 const ReportBugScreen = () => {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
     const [bug, setBug] = useState("");
     const [desc, setDesc] = useState("");
     const navigation = useNavigation();
     axios.defaults.withCredentials = true;
 
     function handleSubmit() {
-        axios.post('http://192.168.100.7:8082/helpcenter/reportbug', {bug, desc})
+        axios.post(`${API_URL}helpcenter/reportbug`, {bug, desc})
         .then(res => {
             console.log(res);
             alert('Terima kasih atas feedback anda');
