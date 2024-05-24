@@ -112,10 +112,6 @@ function TrackCardDetail(props) {
                   <Text className="text-lg">{ props.serviceTrackNotes }</Text>
                 </View>
               </View>
-              
-              <TouchableOpacity className="bg-main-blue flex justify-center items-center p-3 rounded-md" onPress={closeModal}>
-                <Text className="text-xl text-[#FFFFFF] font-medium">Finish</Text>
-              </TouchableOpacity>
             </View>
         </BottomSheetModal>
     </BottomSheetModalProvider>

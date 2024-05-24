@@ -27,9 +27,9 @@ function ServiceCardDetail(props) {
         }
     };
 
-    const validation = () => handleApiCall('http://localhost:8081/admin-page-ongoing');
-    const accept = () => handleApiCall('http://localhost:8081/admin-page-accept');
-    const reject = () => handleApiCall('http://localhost:8081/admin-page-reject');
+    const validation = () => handleApiCall('http://192.168.100.7:8082/admin-page-ongoing');
+    const accept = () => handleApiCall('http://192.168.100.7:8082/admin-page-accept');
+    const reject = () => handleApiCall('http://192.168.100.7:8082/admin-page-reject');
 
     const closeModal = () => props.refs.current?.close();
 
@@ -38,6 +38,11 @@ function ServiceCardDetail(props) {
             return () => props.refs.current?.close();
         }, [])
     );
+
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
 
     return (
         <BottomSheetModalProvider>
@@ -56,13 +61,16 @@ function ServiceCardDetail(props) {
                         <View className="flex justify-center w-full">
                             {imageLoading && <ActivityIndicator size="large" color="#0000ff" />}
                             <Image
-                                source={{ uri: `http://localhost:8081/uploads/${props.serviceImage}` }}
+                                source={{ uri: `http://192.168.100.7:8082/uploads/${props.serviceImage}` }}
                                 style={{ width: '100%', height: 128, borderRadius: 3 }}
-                                onLoadStart={() => setImageLoading(true)}
+                                onLoadStart={() => {
+                                    setImageLoading(true);
+                                    setImageError(false); // Reset the image error state
+                                }}
                                 onLoad={() => {
                                     setImageLoading(false);
                                     console.log("Image loaded successfully");
-                                    console.log(props.serviceImage)
+                                    console.log(props.serviceImage);
                                 }}
                                 onError={() => {
                                     setImageLoading(false);
@@ -121,7 +129,7 @@ function ServiceCardDetail(props) {
                                     <MaterialCommunityIcons name="calendar-month" color="#222222" size={30} />
                                     <Text className="text-lg">Start date</Text>
                                 </View>
-                                <Text className="text-lg">{props.serviceStartDate}</Text>
+                                <Text className="text-lg">{formatDate(props.serviceStartDate)}</Text>
                             </View>
                         }
 
@@ -131,7 +139,7 @@ function ServiceCardDetail(props) {
                                     <MaterialCommunityIcons name="calendar-month" color="#222222" size={30} />
                                     <Text className="text-lg">End date</Text>
                                 </View>
-                                <Text className="text-lg">{props.serviceEndDate}</Text>
+                                <Text className="text-lg">{formatDate(props.serviceEndDate)}</Text>
                             </View>
                         }
 

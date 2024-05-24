@@ -23,9 +23,8 @@ const LoginScreen = () => {
     axios.defaults.withCredentials = true;
   
     function handleSubmit() {
-      axios.post('http://localhost:8081/LoginScreen/', { user, password })
+      axios.post('http://192.168.100.7:8082/LoginScreen/', { user, password })
         .then(res => {
-          console.log(res);
           setMessage(res.data.message);
           if (res.data.status === 'success') {
             alert("sukses");
@@ -43,7 +42,6 @@ const LoginScreen = () => {
         .catch(err => {
           console.log(err);
           alert('ID atau Password salah');
-          console.log(user)
         });
         
     }
@@ -52,7 +50,6 @@ const LoginScreen = () => {
     });
 
     useEffect(() => {
-        console.log(token);
         if (token) {
             navigation.navigate('HomePage');
         }

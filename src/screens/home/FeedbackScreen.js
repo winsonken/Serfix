@@ -11,7 +11,7 @@ const FeedbackScreen = () => {
     axios.defaults.withCredentials = true;
 
     function handleSubmit() {
-        axios.post('http://localhost:8081/feedback', {feedback})
+        axios.post('http://192.168.100.7:8082/feedback', {feedback})
         .then(res => {
             console.log(res);
             alert('Terima kasih atas feedback anda');

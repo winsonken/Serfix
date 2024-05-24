@@ -22,10 +22,10 @@ const PCScreen = () => {
     const [notes, setNotes] = useState("");
     axios.defaults.withCredentials = true;
 
+
     function handleSubmit() {
-        axios.post('http://localhost:8081/data/pc/services', {device, category1, selectedLocation, price, notes, id, username})
+        axios.post('http://192.168.100.7:8082/data/pc/services', {device, category1, selectedLocation, price, notes, id, username})
         .then(res => {
-            console.log(res);
             navigation.navigate('PaymentScreen', { serviceId: res.data.id, price : res.data.price, category : res.data.category, type : res.data.type });
         }).catch(err => console.log(err));
     }
@@ -42,17 +42,15 @@ const PCScreen = () => {
 
     AsyncStorage.getItem('id').then(value => {
         setId(value)
-        console.log(value);
     });
 
     AsyncStorage.getItem('username').then(value => {
         setUsername(value)
-        console.log(value);
     });
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('http://localhost:8081/data/pc/categories?type=PC');
+            const response = await axios.get('http://192.168.100.7:8082/data/pc/categories?type=PC');
             setCategories(response.data.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -61,7 +59,7 @@ const PCScreen = () => {
 
     const fetchLocation = async () => {
         try {
-            const response = await axios.get('http://localhost:8081/data/pc/location?type=PC&category=' + category1);
+            const response = await axios.get('http://192.168.100.7:8082/data/pc/location?type=PC&category=' + category1);
             setLocation(response.data.data || []);
         } catch (error) {
             console.error('Error fetching location:', error);
@@ -154,7 +152,7 @@ const PCScreen = () => {
     const handleLocationChange = async (item) => {
         setSelectedLocation(item.value); // Update selected location
         try {
-            const response = await axios.get(`http://localhost:8081/data/pc/price?category=${category1}&location=${item.value}`);
+            const response = await axios.get(`http://192.168.100.7:8082/data/pc/price?category=${category1}&location=${item.value}`);
             const priceData = response.data.data;
             if (priceData) {
                 setPrice(priceData.price);

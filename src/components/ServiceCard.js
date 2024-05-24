@@ -28,7 +28,7 @@ export default function ServiceCard(props) {
     };
 
     return (
-        <View className="bg-[#89CFF3] relative flex flex-row items-center w-full py-3 mt-3 rounded-xl shadow-sm shadow-[#ACA9A9]">
+        <View className="bg-[#89CFF3] relative flex flex-row items-center w-full p-3 mt-3 rounded-xl shadow-sm shadow-[#ACA9A9]">
             <View>
                 <MaterialCommunityIcons name={`${props.serviceType?.toLowerCase() == 'laptop' ? 'laptop' : props.serviceType?.toLowerCase() == 'phone' ? 'cellphone' : props.serviceType?.toLowerCase() == 'pc' ? 'desktop-tower-monitor' : ''}`} color="#FFFFFF" size={90} />
             </View>

@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, Image, TouchableWithoutFeedback, Alert } from 'react-native';
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -12,38 +12,29 @@ const PaymentScreen = () => {
     const route = useRoute();
     const { serviceId, price, category, type } = route.params;
 
-    console.log("Service ID:", serviceId);
-    console.log("Price:", price);
-    console.log("Category:", category);
-    console.log("Type:", type);
-
     const [pickedDocument, setPickedDocument] = useState(null);
 
     const pickDocument = async () => {
         try {
             const result = await DocumentPicker.getDocumentAsync();
-            console.log("Document picker result:", result);
-                if (result.assets && result.assets.length > 0) {
-                    const document = result.assets[0];
-                    if (document && document.uri && document.name) {
-                        setPickedDocument(document);
-                        console.log("Picked document (assets):", document);
-                    } else {
-                        console.error('Invalid document structure in assets');
-                    }
+            if (result.assets && result.assets.length > 0) {
+                const document = result.assets[0];
+                if (document && document.uri && document.name) {
+                    setPickedDocument(document);
                 } else {
-                    console.error('Document picker returned no assets');
+                    console.error('Invalid document structure in assets');
                 }
+            } else {
+                console.error('Document picker returned no assets');
+            }
         } catch (error) {
             console.error('Error while picking a document:', error);
         }
     };
 
     const handleUpload = async () => {
-        console.log("handleUpload function called");
-
         if (!pickedDocument || !pickedDocument.uri || !pickedDocument.name) {
-            console.error('No file selected for upload');
+            Alert.alert('Error', 'No file selected for upload');
             return;
         }
 
@@ -56,11 +47,9 @@ const PaymentScreen = () => {
 
         formData.append('service_id', serviceId);
 
-        console.log("FormData constructed:", formData);
-
         try {
             console.log("Sending request to server...");
-            const response = await axios.post('http://192.168.100.7:8081/uploadbukti', formData, {
+            const response = await axios.post('http://192.168.100.7:8082/uploadbukti', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -122,8 +111,12 @@ const PaymentScreen = () => {
                             <Text className="text-lg text-center text-[#FFFFFF] font-medium">Pick payment image</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity className="mt-12" onPress={handleUpload}>
-                        <View className="flex flex-row justify-center items-center bg-main-blue w-full p-2 rounded-md">
+                    <TouchableOpacity 
+                        className="mt-12" 
+                        onPress={handleUpload}
+                        disabled={!pickedDocument} // Disable button if no document is picked
+                    >
+                        <View className={`flex flex-row justify-center items-center w-full p-2 rounded-md ${pickedDocument ? 'bg-main-blue' : 'bg-gray-400'}`}>
                             <MaterialCommunityIcons name="upload" color="#FFFFFF" size={30} />
                             <Text className="text-lg text-center text-[#FFFFFF] font-medium">Upload payment image</Text>
                         </View>

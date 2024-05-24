@@ -1,14 +1,10 @@
-import { View, Text, ScrollView, TouchableWithoutFeedback } from 'react-native'
-import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react'
+import { View, Text, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import React, { useCallback, useRef, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import TrackCard from '../../components/TrackCard';
-import TrackCardDetail from '../../components/TrackCardDetail';
-import { StatusBar } from 'expo-status-bar';
 import ServiceCard from '../../components/ServiceCard';
 import ServiceCardDetail from '../../components/ServiceCardDetail';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { StatusBar } from 'expo-status-bar';
+import axios from 'axios';
 
 function ServiceScreen({ route }) {
     const [services, setServices] = useState([]);
@@ -36,7 +32,7 @@ function ServiceScreen({ route }) {
 
     const fetchDataValidation = async (status) => {
         try {
-            const response = await axios.get(`http://localhost:8081/admin-page/${status}`);
+            const response = await axios.get(`http://192.168.100.7:8082/admin-page/${status}`);
             const data = response.data.data.filter(item => item.status === status);
             setServices(data);
         } catch (error) {
@@ -49,17 +45,16 @@ function ServiceScreen({ route }) {
         }
     };
 
-    const filterService = services.filter(e => e.status === activeTabs);
-
     const tabs = [
-        { id: 1, name: 'Service'},
-        { id: 2, name: 'On going'},
-        { id: 3, name: 'Completed'},
-    ]
+        { id: 1, name: 'Service' },
+        { id: 2, name: 'On going' },
+        { id: 3, name: 'Completed' },
+    ];
+
     const snapPoints = [activeTabs == 1 ? "100%" : "80%"];
 
     return (
-        <View className="flex flex-1 px-5 py-5 bg-main-background">
+        <View className="flex flex-1 bg-main-background px-5 py-5">
             <View className="flex flex-row gap-2">
                 {tabs.map((tab) => (
                     <TouchableWithoutFeedback key={tab.id} onPress={() => setActiveTabs(tab.id)}>
@@ -69,35 +64,37 @@ function ServiceScreen({ route }) {
                     </TouchableWithoutFeedback>
                 ))}
             </View>
-            <View className="flex w-full h-full">
-                <ScrollView showsVerticalScrollIndicator={false} >
+            <View className="flex flex-1">
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <View className="flex justify-center items-center">
-                    {services?.map((service) => (
-                        <ServiceCard
-                        serviceImage = {service.image}
-                        serviceId={service.id}
-                        serviceUser={service.iduser}
-                        serviceDeviceName={service.device_name}
-                        serviceCategory={service.category}
-                        serviceStore={service.store}
-                        servicePrice={service.price}
-                        serviceNotes={service.notes}
-                        serviceStatus={service.status}
-                        serviceStartDate = {service.start_date}
-                        serviceType={service.type}
-                        bottomSheetModalRef={bottomSheetModalRef}
-                        />
-                    ))}
+                        {services?.map((service) => (
+                            <ServiceCard
+                                key={service.id}
+                                serviceImage={service.image}
+                                serviceId={service.id}
+                                serviceUser={service.iduser}
+                                serviceDeviceName={service.device_name}
+                                serviceCategory={service.category}
+                                serviceStore={service.store}
+                                servicePrice={service.price}
+                                serviceNotes={service.notes}
+                                serviceStatus={service.status}
+                                serviceStartDate={service.start_date}
+                                serviceEndDate={service.finish_date}
+                                serviceType={service.type}
+                                bottomSheetModalRef={bottomSheetModalRef}
+                            />
+                        ))}
                     </View>
                 </ScrollView>
             </View>
-            
-            <ServiceCardDetail 
+
+            <ServiceCardDetail
                 refs={bottomSheetModalRef}
                 index={0}
-                service = {services}
+                service={services}
                 snapPoints={snapPoints}
-                serviceId = {serviceId}
+                serviceId={serviceId}
                 serviceUser={serviceUser}
                 serviceDeviceName={serviceDeviceName}
                 serviceCategory={serviceCategory}
@@ -108,14 +105,14 @@ function ServiceScreen({ route }) {
                 serviceType={serviceType}
                 serviceStartDate={serviceStartDate}
                 serviceEndDate={serviceEndDate}
-                serviceImage = {serviceImage}
-                activeTabs = {activeTabs}
+                serviceImage={serviceImage}
+                activeTabs={activeTabs}
                 fetchDataValidation={fetchDataValidation}
             />
 
             <StatusBar style="auto" />
         </View>
-    )
+    );
 }
 
-export default ServiceScreen
+export default ServiceScreen;

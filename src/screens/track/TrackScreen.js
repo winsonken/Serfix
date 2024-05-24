@@ -41,7 +41,7 @@ function TrackScreen({ route }) {
 
     const fetchDataTrack = async (id) => {
         try {
-            const response = await axios.get(`http://localhost:8081/track/${id}`);
+            const response = await axios.get(`http://192.168.100.7:8082/track/${id}`);
             const data = response.data.data;
             setServiceTrack(data);
         } catch (error) {
@@ -63,7 +63,7 @@ function TrackScreen({ route }) {
                     <View className="flex justify-center items-center">
                         {serviceTrack?.map(track => (
                                 <TrackCard 
-                                    serviceTrackId={track.id}
+                                    key={track.id}
                                     serviceTrackUser={track.iduser}
                                     serviceTrackDeviceName={track.device_name}
                                     serviceTrackCategory={track.category}

@@ -41,7 +41,7 @@ function HistoryScreen({ route }) {
 
     const fetchDataHistory = async (id) => {
         try {
-            const response = await axios.get(`http://localhost:8081/history/${id}`);
+            const response = await axios.get(`http://192.168.100.7:8082/history/${id}`);
             const data = response.data.data;
             setServiceHistory(data);
         } catch (error) {

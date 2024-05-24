@@ -19,7 +19,7 @@ const RegisterScreen = () => {
     axios.defaults.withCredentials = true;
 
     function handleSubmit() {
-        axios.post('http://localhost:8081/register', {username, email, phone, password})
+        axios.post('http://192.168.100.7:8082/register', {username, email, phone, password})
         .then(res => {
             console.log(res);
             alert('Data telah berhasil ditambah.');

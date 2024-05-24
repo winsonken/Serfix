@@ -16,21 +16,17 @@ const ProfileScreen = () => {
 
     AsyncStorage.getItem('username').then(value => {
       setUsername(value)
-      console.log(value);
     });
     AsyncStorage.getItem('email').then(value => {
       setEmail(value)
-      console.log(value);
     });
     AsyncStorage.getItem('phone').then(value => {
       setPhone(value)
-      console.log(value);
     });
 
     function handleDelete() {
-      axios.get('http://localhost:8081/logout')
+      axios.get('http://192.168.100.7:8082/logout')
         .then(res => {
-          console.log(res);
           AsyncStorage.clear()
             .then(() => {
               alert("Log-out Success");

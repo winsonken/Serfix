@@ -12,7 +12,7 @@ export default function TrackCard( props ) {
   }
 
   return (
-    <View className="bg-[#89CFF3] relative flex flex-row items-center w-full py-3 mt-3 rounded-xl shadow-sm shadow-[#ACA9A9]">
+    <View className="bg-[#89CFF3] relative flex flex-row items-center w-full p-3 mt-3 rounded-xl shadow-sm shadow-[#ACA9A9]">
         <View>
           <MaterialCommunityIcons name={`${props.serviceTrackType?.toLowerCase() == 'laptop' ? 'laptop' : props.serviceTrackType?.toLowerCase() == 'phone' ? 'cellphone' : props.serviceTrackType?.toLowerCase() == 'pc' ? 'desktop-tower-monitor' : ''}`} color="#FFFFFF" size={90} /> 
         </View>

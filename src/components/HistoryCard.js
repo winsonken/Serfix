@@ -13,7 +13,7 @@ export default function HistoryCard( props ) {
 
   return (
     <View className="bg-[#89CFF3] flex w-full rounded-xl shadow-sm mt-3 shadow-[#ACA9A9]">
-      <TouchableOpacity className="flex flex-row items-center py-3 rounded-xl" onPress={presentModal}>
+      <TouchableOpacity className="flex flex-row items-center p-3 rounded-xl" onPress={presentModal}>
         <View>
           <MaterialCommunityIcons name={`${props.serviceHistoryType?.toLowerCase() == 'laptop' ? 'laptop' : props.serviceHistoryType?.toLowerCase() == 'phone' ? 'cellphone' : props.serviceHistoryType?.toLowerCase() == 'pc' ? 'desktop-tower-monitor' : ''}`} color="#FFFFFF" size={90} /> 
         </View>

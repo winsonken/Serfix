@@ -18,7 +18,6 @@ const HomeScreen = () => {
     useEffect(() => {
         AsyncStorage.getItem('username').then(value => {
             setUsername(value)
-            console.log(value);
         });
 
         AsyncStorage.getItem('token').then(value => {
