@@ -9,6 +9,7 @@ import axios from 'axios';
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 function TrackScreen({ route }) {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
     const [id, setId] = useState("");
     const [serviceTrack, setServiceTrack] = useState([]);
     const serviceTrackUser = route.params?.serviceTrackUser;
@@ -26,7 +27,6 @@ function TrackScreen({ route }) {
         const getId = async () => {
             const value = await AsyncStorage.getItem('id');
             setId(value);
-            console.log("id:", value);
         };
         getId();
     }, []);
@@ -41,7 +41,7 @@ function TrackScreen({ route }) {
 
     const fetchDataTrack = async (id) => {
         try {
-            const response = await axios.get(`http://192.168.100.7:8082/track/${id}`);
+            const response = await axios.get(`${API_URL}track/${id}`);
             const data = response.data.data;
             setServiceTrack(data);
         } catch (error) {

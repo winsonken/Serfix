@@ -6,14 +6,14 @@ import { StatusBar } from 'expo-status-bar'
 import axios from 'axios'
 
 const FeedbackScreen = () => {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
     const [feedback, setFeedback] = useState("");
     const navigation = useNavigation();
     axios.defaults.withCredentials = true;
 
     function handleSubmit() {
-        axios.post('http://192.168.100.7:8082/feedback', {feedback})
+        axios.post(`${API_URL}feedback`, {feedback})
         .then(res => {
-            console.log(res);
             alert('Terima kasih atas feedback anda');
             navigation.navigate('HomeScreen');
         }).catch(err => console.log(err));

@@ -17,6 +17,11 @@ export default function HistoryCardDetail(props) {
           return () => props.refs.current?.close()
         }, [])
       );
+
+      const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
     
   return (
     <BottomSheetModalProvider>
@@ -77,7 +82,7 @@ export default function HistoryCardDetail(props) {
                     <MaterialCommunityIcons name="calendar-month" color="#222222" size={30} />
                     <Text className="text-lg">Start date</Text>
                   </View>
-                  <Text className="text-lg">{ props.serviceHistoryStartDate }</Text>
+                  <Text className="text-lg">{formatDate( props.serviceHistoryStartDate )}</Text>
                 </View>
 
                 <View className="flex flex-row justify-between items-center">
@@ -85,7 +90,7 @@ export default function HistoryCardDetail(props) {
                     <MaterialCommunityIcons name="calendar-month" color="#222222" size={30} />
                     <Text className="text-lg">Finish date</Text>
                   </View>
-                  <Text className="text-lg">{ props.serviceHistoryEndDate }</Text>
+                  <Text className="text-lg">{formatDate( props.serviceHistoryEndDate )}</Text>
                 </View>
 
                 <View className="flex flex-row justify-between items-center">

@@ -8,6 +8,7 @@ import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PhoneScreen = () => {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
     const navigation = useNavigation();
     const [id, setId] = useState("");
     const [username, setUsername] = useState("");
@@ -23,9 +24,9 @@ const PhoneScreen = () => {
     axios.defaults.withCredentials = true;
 
     function handleSubmit() {
-        axios.post('http://192.168.100.7:8082/data/phone/services', {device, category1, selectedLocation, price, notes, id, username})
+        axios.post(`${API_URL}data/phone/services`, {device, category1, selectedLocation, price, notes, id, username})
         .then(res => {
-            navigation.navigate('PaymentScreen', { serviceId: res.data.id, price : res.data.price, category : res.data.category, type : res.data.type });
+            navigation.navigate('PaymentScreen', { serviceId: res.data.id, price : res.data.price, category : res.data.category, type : res.data.type, device : res.data.device, notes : res.data.notes });
         }).catch(err => console.log(err));
     }
 
@@ -49,7 +50,7 @@ const PhoneScreen = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('http://192.168.100.7:8082/data/phone/categories?type=Phone');
+            const response = await axios.get(`${API_URL}data/phone/categories?type=Phone`);
             setCategories(response.data.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -58,7 +59,7 @@ const PhoneScreen = () => {
 
     const fetchLocation = async () => {
         try {
-            const response = await axios.get('http://192.168.100.7:8082/data/phone/location?type=Phone&category=' + category1);
+            const response = await axios.get(`${API_URL}data/phone/location?type=Phone&category=` + category1);
             setLocation(response.data.data || []);
         } catch (error) {
             console.error('Error fetching location:', error);
@@ -151,7 +152,7 @@ const PhoneScreen = () => {
     const handleLocationChange = async (item) => {
         setSelectedLocation(item.value); // Update selected location
         try {
-            const response = await axios.get(`http://192.168.100.7:8082/data/phone/price?category=${category1}&location=${item.value}`);
+            const response = await axios.get(`${API_URL}data/phone/price?category=${category1}&location=${item.value}`);
             const priceData = response.data.data;
             if (priceData) {
                 setPrice(priceData.price);

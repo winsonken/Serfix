@@ -25,6 +25,11 @@ function TrackCardDetail(props) {
       }, [])
     );
 
+    const formatDate = (dateString) => {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   return (
     <BottomSheetModalProvider>
         <BottomSheetModal
@@ -85,7 +90,7 @@ function TrackCardDetail(props) {
                     <MaterialCommunityIcons name="calendar-month" color="#222222" size={30} />
                     <Text className="text-lg">Start date</Text>
                   </View>
-                  <Text className="text-lg">{ props.serviceTrackStartDate }</Text>
+                  <Text className="text-lg">{formatDate( props.serviceTrackStartDate )}</Text>
                 </View>
 
                 <View className="flex flex-row justify-between items-center">

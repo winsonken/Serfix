@@ -7,6 +7,7 @@ import { StatusBar } from 'expo-status-bar';
 import axios from 'axios';
 
 function ServiceScreen({ route }) {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
     const [services, setServices] = useState([]);
     const [activeTabs, setActiveTabs] = useState(1);
     const bottomSheetModalRef = useRef(null);
@@ -32,7 +33,7 @@ function ServiceScreen({ route }) {
 
     const fetchDataValidation = async (status) => {
         try {
-            const response = await axios.get(`http://192.168.100.7:8082/admin-page/${status}`);
+            const response = await axios.get(`${API_URL}admin-page/${status}`);
             const data = response.data.data.filter(item => item.status === status);
             setServices(data);
         } catch (error) {

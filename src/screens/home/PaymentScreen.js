@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableWithoutFeedback, Alert } from 'react-native';
+import { View, Text, Image, TouchableWithoutFeedback, Alert, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -8,9 +8,10 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import axios from 'axios';
 
 const PaymentScreen = () => {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
     const navigation = useNavigation();
     const route = useRoute();
-    const { serviceId, price, category, type } = route.params;
+    const { serviceId, price, category, type, device, notes } = route.params;
 
     const [pickedDocument, setPickedDocument] = useState(null);
 
@@ -49,7 +50,7 @@ const PaymentScreen = () => {
 
         try {
             console.log("Sending request to server...");
-            const response = await axios.post('http://192.168.100.7:8082/uploadbukti', formData, {
+            const response = await axios.post(`${API_URL}uploadbukti`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -70,11 +71,16 @@ const PaymentScreen = () => {
 
     return (
         <View className="flex flex-1 bg-main-background px-5 py-5">
+            <ScrollView showsVerticalScrollIndicator={false}>
             <View className="w-full h-full flex gap-y-10 pt-5">
                 <View className="flex bg-second-blue h-fit rounded-sm px-5 py-3 gap-y-3">
                     <Text className="font-bold text-xl">Payment details</Text>
                     <View className="flex w-full">
                         <View className="border-b-2 border-dotted pb-8">
+                            <View className="flex flex-row justify-between">
+                                <Text className="text-xl">Device</Text>
+                                <Text className="text-xl">{device}</Text>
+                            </View>
                             <View className="flex flex-row justify-between">
                                 <Text className="text-xl">Type</Text>
                                 <Text className="text-xl">{type} {category}</Text>
@@ -82,6 +88,10 @@ const PaymentScreen = () => {
                             <View className="flex flex-row justify-between">
                                 <Text className="text-xl">Cost</Text>
                                 <Text className="text-xl">Rp. {price}</Text>
+                            </View>
+                            <View className="flex flex-row justify-between">
+                                <Text className="text-xl">Notes</Text>
+                                <Text className="text-xl">{notes}</Text>
                             </View>
                         </View>
                         <View className="flex flex-row justify-between items-center pt-5">
@@ -123,6 +133,7 @@ const PaymentScreen = () => {
                     </TouchableOpacity>
                 </View>
             </View>
+            </ScrollView>
             <StatusBar style="auto" />
         </View>
     );
