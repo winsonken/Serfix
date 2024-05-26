@@ -19,42 +19,65 @@ const LoginScreen = () => {
     const [token, setToken] = useState('');
     const [email, setEmail] = useState('');
     const navigation = useNavigation();
+    const [errors, setErrors] = useState({ user: '', password: ''});
 
+    const handleSubmit = async() => {
+        setErrors({ user: '', password: ''});
 
-    axios.defaults.withCredentials = true;
-  
-    function handleSubmit() {
-      axios.post(`${API_URL}LoginScreen/`, { user, password })
-        .then(res => {
-          setMessage(res.data.message);
-          if (res.data.status === 'success') {
-            alert("sukses");
-            AsyncStorage.setItem('id', JSON.stringify(res.data.id));
-            AsyncStorage.setItem('token', res.data.token);
-            AsyncStorage.setItem('username', res.data.name);
-            AsyncStorage.setItem('email', res.data.email);
-            AsyncStorage.setItem('phone', JSON.stringify(res.data.phone));
-            AsyncStorage.setItem('role', res.data.role);
-            navigation.navigate('HomePage');
-          } else {
-            alert("gagal");
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          alert('ID atau Password salah');
-        });
-        
-    }
-    AsyncStorage.getItem('token').then(value => {
-        setToken(value);
-    });
-
-    useEffect(() => {
-        if (token) {
-            navigation.navigate('HomePage');
+        // Validate inputs
+        if (!user) {
+            setErrors(prev => ({ ...prev, user: 'Email cannot be empty' }));
+            return;
         }
-    }, [token]);    
+        if (!password) {
+            setErrors(prev => ({ ...prev, password: 'Password cannot be empty' }));
+            return;
+        }
+
+        const payload = JSON.stringify({
+            user: user,
+            password: password,
+        })
+
+        try {
+            const response = await fetch(`${API_URL}LoginScreen/`, {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: payload,
+            })
+            const data = await response.json();
+            if (data?.status == "success") {
+                AsyncStorage.setItem('id', JSON.stringify(data?.id));
+                AsyncStorage.setItem('token', data?.token);
+                AsyncStorage.setItem('username', data?.name);
+                AsyncStorage.setItem('email', data?.email);
+                AsyncStorage.setItem('phone', JSON.stringify(data?.phone));
+                AsyncStorage.setItem('role', data?.role);
+                setErrors({ user: '', password: ''});
+                setUser('');
+                setPassword('');
+                navigation.navigate('HomePage'); 
+            } else if (data?.status == "error"){
+                if (data?.message?.toLowerCase() == "akun tidak terdaftar") setErrors(prev => ({ ...prev, user: data?.message }))
+                if (data?.message?.toLowerCase() == "password salah") setErrors(prev => ({ ...prev, password: data?.message }))
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
+    // AsyncStorage.getItem('token').then(value => {
+    //     setToken(value);
+    // });
+
+    // useEffect(() => {
+    //     if (token) {
+    //         navigation.navigate('HomePage');
+    //     }
+    // }, [token]);    
     
     const [showPassword, setShowPassword] = useState(false);
 
@@ -74,15 +97,20 @@ const LoginScreen = () => {
 
                             <View className="flex gap-y-5 w-full">
                                 <View>
-                                    <TextInput placeholder="Email" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setUser(text)}/>
+                                    <TextInput placeholder="Email" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setUser(text)} value={user}/>
+                                    {errors.user ? <Text className="text-red-500">{errors.user}</Text> : null}
+
                                 </View>
 
-                                <View className="relative">
-                                    <TextInput secureTextEntry={!showPassword && true} textContentType='password' placeholder="Password" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setPassword(text)}/>
-                                    <View style={{ position: 'absolute', top: '50%', right: 15, transform: [{ translateY: -12.5 }] }}>
-                                        { !showPassword ? <MaterialCommunityIcons name="eye" color="#00A9FF" size={25} onPress={() => setShowPassword(!showPassword)}/>
-                                        : <MaterialCommunityIcons name="eye-off" color="#00A9FF" size={25} onPress={() => setShowPassword(!showPassword)}/> }
+                                <View>
+                                    <View className="relative">
+                                        <TextInput secureTextEntry={!showPassword && true} textContentType='password' placeholder="Password" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setPassword(text)} value={password}/>
+                                        <View style={{ position: 'absolute', top: '50%', right: 15, transform: [{ translateY: -12.5 }] }}>
+                                            { !showPassword ? <MaterialCommunityIcons name="eye" color="#00A9FF" size={25} onPress={() => setShowPassword(!showPassword)}/>
+                                            : <MaterialCommunityIcons name="eye-off" color="#00A9FF" size={25} onPress={() => setShowPassword(!showPassword)}/> }
+                                        </View>
                                     </View>
+                                    {errors.password ? <Text className="text-red-500">{errors.password}</Text> : null}
                                 </View>
                             </View>
 

@@ -21,9 +21,27 @@ const PhoneScreen = () => {
     const [location, setLocation] = useState([]);
     const [selectedLocation, setSelectedLocation] = useState("");
     const [notes, setNotes] = useState("");
+    const [errors, setErrors] = useState({ device: '', category: '', location: '' });
     axios.defaults.withCredentials = true;
 
     function handleSubmit() {
+        // Reset errors
+        setErrors({ device: '', category: '', location: '' });
+
+        // Validate inputs
+        if (!device) {
+            setErrors(prev => ({ ...prev, device: 'Device name cannot be empty' }));
+            return;
+        }
+        if (!category1) {
+            setErrors(prev => ({ ...prev, category: 'Category cannot be empty' }));
+            return;
+        }
+        if (!selectedLocation) {
+            setErrors(prev => ({ ...prev, location: 'Location cannot be empty' }));
+            return;
+        }
+
         axios.post(`${API_URL}data/phone/services`, {device, category1, selectedLocation, price, notes, id, username})
         .then(res => {
             navigation.navigate('PaymentScreen', { serviceId: res.data.id, price : res.data.price, category : res.data.category, type : res.data.type, device : res.data.device, notes : res.data.notes });
@@ -192,41 +210,50 @@ const PhoneScreen = () => {
                     <Text className="text-main-blue font-medium text-2xl text-center">Phone Service</Text>
 
                     <View className="flex gap-y-2">
-                        <View className="flex gap-3">
-                            <Text className="text-lg font-medium">Device</Text>
-                            <TextInput className="bg-[#CDF5FD] rounded-md px-3 py-2" placeholder="Device name" placeholderTextColor={"#00A9FF"} onChangeText={text => setDevice(text)}/>
+                        <View>
+                            <View className="flex gap-3">
+                                <Text className="text-lg font-medium">Device</Text>
+                                <TextInput className="bg-[#CDF5FD] rounded-md px-3 py-2" placeholder="Device name" placeholderTextColor={"#00A9FF"} onChangeText={text => setDevice(text)}/>
+                            </View>
+                            {errors.device ? <Text className="text-red-500">{errors.device}</Text> : null}
                         </View>
 
                         <View className="flex gap-3">
-                            <Text className="text-lg font-medium">Category</Text>
-                            <Dropdown
-                                data={categories.map(cat => ({ label: cat.name, value: cat.name }))}
-                                search
-                                labelField="label"
-                                valueField="value"
-                                placeholder="Select category"
-                                searchPlaceholder="Search category"
-                                className="bg-[#CDF5FD] rounded-md px-3 py-2"
-                                onChange={handleCategoryChange}
-                                value={category1}
-                                placeholderStyle={{ color: "#00A9FF" }}
-                            />
+                            <View>
+                                <Text className="text-lg font-medium">Category</Text>
+                                <Dropdown
+                                    data={categories.map(cat => ({ label: cat.name, value: cat.name }))}
+                                    search
+                                    labelField="label"
+                                    valueField="value"
+                                    placeholder="Select category"
+                                    searchPlaceholder="Search category"
+                                    className="bg-[#CDF5FD] rounded-md px-3 py-2"
+                                    onChange={handleCategoryChange}
+                                    value={category1}
+                                    placeholderStyle={{ color: "#00A9FF" }}
+                                />
+                            </View>
+                            {errors.category ? <Text className="text-red-500">{errors.category}</Text> : null}
                         </View>
 
-                        <View className="flex gap-3">
-                            <Text className="text-lg font-medium">Location</Text>
-                            <Dropdown
-                                data={location.map(loc => ({ label: loc.name, value: loc.name }))}
-                                search
-                                labelField="label"
-                                valueField="value"
-                                placeholder="Select location"
-                                searchPlaceholder="Search location"
-                                className="bg-[#CDF5FD] rounded-md px-3 py-2"
-                                onChange={handleLocationChange}
-                                value={selectedLocation}
-                                placeholderStyle={{ color: "#00A9FF" }}
-                            />
+                        <View>
+                            <View className="flex gap-3">
+                                <Text className="text-lg font-medium">Location</Text>
+                                <Dropdown
+                                    data={location.map(loc => ({ label: loc.name, value: loc.name }))}
+                                    search
+                                    labelField="label"
+                                    valueField="value"
+                                    placeholder="Select location"
+                                    searchPlaceholder="Search location"
+                                    className="bg-[#CDF5FD] rounded-md px-3 py-2"
+                                    onChange={handleLocationChange}
+                                    value={selectedLocation}
+                                    placeholderStyle={{ color: "#00A9FF" }}
+                                />
+                            </View>
+                            {errors.location ? <Text className="text-red-500">{errors.location}</Text> : null}
                         </View>
 
                         <View className="flex flex-row justify-between py-3">

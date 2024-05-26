@@ -50,21 +50,27 @@ function ServiceScreen({ route }) {
         { id: 1, name: 'Service' },
         { id: 2, name: 'On going' },
         { id: 3, name: 'Completed' },
+        { id: 4, name: 'Rejected' },
     ];
 
-    const snapPoints = [activeTabs == 1 ? "100%" : "80%"];
+    const snapPoints = [activeTabs == 1 ? "85%" : activeTabs == 4 ? "70%" : "80%"];
 
     return (
         <View className="flex flex-1 bg-main-background px-5 py-5">
-            <View className="flex flex-row gap-2">
-                {tabs.map((tab) => (
-                    <TouchableWithoutFeedback key={tab.id} onPress={() => setActiveTabs(tab.id)}>
-                        <View className={`px-3 py-2 ml-2 rounded-md ${activeTabs === tab.id ? 'bg-main-blue' : 'bg-second-blue'}`}>
-                            <Text className="font-bold">{tab.name}</Text>
+            <ScrollView horizontal={true} className="w-full" style={{ flexGrow: 0}}>
+                <View className="flex flex-row space-x-2">
+                    {tabs.map((tab) => (
+                        <View key={tab.id}>
+                            <TouchableWithoutFeedback onPress={() => setActiveTabs(tab.id)}>
+                                <View className={`px-3 py-2 rounded-md ${activeTabs === tab.id ? 'bg-main-blue' : 'bg-second-blue'}`}>
+                                    <Text className="font-bold">{tab.name}</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
                         </View>
-                    </TouchableWithoutFeedback>
-                ))}
-            </View>
+                    ))}
+                </View>
+            </ScrollView>
+            
             <View className="flex flex-1">
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View className="flex justify-center items-center">

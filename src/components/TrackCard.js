@@ -12,28 +12,28 @@ export default function TrackCard( props ) {
   }
 
   return (
-    <View className="bg-[#89CFF3] relative flex flex-row items-center w-full p-3 mt-3 rounded-xl shadow-sm shadow-[#ACA9A9]">
+    <View className="bg-[#89CFF3] relative flex flex-row items-center w-full space-x-2 p-3 mt-3 rounded-xl shadow-sm shadow-[#ACA9A9]">
         <View>
           <MaterialCommunityIcons name={`${props.serviceTrackType?.toLowerCase() == 'laptop' ? 'laptop' : props.serviceTrackType?.toLowerCase() == 'phone' ? 'cellphone' : props.serviceTrackType?.toLowerCase() == 'pc' ? 'desktop-tower-monitor' : ''}`} color="#FFFFFF" size={90} /> 
         </View>
 
-        <View className="flex gap-y-1">
+        <View className="flex space-y-1">
           <Text className="text-base font-bold">{ props.serviceTrackDeviceName }</Text>
           
           <View className="flex flex-row">
-            <View className="flex flex-row gap-x-2">
+            <View className="flex flex-row">
                 <MaterialCommunityIcons name="account" color="#222222" size={20} />
                 <Text>{ props.serviceTrackUser}</Text>    
             </View>
-            <View className="flex flex-row gap-x-2 ml-2">
+            <View className="flex flex-row space-x-1 ml-2">
                 <MaterialCommunityIcons name="tools" color="#222222" size={20} />
                 <Text>{ props.serviceTrackType?.replace(/^\w/, c => c.toUpperCase())} { props.serviceTrackCategory }</Text>    
             </View>
           </View>
 
-          <View className="flex flex-row gap-x-2">
+          <View className="flex flex-row space-x-1">
             <MaterialCommunityIcons name="timelapse" color="#222222" size={20} />
-            <Text>{ props.serviceTrackStatus == 1 ? 'Waiting validation' : props.serviceTrackStatus == 2 ? 'On going' : props.serviceTrackStatus == 3 ? 'Completed' : ''}</Text>
+            <Text className="font-bold">{ props.serviceTrackStatus == 1 ? 'Waiting validation' : props.serviceTrackStatus == 2 ? 'On going' : props.serviceTrackStatus == 3 ? 'Completed' : ''}</Text>
           </View>
         </View>
 

@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import axios from 'axios';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import PopUpError from '../../components/PopUpError';
 
 const RegisterScreen = () => {
     const API_URL = process.env.EXPO_PUBLIC_API_URL;
@@ -16,32 +17,39 @@ const RegisterScreen = () => {
     const [password, setPass] = useState("");
     const navigation = useNavigation();
     const [showPassword, setShowPassword] = useState(false);
+    const [isOpenPopUpError, setIsOpenPopUpError] = useState(false);
+    const [isOpenPopUpSuccess, setIsOpenPopUpSuccess] = useState(false);
+    const [errorMessages, setErrorMessages] = useState('');
 
     axios.defaults.withCredentials = true;
 
     function handleSubmit() {
         axios.post(`${API_URL}register`, {username, email, phone, password})
         .then(res => {
-            alert('Data telah berhasil ditambah.');
-            navigation.navigate('LoginScreen');
+            setIsOpenPopUpSuccess(true);
         }).catch(err => {
             if (err.response && err.response.data) {
                 const serverMessage = err.response.data.message;
                 if (serverMessage === 'Email already exists') {
-                    Alert.alert("Registration Error", "Email already exists");
+                    setErrorMessages(serverMessage);
+                    setIsOpenPopUpError(true);
                 } else if (err.response.data.errors) {
                     const validationErrors = err.response.data.errors;
                     let errorMessage = "";
                     validationErrors.forEach(error => {
-                        errorMessage += `${error.msg}\n`;
+                        errorMessage += `- ${error.msg}\n`;
                     });
-                    Alert.alert("Registration Error", errorMessage);
+                    setErrorMessages(errorMessage)
+                    // Alert.alert("Registration Error", errorMessage);
+                    setIsOpenPopUpError(true);
                 } else {
-                    Alert.alert("Registration Error", "An unexpected error occurred. Please try again.");
+                    setErrorMessages("An unexpected error occurred. Please try again.");
+                    setIsOpenPopUpError(true);
                 }
             } else {
                 console.log(err);
-                Alert.alert("Registration Error", "An unexpected error occurred. Please try again.");
+                setErrorMessages("An unexpected error occurred. Please try again.");
+                setIsOpenPopUpError(true);
             }
         });
     }
@@ -100,10 +108,42 @@ const RegisterScreen = () => {
                     </View>
                 </ScrollView>
             </View>
-
+            
+            <PopUpError title="Registration Error" content={errorMessages} isOpenPopUp={isOpenPopUpError} setIsOpenPopUp={setIsOpenPopUpError} />
+            <PopUpRegisterSuccess title="Registration Success" content={"Data has been added successfully!"} isOpenPopUp={isOpenPopUpSuccess} setIsOpenPopUp={setIsOpenPopUpSuccess} />
             <StatusBar style="auto" />
         </View>
     )
 }
 
 export default RegisterScreen;
+
+export function PopUpRegisterSuccess(props) {
+    const { title, content, isOpenPopUp, setIsOpenPopUp } = props;
+    const navigation = useNavigation();
+  
+    return (
+      <View className={`absolute top-0 bottom-0 left-0 right-0 ${isOpenPopUp ? 'block' : 'hidden'}`} style={{ backgroundColor: 'rgba(34,34,34,0.3)' }}>
+        <View className="w-full h-full flex justify-center items-center">
+            <View className="bg-white w-4/5 h-fit min-h-20 flex justify-between rounded-md p-2">
+              <View>
+                  <View className="flex flex-row items-center space-x-2">
+                      <MaterialCommunityIcons name="check-circle" color="#65B741" size={30}/>
+                      <Text className="text-xl font-medium text-center">{ title || 'Title'}</Text>
+                  </View>
+  
+                  <View className="py-3">
+                      <Text>{content}</Text>
+                  </View>
+              </View>
+  
+              <View className="flex items-center">
+                  <TouchableOpacity className="flex justify-center items-center bg-green-500 w-12 h-8 rounded-md" onPress={() => { navigation.navigate('LoginScreen') } }>
+                      <Text className="text-white font-bold">OK</Text>
+                  </TouchableOpacity>
+              </View>
+            </View>
+        </View>
+      </View>
+    )
+  }

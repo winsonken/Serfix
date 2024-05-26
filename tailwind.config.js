@@ -12,7 +12,7 @@ module.exports = {
         'second-blue': '#CDF5FD',
         'third-blue': '#89CFF3',
         'main-background': '#FFFFFF',
-        'main-text': '#FFFFFF'
+        'main-text': '#FFFFFF',
       },
       fontFamily: {
         poppins: ['Poppins']

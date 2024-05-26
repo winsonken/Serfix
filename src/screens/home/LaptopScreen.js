@@ -44,6 +44,7 @@ const LaptopScreen = () => {
 
         axios.post(`${API_URL}data/laptop/services`, { device, category1, selectedLocation, price, notes, id, username })
             .then(res => {
+                console.log(device)
                 navigation.navigate('PaymentScreen', { serviceId: res.data.id, price: res.data.price, category: res.data.category, type: res.data.type, device:res.data.device, notes:res.data.notes });
             }).catch(err => console.log(err));
     }
@@ -113,48 +114,54 @@ const LaptopScreen = () => {
                     <Text className="text-main-blue font-medium text-2xl text-center">Laptop Service</Text>
 
                     <View className="flex gap-y-2">
-                        <View className="flex gap-3">
-                            <Text className="text-lg font-medium">Device</Text>
-                            <TextInput
-                                className="bg-[#CDF5FD] rounded-md px-3 py-2"
-                                placeholder="Device name"
-                                placeholderTextColor="#00A9FF"
-                                onChangeText={text => setDevice(text)}
-                            />
+                        <View>
+                            <View className="flex gap-3">
+                                <Text className="text-lg font-medium">Device</Text>
+                                <TextInput
+                                    className="bg-[#CDF5FD] rounded-md px-3 py-2"
+                                    placeholder="Device name"
+                                    placeholderTextColor="#00A9FF"
+                                    onChangeText={text => setDevice(text)}
+                                />
+                            </View>
                             {errors.device ? <Text className="text-red-500">{errors.device}</Text> : null}
                         </View>
 
-                        <View className="flex gap-3">
-                            <Text className="text-lg font-medium">Category</Text>
-                            <Dropdown
-                                data={categories.map(cat => ({ label: cat.name, value: cat.name }))}
-                                search
-                                labelField="label"
-                                valueField="value"
-                                placeholder="Select category"
-                                searchPlaceholder="Search category"
-                                className="bg-[#CDF5FD] rounded-md px-3 py-2"
-                                onChange={handleCategoryChange}
-                                value={category1}
-                                placeholderStyle={{ color: "#00A9FF" }}
-                            />
+                        <View>
+                            <View className="flex gap-3">
+                                <Text className="text-lg font-medium">Category</Text>
+                                <Dropdown
+                                    data={categories.map(cat => ({ label: cat.name, value: cat.name }))}
+                                    search
+                                    labelField="label"
+                                    valueField="value"
+                                    placeholder="Select category"
+                                    searchPlaceholder="Search category"
+                                    className="bg-[#CDF5FD] rounded-md px-3 py-2"
+                                    onChange={handleCategoryChange}
+                                    value={category1}
+                                    placeholderStyle={{ color: "#00A9FF" }}
+                                />
+                            </View>
                             {errors.category ? <Text className="text-red-500">{errors.category}</Text> : null}
                         </View>
 
-                        <View className="flex gap-3">
-                            <Text className="text-lg font-medium">Location</Text>
-                            <Dropdown
-                                data={location.map(loc => ({ label: loc.name, value: loc.name }))}
-                                search
-                                labelField="label"
-                                valueField="value"
-                                placeholder="Select location"
-                                searchPlaceholder="Search location"
-                                className="bg-[#CDF5FD] rounded-md px-3 py-2"
-                                onChange={handleLocationChange}
-                                value={selectedLocation}
-                                placeholderStyle={{ color: "#00A9FF" }}
-                            />
+                        <View>
+                            <View className="flex gap-3">
+                                <Text className="text-lg font-medium">Location</Text>
+                                <Dropdown
+                                    data={location.map(loc => ({ label: loc.name, value: loc.name }))}
+                                    search
+                                    labelField="label"
+                                    valueField="value"
+                                    placeholder="Select location"
+                                    searchPlaceholder="Search location"
+                                    className="bg-[#CDF5FD] rounded-md px-3 py-2"
+                                    onChange={handleLocationChange}
+                                    value={selectedLocation}
+                                    placeholderStyle={{ color: "#00A9FF" }}
+                                />
+                            </View>
                             {errors.location ? <Text className="text-red-500">{errors.location}</Text> : null}
                         </View>
 
@@ -163,17 +170,19 @@ const LaptopScreen = () => {
                             <Text className="text-xl font-medium">Rp. {price}</Text>
                         </View>
 
-                        <View className="flex flex-col gap-y-3">
-                            <Text className="text-lg font-medium">Notes</Text>
-                            <TextInput
-                                className="bg-[#CDF5FD] p-3 rounded-md"
-                                multiline
-                                numberOfLines={3}
-                                textAlignVertical="top"
-                                placeholder="Notes"
-                                placeholderTextColor="#00A9FF"
-                                onChangeText={text => setNotes(text)}
-                            />
+                        <View>
+                            <View className="flex flex-col gap-y-3">
+                                <Text className="text-lg font-medium">Notes</Text>
+                                <TextInput
+                                    className="bg-[#CDF5FD] p-3 rounded-md"
+                                    multiline
+                                    numberOfLines={3}
+                                    textAlignVertical="top"
+                                    placeholder="Notes"
+                                    placeholderTextColor="#00A9FF"
+                                    onChangeText={text => setNotes(text)}
+                                />
+                            </View>
                         </View>
 
                         <View className="flex items-end">

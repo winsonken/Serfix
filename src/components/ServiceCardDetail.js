@@ -1,4 +1,4 @@
-import { View, Text, Image, ActivityIndicator } from 'react-native';
+import { View, Text, Image, ActivityIndicator, TouchableWithoutFeedback } from 'react-native';
 import React, { useCallback, useRef, useState } from 'react';
 import {
     BottomSheetModal,
@@ -8,12 +8,15 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
+import ImageView from './ImageView';
 
 function ServiceCardDetail(props) {
     const API_URL = process.env.EXPO_PUBLIC_API_URL;
     const bottomSheetModalRef = useRef(null);
     const [imageLoading, setImageLoading] = useState(true);
     const [imageError, setImageError] = useState(false);
+    const [image, setImage] = useState('');
+    const [isOpenPopUpImage, setIsOpenPopUpImage] = useState('');
 
     const handleApiCall = async (url) => {
         try {
@@ -35,7 +38,10 @@ function ServiceCardDetail(props) {
 
     useFocusEffect(
         useCallback(() => {
-            return () => props.refs.current?.close();
+            return () => { 
+                props.refs.current?.close();
+                setIsOpenPopUpImage(false);
+            }
         }, [])
     );
 
@@ -43,6 +49,11 @@ function ServiceCardDetail(props) {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
     };
+
+    const handleViewImage = (image) => {
+        setImage(image);
+        setIsOpenPopUpImage(true);
+    }
 
     return (
         <BottomSheetModalProvider>
@@ -54,32 +65,22 @@ function ServiceCardDetail(props) {
                     <View style={[style, { backgroundColor: 'rgba(0, 0, 0, 0.5)' }]} onStartShouldSetResponder={closeModal} />
                 )}
             >
-                <View className="flex gap-y-3 justify-between h-full px-5">
-                    <Text className="text-xl text-main-blue font-bold">{props.serviceStatus == 1 ? 'Service payment validation' : props.serviceStatus == 2 ? 'On going service' : props.serviceStatus == 3 ? 'Completed service' : ''}</Text>
-                    
-                    {props.serviceStatus == 1 &&
-                        <View className="flex justify-center w-full">
-                            {imageLoading && <ActivityIndicator size="large" color="#0000ff" />}
-                            <Image
-                                source={{ uri: `${API_URL}uploads/${props.serviceImage}` }}
-                                style={{ width: '100%', height: 128, borderRadius: 3 }}
-                                onLoadStart={() => {
-                                    setImageLoading(true);
-                                    setImageError(false); // Reset the image error state
-                                }}
-                                onLoad={() => {
-                                    setImageLoading(false);
-                                }}
-                                onError={() => {
-                                    setImageLoading(false);
-                                    setImageError(true);
-                                }}
-                            />
-                            {imageError && <Text style={{ color: 'red' }}>Failed to load image</Text>}
-                        </View>
-                    }
+                <View className={`flex gap-y-3 h-full px-5`}>
+                    <Text className="text-xl text-main-blue font-bold">{props.serviceStatus == 1 ? 'Service payment validation' : props.serviceStatus == 2 ? 'On going service' : props.serviceStatus == 3 ? 'Completed service' : props.serviceStatus == 4 ? 'Rejected service' : ''}</Text>
                     
                     <View className="flex gap-y-2">
+                        { props.serviceStatus == 1 &&
+                            <View className="flex flex-row justify-between items-center">
+                                <View className="flex flex-row items-center gap-x-3">
+                                    <MaterialCommunityIcons name="file-image" color="#222222" size={30} />
+                                    <Text className="text-lg">Payment</Text>
+                                </View>
+                                <TouchableWithoutFeedback onPress={() => {handleViewImage(props?.serviceImage)}}>
+                                    <Text className="text-lg">View image</Text>
+                                </TouchableWithoutFeedback>
+                            </View>                        
+                        }
+
                         <View className="flex flex-row justify-between items-center">
                             <View className="flex flex-row items-center gap-x-3">
                                 <MaterialCommunityIcons name="account" color="#222222" size={30} />
@@ -117,7 +118,7 @@ function ServiceCardDetail(props) {
                                 <MaterialCommunityIcons name="timelapse" color="#222222" size={30} />
                                 <Text className="text-lg">Status</Text>
                             </View>
-                            <Text className="text-lg">{props.serviceStatus == 1 ? 'Waiting validation' : props.serviceStatus == 2 ? 'On going' : props.serviceStatus == 3 ? 'Completed' : ''}</Text>
+                            <Text className="text-lg">{props.serviceStatus == 1 ? 'Waiting validation' : props.serviceStatus == 2 ? 'On going' : props.serviceStatus == 3 ? 'Completed' : props.serviceStatus == 4 ? 'Rejected' : ''}</Text>
                         </View>
 
                         {(props.serviceStatus == 2 || props.serviceStatus == 3) &&
@@ -184,6 +185,7 @@ function ServiceCardDetail(props) {
                     }
                 </View>
             </BottomSheetModal>
+            <ImageView image={image} imageLoading={imageLoading} setImageLoading={setImageLoading} imageError={imageError} setImageError={setImageError} isOpenPopUpImage={isOpenPopUpImage} setIsOpenPopUpImage={setIsOpenPopUpImage}/>
         </BottomSheetModalProvider>
     );
 }

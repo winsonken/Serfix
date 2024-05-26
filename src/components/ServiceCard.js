@@ -28,28 +28,28 @@ export default function ServiceCard(props) {
     };
 
     return (
-        <View className="bg-[#89CFF3] relative flex flex-row items-center w-full p-3 mt-3 rounded-xl shadow-sm shadow-[#ACA9A9]">
+        <View className="bg-[#89CFF3] relative flex flex-row items-center w-full space-x-2 p-3 mt-3 rounded-xl shadow-sm shadow-[#ACA9A9]">
             <View>
                 <MaterialCommunityIcons name={`${props.serviceType?.toLowerCase() == 'laptop' ? 'laptop' : props.serviceType?.toLowerCase() == 'phone' ? 'cellphone' : props.serviceType?.toLowerCase() == 'pc' ? 'desktop-tower-monitor' : ''}`} color="#FFFFFF" size={90} />
             </View>
 
-            <View className="flex gap-y-1">
+            <View className="flex space-y-1">
                 <Text className="text-base font-bold">{props.serviceDeviceName}</Text>
 
                 <View className="flex flex-row">
-                    <View className="flex flex-row gap-x-2">
+                    <View className="flex flex-row">
                         <MaterialCommunityIcons name="account" color="#222222" size={20} />
                         <Text>{props.serviceUser}</Text>
                     </View>
-                    <View className="flex flex-row gap-x-2 ml-2">
+                    <View className="flex flex-row space-x-1 ml-2">
                         <MaterialCommunityIcons name="tools" color="#222222" size={20} />
                         <Text>{props.serviceType?.replace(/^\w/, c => c.toUpperCase())} {props.serviceCategory}</Text>
                     </View>
                 </View>
 
-                <View className="flex flex-row gap-x-2">
+                <View className="flex flex-row space-x-1">
                     <MaterialCommunityIcons name="timelapse" color="#222222" size={20} />
-                    <Text>{props.serviceStatus == 1 ? 'Waiting validation' : props.serviceStatus == 2 ? 'On going' : props.serviceStatus == 3 ? 'Completed' : ''}</Text>
+                    <Text className="font-bold">{props.serviceStatus == 1 ? 'Waiting validation' : props.serviceStatus == 2 ? 'On going' : props.serviceStatus == 3 ? 'Completed' : props.serviceStatus == 4 ? 'Rejected' : ''}</Text>
                 </View>
             </View>
 

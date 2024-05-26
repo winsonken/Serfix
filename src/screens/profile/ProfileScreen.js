@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
+import PopUp from '../../components/PopUp'
 
 const ProfileScreen = () => {
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
@@ -30,7 +31,6 @@ const ProfileScreen = () => {
         .then(res => {
           AsyncStorage.clear()
             .then(() => {
-              alert("Log-out Success");
               navigation.navigate('LoginScreen');
             })
             .catch(error => {
@@ -102,7 +102,7 @@ const ProfileScreen = () => {
         </TouchableOpacity>
         
       </View>
-      
+    
       <StatusBar style="auto" />
     </View>
     )
