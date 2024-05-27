@@ -18,6 +18,7 @@ const LoginScreen = () => {
     const [message, setMessage] = useState('');
     const [token, setToken] = useState('');
     const [email, setEmail] = useState('');
+    const [isOpenPopUp, setIsOpenPopUp] = useState(false);
     const navigation = useNavigation();
     const [errors, setErrors] = useState({ user: '', password: ''});
 
@@ -61,8 +62,8 @@ const LoginScreen = () => {
                 setPassword('');
                 navigation.navigate('HomePage'); 
             } else if (data?.status == "error"){
-                if (data?.message?.toLowerCase() == "akun tidak terdaftar") setErrors(prev => ({ ...prev, user: data?.message }))
-                if (data?.message?.toLowerCase() == "password salah") setErrors(prev => ({ ...prev, password: data?.message }))
+                if (data?.message?.toLowerCase() == "Akun tidak terdaftar") setErrors(prev => ({ ...prev, user: data?.message }))
+                if (data?.message?.toLowerCase() == "Password salah") setErrors(prev => ({ ...prev, password: data?.message }))
             }
         } catch (error) {
             console.log(error)
@@ -131,7 +132,6 @@ const LoginScreen = () => {
                     </View>
                 </ScrollView>
             </View>
-
             <StatusBar style="auto" />
         </View>
     )

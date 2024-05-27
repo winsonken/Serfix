@@ -31,6 +31,7 @@ const ProfileScreen = () => {
         .then(res => {
           AsyncStorage.clear()
             .then(() => {
+              alert("Log-out Success");
               navigation.navigate('LoginScreen');
             })
             .catch(error => {

@@ -42,11 +42,8 @@ const LaptopScreen = () => {
             return;
         }
 
-        axios.post(`${API_URL}data/laptop/services`, { device, category1, selectedLocation, price, notes, id, username })
-            .then(res => {
-                console.log(device)
-                navigation.navigate('PaymentScreen', { serviceId: res.data.id, price: res.data.price, category: res.data.category, type: res.data.type, device:res.data.device, notes:res.data.notes });
-            }).catch(err => console.log(err));
+        const type = "Laptop"
+        navigation.navigate('PaymentScreen', { serviceId: id, price: price, category: category1, device:device, notes:notes, selectedLocation : selectedLocation, username : username, type : type });
     }
 
     useEffect(() => {

@@ -1,16 +1,16 @@
 import { View, Text, ScrollView, TouchableWithoutFeedback } from 'react-native';
-import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react';
+import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import TrackCard from '../../components/TrackCard';
 import TrackCardDetail from '../../components/TrackCardDetail';
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import { TouchableOpacity } from 'react-native-gesture-handler'
 
 function TrackScreen({ route }) {
     const API_URL = process.env.EXPO_PUBLIC_API_URL;
     const [id, setId] = useState("");
+    const [status, setStatus] = useState(1); // Default to 'Service' tab
     const [serviceTrack, setServiceTrack] = useState([]);
     const [activeTabs, setActiveTabs] = useState(1);
 
@@ -36,14 +36,14 @@ function TrackScreen({ route }) {
     useFocusEffect(
         useCallback(() => {
             if (id) {
-                fetchDataTrack(id);
+                fetchDataTrack(id, status);
             }
-        }, [id])
+        }, [id, status])
     );
 
-    const fetchDataTrack = async (id) => {
+    const fetchDataTrack = async (id, status) => {
         try {
-            const response = await axios.get(`${API_URL}track/${id}`);
+            const response = await axios.get(`${API_URL}track/${id}/${status}`);
             const data = response.data.data;
             setServiceTrack(data);
         } catch (error) {
@@ -56,66 +56,69 @@ function TrackScreen({ route }) {
     };
 
     const bottomSheetModalRef = useRef(null);
-    const snapPoints = ["80%"];
+    const snapPoints = [activeTabs == 1 ? "85%" : activeTabs == 4 ? "70%" : "80%"];
 
     const tabs = [
-        { id: 1, name: 'Service' },
-        { id: 2, name: 'On going' },
-        { id: 4, name: 'Rejected' },
+        { id: 1, name: 'Waiting Validation', status: 1 },
+        { id: 2, name: 'On going', status: 2 },
+        { id: 4, name: 'Rejected', status: 4 },
     ];
 
     return (
-        <View className="flex flex-1 px-5 py-5 bg-main-background">
-            <View className="flex flex-row space-x-2">
+        <View className="flex flex-1 bg-main-background px-5 py-5">
+            <ScrollView horizontal={true} className="w-full" style={{ flexGrow: 0}}>
+                <View className="flex flex-row space-x-2">
                 {tabs.map((tab) => (
                     <View key={tab.id}>
-                        <TouchableWithoutFeedback onPress={() => setActiveTabs(tab.id)}>
+                        <TouchableWithoutFeedback onPress={() => { setActiveTabs(tab.id); setStatus(tab.status); }}>
                             <View className={`px-3 py-2 rounded-md ${activeTabs === tab.id ? 'bg-main-blue' : 'bg-second-blue'}`}>
                                 <Text className="font-bold">{tab.name}</Text>
                             </View>
                         </TouchableWithoutFeedback>
                     </View>
                 ))}
-            </View>
+                </View>
+            </ScrollView>
 
-            <View className="flex w-full h-full">
-                <ScrollView showsVerticalScrollIndicator={false} >
+            <View className="flex flex-1">
+            <ScrollView showsVerticalScrollIndicator={false}>
                     <View className="flex justify-center items-center">
                         {serviceTrack?.map(track => (
-                                <TrackCard 
-                                    key={track.id}
-                                    serviceTrackUser={track.iduser}
-                                    serviceTrackDeviceName={track.device_name}
-                                    serviceTrackCategory={track.category}
-                                    serviceTrackStore={track.store}
-                                    serviceTrackPrice={track.price}
-                                    serviceTrackNotes={track.notes}
-                                    serviceTrackStatus={track.status}
-                                    serviceTrackType={track.type}
-                                    serviceTrackStartDate={track.start_date}
-                                    bottomSheetModalRef={bottomSheetModalRef}
-                                />
+                            <TrackCard 
+                                key={track.id}
+                                serviceTrackUser={track.iduser}
+                                serviceTrackDeviceName={track.device_name}
+                                serviceTrackCategory={track.category}
+                                serviceTrackStore={track.store}
+                                serviceTrackPrice={track.price}
+                                serviceTrackNotes={track.notes}
+                                serviceTrackStatus={track.status}
+                                serviceTrackType={track.type}
+                                serviceTrackStartDate={track.start_date}
+                                bottomSheetModalRef={bottomSheetModalRef}
+                            />
                         ))}
                     </View>
                 </ScrollView>
             </View>
 
-                <TrackCardDetail 
-                    refs={bottomSheetModalRef} 
-                    index={0}
-                    snapPoints={snapPoints}
-                    serviceTrack={serviceTrack}
-                    serviceTrackUser={serviceTrackUser}
-                    serviceTrackDeviceName={serviceTrackDeviceName}
-                    serviceTrackCategory={serviceTrackCategory}
-                    serviceTrackStore={serviceTrackStore}
-                    serviceTrackPrice={serviceTrackPrice}
-                    serviceTrackNotes={serviceTrackNotes}
-                    serviceTrackStatus={serviceTrackStatus}
-                    serviceTrackType={serviceTrackType}
-                    serviceTrackStartDate={serviceTrackStartDate}
-                    serviceTrackEndDate={serviceTrackEndDate}
-                />
+            <TrackCardDetail 
+                refs={bottomSheetModalRef} 
+                index={0}
+                snapPoints={snapPoints}
+                serviceTrack={serviceTrack}
+                serviceTrackUser={serviceTrackUser}
+                serviceTrackDeviceName={serviceTrackDeviceName}
+                serviceTrackCategory={serviceTrackCategory}
+                serviceTrackStore={serviceTrackStore}
+                serviceTrackPrice={serviceTrackPrice}
+                serviceTrackNotes={serviceTrackNotes}
+                serviceTrackStatus={serviceTrackStatus}
+                serviceTrackType={serviceTrackType}
+                serviceTrackStartDate={serviceTrackStartDate}
+                serviceTrackEndDate={serviceTrackEndDate}
+                activeTabs={activeTabs}
+            />
 
             <StatusBar style="auto" />
         </View>

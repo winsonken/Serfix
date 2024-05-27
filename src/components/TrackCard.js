@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Image } from 'react-native'
+import { View, Text, Pressable, Image, ScrollView } from 'react-native'
 import React from 'react'
 import { Link, useNavigation } from '@react-navigation/native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -33,7 +33,7 @@ export default function TrackCard( props ) {
 
           <View className="flex flex-row space-x-1">
             <MaterialCommunityIcons name="timelapse" color="#222222" size={20} />
-            <Text className="font-bold">{ props.serviceTrackStatus == 1 ? 'Waiting validation' : props.serviceTrackStatus == 2 ? 'On going' : props.serviceTrackStatus == 3 ? 'Completed' : ''}</Text>
+            <Text className="font-bold">{ props.serviceTrackStatus == 1 ? 'Waiting validation' : props.serviceTrackStatus == 2 ? 'On going' : props.serviceTrackStatus == 3 ? 'Completed' : props.serviceTrackStatus == 4 ? 'Rejected' : ''}</Text>
           </View>
         </View>
 

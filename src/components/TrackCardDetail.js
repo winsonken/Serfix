@@ -82,7 +82,7 @@ function TrackCardDetail(props) {
                     <MaterialCommunityIcons name="timelapse" color="#222222" size={30} />
                     <Text className="text-lg">Status</Text>
                   </View>
-                  <Text className="text-lg">{ props.serviceTrackStatus == 2 ? 'On going' : '' }</Text>
+                  <Text className="text-lg">{ props.serviceTrackStatus == 1 ? 'Waiting Validation' : props.serviceTrackStatus == 2 ? 'On going' : props.serviceTrackStatus == 4 ? 'Rejected' : '' }</Text>
                 </View>
 
                 <View className="flex flex-row justify-between items-center">
