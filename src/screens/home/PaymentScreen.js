@@ -18,6 +18,7 @@ const PaymentScreen = () => {
     const [isOpenPopUpError, setIsOpenPopUpError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [errorTitle, setErrorTitle] = useState('');
+    const [showPaymentGuide, setShowPaymentGuide] = useState(false);
 
     const [pickedDocument, setPickedDocument] = useState(null);
 
@@ -81,66 +82,107 @@ const PaymentScreen = () => {
         }
     };
 
+    const paymentGuide = [
+        { steps: 'Serfix hanya menerima pembayaran dengan transfer nomor rekening bank tertentu.' },
+        { steps: 'Customer bisa membayar dengan mentransfer ke nomor rekening bank yang telah disediakan.'},
+        { steps: 'Setelah mentransfer, silahkan mengupload bukti pembayaran pada form upload bukti pembayaran.'},
+        { steps: 'Setelah upload bukti pembayaran, pihak admin akan memvalidasi transaksi tersebut.'},
+        { steps: 'Setelah admin memvalidasi, pesanan customer akan langsung diproses oleh pihak toko.'}
+    ]
+
     return (
         <View className="flex flex-1 bg-main-background px-5 py-5">
             <ScrollView showsVerticalScrollIndicator={false}>
-            <View className="w-full h-full flex gap-y-10 pt-5">
-                <View className="flex bg-second-blue h-fit rounded-sm px-5 py-3 gap-y-3">
-                    <Text className="font-bold text-xl">Payment details</Text>
+            <View className="w-full h-full flex space-y-3">
+                <View className="flex bg-second-blue h-fit rounded-xl px-5 py-3 space-y-3">
+                    <Text className="font-bold text-lg">Payment details</Text>
                     <View className="flex w-full">
-                        <View className="border-b-2 border-dotted pb-8">
+                        <View className="border-b-2 border-dotted pb-3">
                             <View className="flex flex-row justify-between">
-                                <Text className="text-xl">Device</Text>
-                                <Text className="text-xl">{device}</Text>
+                                <Text className="text-sm">Device</Text>
+                                <Text className="text-sm">{device}</Text>
                             </View>
                             <View className="flex flex-row justify-between">
-                                <Text className="text-xl">Type</Text>
-                                <Text className="text-xl">{type} {category}</Text>
+                                <Text className="text-sm">Type</Text>
+                                <Text className="text-sm">{type} {category}</Text>
                             </View>
                             <View className="flex flex-row justify-between">
-                                <Text className="text-xl">Cost</Text>
-                                <Text className="text-xl">Rp. {price?.toLocaleString("id-ID")}</Text>
+                                <Text className="text-sm">Cost</Text>
+                                <Text className="text-sm">Rp. {price?.toLocaleString("id-ID")}</Text>
                             </View>
                             <View className="flex flex-row justify-between">
-                                <Text className="text-xl">Notes</Text>
-                                <Text className="text-xl">{notes}</Text>
+                                <Text className="text-sm">Notes</Text>
+                                <Text className="text-sm">{notes}</Text>
                             </View>
                         </View>
-                        <View className="flex flex-row justify-between items-center pt-5">
+                        <View className="flex flex-row justify-between items-center pt-3">
                             <Text className="text-xl">Total</Text>
                             <Text className="text-2xl text-[#2AB31E] font-medium">Rp. {price?.toLocaleString("id-ID")}</Text>
                         </View>
                     </View>
                 </View>
-                <View className="flex">
-                    <View className="flex flex-row">
-                        <Image source={require('../../../assets/payment/example-qr.png')} className="w-48 h-48" />
-                        <View>
-                            <Text>Transfer to:</Text>
-                            <Text>Serfix 123456789</Text>
+
+                <View className="flex bg-second-blue h-fit rounded-xl px-5 py-3 space-y-1">
+                    <Text className="font-bold text-base">Payment account</Text>
+                    <View className="flex">
+                        <View className="flex flex-row justify-between items-center">
+                            <Text className="text-base">BCA</Text>
+                            <Text>0834517613</Text>
+                        </View>
+
+                        <View className="flex flex-row justify-between items-center">
+                            <Text className="text-base">BRI</Text>
+                            <Text>0876423107</Text>
                         </View>
                     </View>
-                    <View className="mt-3">
+                </View>
+
+                <View className="flex bg-second-blue h-fit rounded-xl px-5 py-3 space-y-1">
+                    <View className="flex flex-row justify-between items-center">
+                        <Text className="font-bold text-base">Payment guide</Text>  
+                        <TouchableWithoutFeedback onPress={() => { setShowPaymentGuide(!showPaymentGuide)}}>
+                             <MaterialCommunityIcons name={ showPaymentGuide ? 'chevron-up' : 'chevron-down'} color="#000000" size={30} />
+                        </TouchableWithoutFeedback>   
+                    </View>
+
+                    <View className={`${showPaymentGuide ? 'block' : 'hidden'}`}>
+                        <View className="flex justify-start items-center">
+                            { paymentGuide?.map((paymentGuides, index) => (
+                                <View className="flex flex-row items-start space-x-1 w-full">
+                                    <Text className="font-bold">{ `${index + 1}.` }</Text>
+                                    <Text>{paymentGuides?.steps}</Text>
+                                </View>
+                            ))}
+                        </View>
+                    </View>
+                </View>
+                
+                <View className="flex py-1 space-y-3">
+                    <Text className="text-base font-bold text-center">Upload payment image</Text>
+                    <View>
                         <TouchableWithoutFeedback>
                             <View className="bg-second-blue p-2 rounded-md">
-                                <Text>{pickedDocument ? pickedDocument.name : 'No image selected'}</Text>
+                                <Text>{pickedDocument ? pickedDocument.name : 'No file chosen'}</Text>
                             </View>
                         </TouchableWithoutFeedback>
+
+                        <Text className="text-xs text-red-500">File must be JPG/JEPG/PNG</Text>
                     </View>
-                    <TouchableOpacity className="mt-12" onPress={pickDocument}>
+
+                    <TouchableOpacity className="" onPress={pickDocument}>
                         <View className="flex flex-row justify-center items-center bg-main-blue w-full p-2 rounded-md">
                             <MaterialCommunityIcons name="upload" color="#FFFFFF" size={30} />
-                            <Text className="text-lg text-center text-[#FFFFFF] font-medium">Pick payment image</Text>
+                            <Text className="text-base text-center text-[#FFFFFF] font-medium">Pick payment image</Text>
                         </View>
                     </TouchableOpacity>
+                    
                     <TouchableOpacity 
                         className="mt-12" 
                         onPress={handleUpload}
                         disabled={!pickedDocument} // Disable button if no document is picked
                     >
-                        <View className={`flex flex-row justify-center items-center w-full p-2 rounded-md ${pickedDocument ? 'bg-main-blue' : 'bg-gray-400'}`}>
-                            <MaterialCommunityIcons name="upload" color="#FFFFFF" size={30} />
-                            <Text className="text-lg text-center text-[#FFFFFF] font-medium">Upload payment image</Text>
+                        <View className={`flex flex-row justify-center items-center w-full px-2 py-5 rounded-md ${pickedDocument ? 'bg-main-blue' : 'bg-gray-400'}`}>
+                            <Text className="text-lg text-center text-[#FFFFFF] font-medium">Proceed</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

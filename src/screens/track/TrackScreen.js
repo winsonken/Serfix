@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import TrackCard from '../../components/TrackCard';
@@ -12,6 +12,8 @@ function TrackScreen({ route }) {
     const API_URL = process.env.EXPO_PUBLIC_API_URL;
     const [id, setId] = useState("");
     const [serviceTrack, setServiceTrack] = useState([]);
+    const [activeTabs, setActiveTabs] = useState(1);
+
     const serviceTrackUser = route.params?.serviceTrackUser;
     const serviceTrackDeviceName = route.params?.serviceTrackDeviceName;
     const serviceTrackCategory = route.params?.serviceTrackCategory;
@@ -56,8 +58,26 @@ function TrackScreen({ route }) {
     const bottomSheetModalRef = useRef(null);
     const snapPoints = ["80%"];
 
+    const tabs = [
+        { id: 1, name: 'Service' },
+        { id: 2, name: 'On going' },
+        { id: 4, name: 'Rejected' },
+    ];
+
     return (
         <View className="flex flex-1 px-5 py-5 bg-main-background">
+            <View className="flex flex-row space-x-2">
+                {tabs.map((tab) => (
+                    <View key={tab.id}>
+                        <TouchableWithoutFeedback onPress={() => setActiveTabs(tab.id)}>
+                            <View className={`px-3 py-2 rounded-md ${activeTabs === tab.id ? 'bg-main-blue' : 'bg-second-blue'}`}>
+                                <Text className="font-bold">{tab.name}</Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </View>
+                ))}
+            </View>
+
             <View className="flex w-full h-full">
                 <ScrollView showsVerticalScrollIndicator={false} >
                     <View className="flex justify-center items-center">

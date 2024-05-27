@@ -41,7 +41,7 @@ function TrackCardDetail(props) {
               )}    
         >
           
-            <View className="flex gap-y-3 justify-between h-full px-5">
+            <View className="flex gap-y-3 h-full px-5">
               <Text className="text-xl text-main-blue font-bold">Track Service</Text>
               
               <View className="flex gap-y-2">
@@ -74,7 +74,7 @@ function TrackCardDetail(props) {
                     <MaterialCommunityIcons name="currency-usd" color="#222222" size={30} />
                     <Text className="text-lg">Price</Text>
                   </View>
-                  <Text className="text-lg">Rp. { props.serviceTrackPrice }</Text>
+                  <Text className="text-lg">Rp. { props.serviceTrackPrice?.toLocaleString('id-ID') }</Text>
                 </View>
 
                 <View className="flex flex-row justify-between items-center">

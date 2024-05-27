@@ -1,5 +1,5 @@
 import { View, Text, Image, ActivityIndicator, TouchableWithoutFeedback } from 'react-native';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
     BottomSheetModal,
     BottomSheetModalProvider,
@@ -9,6 +9,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import ImageView from './ImageView';
+import { useNavigation } from '@react-navigation/native'
 
 function ServiceCardDetail(props) {
     const API_URL = process.env.EXPO_PUBLIC_API_URL;
@@ -17,22 +18,27 @@ function ServiceCardDetail(props) {
     const [imageError, setImageError] = useState(false);
     const [image, setImage] = useState('');
     const [isOpenPopUpImage, setIsOpenPopUpImage] = useState('');
+    const [isOpenPopUpErrorImage, setIsOpenPopUpErrorImage] = useState(false);
+    const [isOpenPopUpSuccess, setIsOpenPopUpSuccess] = useState(false);
+    const [isOpenPopUpReject, setIsOpenPopUpReject] = useState(false);
+    const [isOpenPopUpFinish, setIsOpenPopUpFinish] = useState(false);
 
-    const handleApiCall = async (url) => {
+    const handleApiCall = async (url, service) => {
+        const serviceRequest = service;
         try {
             const id = props.serviceId;
             const response = await axios.put(`${url}/${id}`);
-            alert('Success', 'Data has been successfully updated.');
+            serviceRequest == 'accept' ? setIsOpenPopUpSuccess(true) : serviceRequest == 'reject' ? setIsOpenPopUpReject(true) : setIsOpenPopUpFinish(true);
             props.refs.current?.close();
             props.fetchDataValidation(props.activeTabs); // Fetch the data immediately after the API call
         } catch (err) {
-            console.error('Error:', err);
+            console.log('Error:', err);
         }
     };
 
-    const validation = () => handleApiCall(`${API_URL}admin-page-ongoing`);
-    const accept = () => handleApiCall(`${API_URL}admin-page-accept`);
-    const reject = () => handleApiCall(`${API_URL}admin-page-reject`);
+    const validation = () => handleApiCall(`${API_URL}admin-page-ongoing`, 'finish');
+    const accept = () => handleApiCall(`${API_URL}admin-page-accept`, 'accept');
+    const reject = () => handleApiCall(`${API_URL}admin-page-reject`, 'reject');
 
     const closeModal = () => props.refs.current?.close();
 
@@ -54,6 +60,11 @@ function ServiceCardDetail(props) {
         setImage(image);
         setIsOpenPopUpImage(true);
     }
+
+    useEffect(() => {
+        setIsOpenPopUpErrorImage(false);
+        setImageError(false);
+    }, [])
 
     return (
         <BottomSheetModalProvider>
@@ -110,7 +121,7 @@ function ServiceCardDetail(props) {
                                 <MaterialCommunityIcons name="currency-usd" color="#222222" size={30} />
                                 <Text className="text-lg">Price</Text>
                             </View>
-                            <Text className="text-lg">Rp. {props.servicePrice}</Text>
+                            <Text className="text-lg">Rp. {props.servicePrice?.toLocaleString('id-ID')}</Text>
                         </View>
 
                         <View className="flex flex-row justify-between items-center">
@@ -185,9 +196,47 @@ function ServiceCardDetail(props) {
                     }
                 </View>
             </BottomSheetModal>
-            <ImageView image={image} imageLoading={imageLoading} setImageLoading={setImageLoading} imageError={imageError} setImageError={setImageError} isOpenPopUpImage={isOpenPopUpImage} setIsOpenPopUpImage={setIsOpenPopUpImage}/>
+            <ImageView image={image} imageLoading={imageLoading} setImageLoading={setImageLoading} imageError={imageError} setImageError={setImageError} isOpenPopUpImage={isOpenPopUpImage} setIsOpenPopUpImage={setIsOpenPopUpImage} isOpenPopUpErrorImage={isOpenPopUpErrorImage} setIsOpenPopUpErrorImage={setIsOpenPopUpErrorImage}/>
+            <PopUpService title="Service accepted" content="Service accepted succesfully!" isOpenPopUp={isOpenPopUpSuccess} setIsOpenPopUp={setIsOpenPopUpSuccess} />
+            <PopUpService title="Service rejected" content="Service rejected succesfully!" isOpenPopUp={isOpenPopUpReject} setIsOpenPopUp={setIsOpenPopUpReject} />
+            <PopUpService title="Service completed" content="Service completed succesfully!" isOpenPopUp={isOpenPopUpFinish} setIsOpenPopUp={setIsOpenPopUpFinish} />
         </BottomSheetModalProvider>
     );
 }
 
 export default ServiceCardDetail;
+
+export function PopUpService(props) {
+  const { title, content, isOpenPopUp, setIsOpenPopUp } = props;
+  const navigation = useNavigation();
+
+  const handleClick = () => {
+    setIsOpenPopUp(false);
+    
+  }
+
+  return (
+    <View className={`absolute top-0 bottom-0 left-0 right-0 ${isOpenPopUp ? 'block' : 'hidden'}`} style={{ backgroundColor: 'rgba(34,34,34,0.3)' }}>
+      <View className="w-full h-full flex justify-center items-center">
+          <View className="bg-white w-4/5 h-fit min-h-32 flex justify-between rounded-md p-2">
+            <View>
+                <View className="flex flex-row items-center space-x-2">
+                    <MaterialCommunityIcons name="check-circle" color="#65B741" size={30}/>
+                    <Text className="text-xl font-medium text-center">{ title || 'Title'}</Text>
+                </View>
+
+                <View className="py-3">
+                    <Text>{content}</Text>
+                </View>
+            </View>
+
+            <View className="flex items-center">
+                <TouchableOpacity className="flex justify-center items-center bg-green-500 w-12 h-8 rounded-md" onPress={handleClick}>
+                    <Text className="text-white font-bold">OK</Text>
+                </TouchableOpacity>
+            </View>
+          </View>
+      </View>
+    </View>
+  )
+}

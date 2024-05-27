@@ -66,7 +66,7 @@ export default function HistoryCardDetail(props) {
                     <MaterialCommunityIcons name="currency-usd" color="#222222" size={30} />
                     <Text className="text-lg">Price</Text>
                   </View>
-                  <Text className="text-lg">Rp. { props.serviceHistoryPrice }</Text>
+                  <Text className="text-lg">Rp. { props.serviceHistoryPrice?.toLocaleString('id-ID') }</Text>
                 </View>
 
                 <View className="flex flex-row justify-between items-center">

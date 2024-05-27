@@ -41,7 +41,7 @@ function ServiceScreen({ route }) {
                 // Handle 404 error (data not found)
                 setServices([]);
             } else {
-                console.error('Error fetching data:', error);
+                console.log('Error fetching data:', error);
             }
         }
     };
