@@ -33,6 +33,9 @@ const ProfileScreen = () => {
             .then(() => {
               alert("Log-out Success");
               navigation.navigate('LoginScreen');
+              console.log(username)
+              console.log(email)
+              console.log(phone)
             })
             .catch(error => {
               console.error('Error clearing AsyncStorage:', error);

@@ -205,32 +205,20 @@ const PaymentScreen = () => {
                         </View>
                     </View>
                     
-                    <View className="flex py-1 space-y-3">
-                        <Text className="text-base font-bold text-center">Upload payment image</Text>
-                        <View>
-                            <TouchableWithoutFeedback>
-                                <View className="bg-second-blue p-2 rounded-md">
-                                    <Text>{pickedDocument ? pickedDocument.name : 'No file chosen'}</Text>
-                                </View>
-                            </TouchableWithoutFeedback>
-
-                            <Text style={{ display: pickedDocument ? 'none' : 'block' }} className="text-xs text-red-500">File must be JPG/JEPG/PNG</Text>
+                    <View className="flex bg-second-blue h-fit rounded-xl px-5 py-3 space-y-3">
+                        <Text className="font-bold text-lg">Upload your payment proof</Text>
+                        <View className="flex flex-row justify-between items-center">
+                            <Text className="text-base">{pickedDocument ? pickedDocument.name : 'No document selected'}</Text>
+                            <TouchableOpacity onPress={pickDocument}>
+                                <MaterialCommunityIcons name="upload" size={30} color="black" />
+                            </TouchableOpacity>
                         </View>
-
-                        <TouchableOpacity className="bg-second-blue rounded-md p-2" onPress={pickDocument}>
-                            <Text className="text-center font-bold">Choose File</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity 
-                            className="mt-12" 
-                            onPress={handleProceed}
-                            disabled={!pickedDocument} // Disable button if no document is picked
-                        >
-                            <View className={`flex flex-row justify-center items-center w-full px-2 py-5 rounded-md ${pickedDocument ? 'bg-main-blue' : 'bg-gray-400'}`}>
-                                <Text className="text-lg text-center text-[#FFFFFF] font-medium">Proceed</Text>
-                            </View>
-                    </TouchableOpacity>
                     </View>
+                    <View className="w-full flex py-2 bg-main-background">
+                <TouchableOpacity onPress={handleProceed} className="w-full flex bg-main-blue p-2 rounded-lg">
+                    <Text className="text-white text-center text-lg font-bold">Proceed</Text>
+                </TouchableOpacity>
+            </View>
                 </View>
             </ScrollView>
             <PopUpSuccess title="Service success" content="Bukti telah berhasil di upload, silahkan menunggu konfirmasi dari admin" isOpenPopUp={isOpenPopUp} setIsOpenPopUp={setIsOpenPopUp} />

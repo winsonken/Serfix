@@ -86,9 +86,9 @@ function ServiceCardDetail(props) {
                                     <MaterialCommunityIcons name="file-image" color="#222222" size={30} />
                                     <Text className="text-lg">Payment</Text>
                                 </View>
-                                <TouchableWithoutFeedback onPress={() => {handleViewImage(props?.serviceImage)}}>
-                                    <Text className="text-lg">View image</Text>
-                                </TouchableWithoutFeedback>
+                                <TouchableOpacity className="bg-gray-300 flex justify-center items-center px-2 py-1 rounded-md" onPress={() => {handleViewImage(props?.serviceImage)}}>
+                                    <Text className="text-base">View image</Text>
+                                </TouchableOpacity>
                             </View>                        
                         }
 
