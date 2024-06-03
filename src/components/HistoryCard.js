@@ -33,8 +33,8 @@ export default function HistoryCard( props ) {
           </View>
 
           <View className="flex flex-row space-x-1">
-            <MaterialCommunityIcons name="timelapse" color="#222222" size={20} />
-            <Text className="font-bold">{ props.serviceHistoryStatus == 1 ? 'Waiting validation' : props.serviceHistoryStatus == 2 ? 'On going' : props.serviceHistoryStatus == 3 ? 'Completed' : ''}</Text>
+            <MaterialCommunityIcons name="timelapse" color="#4d7c0f" size={20} />
+            <Text className="font-bold text-green-700">{ props.serviceHistoryStatus == 3 ? 'Completed' : ''}</Text>
           </View>
         </View>
       </TouchableOpacity>

@@ -14,6 +14,7 @@ const ProfileScreen = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
+    const [isOpenPopUpLogout, setIsOpenPopUpLogout] = useState(false);
     axios.defaults.withCredentials = true;
 
     AsyncStorage.getItem('username').then(value => {
@@ -31,11 +32,7 @@ const ProfileScreen = () => {
         .then(res => {
           AsyncStorage.clear()
             .then(() => {
-              alert("Log-out Success");
-              navigation.navigate('LoginScreen');
-              console.log(username)
-              console.log(email)
-              console.log(phone)
+              setIsOpenPopUpLogout(true);
             })
             .catch(error => {
               console.error('Error clearing AsyncStorage:', error);
@@ -50,7 +47,7 @@ const ProfileScreen = () => {
     <View className="flex flex-1 bg-main-background px-2 py-5">
       
       <View className="flex w-full h-full">
-        <View className="bg-[#FFFFFF] px-3 py-5 flex flex-row justify-between items-center rounded-lg shadow-sm shadow-[#ACA9A9] border-b border-[#CCCCCC]">
+        <View className="bg-[#FFFFFF] px-3 py-4 flex flex-row justify-between items-center rounded-lg shadow-sm shadow-[#ACA9A9] border-b border-[#CCCCCC]">
           <View className="flex flex-row items-center gap-x-3">
             <MaterialCommunityIcons name="account" color="#00A9FF" size={30} />
             <Text className="text-base font-medium">Username</Text>
@@ -61,7 +58,7 @@ const ProfileScreen = () => {
           </View>
         </View>
 
-        <View className="bg-[#FFFFFF] px-3 py-5 flex flex-row justify-between items-center rounded-lg shadow-sm shadow-[#ACA9A9] border-b border-[#CCCCCC]">
+        <View className="bg-[#FFFFFF] px-3 py-4 flex flex-row justify-between items-center rounded-lg shadow-sm shadow-[#ACA9A9] border-b border-[#CCCCCC]">
           <View className="flex flex-row items-center gap-x-3">
             <MaterialCommunityIcons name="email" color="#00A9FF" size={30} />
             <Text className="text-base font-medium">Email</Text>
@@ -72,7 +69,7 @@ const ProfileScreen = () => {
           </View>
         </View>
 
-        <View className="bg-[#FFFFFF] px-3 py-5 flex flex-row justify-between items-center rounded-lg shadow-sm shadow-[#ACA9A9] border-b border-[#CCCCCC]">
+        <View className="bg-[#FFFFFF] px-3 py-4 flex flex-row justify-between items-center rounded-lg shadow-sm shadow-[#ACA9A9] border-b border-[#CCCCCC]">
           <View className="flex flex-row items-center gap-x-3">
             <MaterialCommunityIcons name="phone" color="#00A9FF" size={30} />
             <Text className="text-base font-medium">Phone</Text>
@@ -83,7 +80,7 @@ const ProfileScreen = () => {
           </View>
         </View>
 
-        <TouchableOpacity onPress={() => { navigation.navigate('HomePage', {screen: 'HelpCenterScreen'}) }} className="bg-[#FFFFFF] px-3 py-5 flex flex-row justify-between items-center rounded-lg shadow-sm shadow-[#ACA9A9] border-b border-[#CCCCCC]">
+        <TouchableOpacity onPress={() => { navigation.navigate('HomePage', {screen: 'HelpCenterScreen'}) }} className="bg-[#FFFFFF] px-3 py-4 flex flex-row justify-between items-center rounded-lg shadow-sm shadow-[#ACA9A9] border-b border-[#CCCCCC]">
           <View className="flex flex-row items-center gap-x-3">
             <MaterialCommunityIcons name="help-circle" color="#00A9FF" size={30} />
             <Text className="text-base font-medium">Help Center</Text>
@@ -108,8 +105,44 @@ const ProfileScreen = () => {
       </View>
     
       <StatusBar style="auto" />
+      <PopUpLogoutSuccess title="Logout success" content="You have been logged out!" isOpenPopUp={isOpenPopUpLogout} setIsOpenPopUp={setIsOpenPopUpLogout}/>
     </View>
     )
 }
 
 export default ProfileScreen
+
+export function PopUpLogoutSuccess(props) {
+  const { title, content, isOpenPopUp, setIsOpenPopUp } = props;
+  const navigation = useNavigation();
+
+  const handleClick = () => {
+    setIsOpenPopUp(false);
+    navigation.navigate('LoginScreen');
+  }
+
+  return (
+    <View className={`absolute top-0 bottom-0 left-0 right-0 ${isOpenPopUp ? 'block' : 'hidden'}`} style={{ backgroundColor: 'rgba(34,34,34,0.3)' }}>
+      <View className="w-full h-full flex justify-center items-center">
+          <View className="bg-white w-4/5 h-fit min-h-32 flex justify-between rounded-md p-2">
+            <View>
+                <View className="flex flex-row items-center space-x-2">
+                    <MaterialCommunityIcons name="check-circle" color="#65B741" size={30}/>
+                    <Text className="text-xl font-medium text-center">{ title || 'Title'}</Text>
+                </View>
+
+                <View className="py-3">
+                    <Text>{content}</Text>
+                </View>
+            </View>
+
+            <View className="flex items-center">
+                <TouchableOpacity className="flex justify-center items-center bg-green-500 w-12 h-8 rounded-md" onPress={handleClick}>
+                    <Text className="text-white font-bold">OK</Text>
+                </TouchableOpacity>
+            </View>
+          </View>
+      </View>
+    </View>
+  )
+}

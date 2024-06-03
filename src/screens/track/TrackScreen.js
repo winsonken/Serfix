@@ -24,6 +24,7 @@ function TrackScreen({ route }) {
     const serviceTrackType = route.params?.serviceTrackType;
     const serviceTrackStartDate = route.params?.serviceTrackStartDate;
     const serviceTrackEndDate = route.params?.serviceTrackEndDate;
+    const serviceTrackImage = route.params?.serviceTrackImage;
 
     useEffect(() => {
         const getId = async () => {
@@ -59,7 +60,7 @@ function TrackScreen({ route }) {
     const snapPoints = [activeTabs == 1 ? "85%" : activeTabs == 4 ? "70%" : "80%"];
 
     const tabs = [
-        { id: 1, name: 'Waiting Validation', status: 1 },
+        { id: 1, name: 'Pending', status: 1 },
         { id: 2, name: 'On going', status: 2 },
         { id: 4, name: 'Rejected', status: 4 },
     ];
@@ -86,6 +87,7 @@ function TrackScreen({ route }) {
                         {serviceTrack?.map(track => (
                             <TrackCard 
                                 key={track.id}
+                                serviceTrackImage={track.image}
                                 serviceTrackUser={track.iduser}
                                 serviceTrackDeviceName={track.device_name}
                                 serviceTrackCategory={track.category}
@@ -117,6 +119,7 @@ function TrackScreen({ route }) {
                 serviceTrackType={serviceTrackType}
                 serviceTrackStartDate={serviceTrackStartDate}
                 serviceTrackEndDate={serviceTrackEndDate}
+                serviceTrackImage={serviceTrackImage}
                 activeTabs={activeTabs}
             />
 

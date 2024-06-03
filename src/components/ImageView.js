@@ -5,13 +5,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import PopUpError from './PopUpError';
 
 export default function ImageView(props) {
-  const { image, imageLoading, setImageLoading, imageError, setImageError, isOpenPopUpImage, setIsOpenPopUpImage, isOpenPopUpErrorImage, setIsOpenPopUpErrorImage} = props;
+  const { image, imageLoading, setImageLoading, imageError, setImageError, isOpenPopUpImage, setIsOpenPopUpImage, isOpenPopUpErrorImage, setIsOpenPopUpErrorImage, handleViewImage} = props;
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const [imageHeight, setImageHeight] = useState(0);
-  // const [isOpenPopUp, setIsOpenPopUp] = useState(false);
 
   useEffect(() => {
-    if (image && isOpenPopUpImage) {
+    if (image != '' && image != null && isOpenPopUpImage) {
       setImageError(false);
       setImageLoading(false);
       Image.getSize(`${API_URL}uploads/${image}`, (width, height) => {
@@ -24,18 +23,25 @@ export default function ImageView(props) {
         setImageLoading(false);
         console.log('Failed to get image size:', error);
       });
+    } else if (!image && isOpenPopUpImage) {
+      setImageError(true)
+      setImageLoading(false);
     }
-  }, [image, isOpenPopUpImage]);
+  }, [isOpenPopUpImage]);
 
   useEffect(() => {
-    if (imageError || image == '' || image == null) {
+    if (imageError) {
       setIsOpenPopUpErrorImage(true);
       setImageLoading(false);
-    } else {
-      setIsOpenPopUpErrorImage(false);
-      setImageLoading(false);
     }
-  }, [imageError, image])
+  }, [imageError])
+
+  const handleClosePopUpErrorImage = () => {
+    setIsOpenPopUpErrorImage(false);
+    setIsOpenPopUpImage(false);
+    setImageError(false);
+    setImageHeight(0);
+  }
 
   return (
     <View className={`absolute top-0 bottom-0 left-0 right-0 ${isOpenPopUpImage ? 'block' : 'hidden'} z-50`} style={{ backgroundColor: 'rgba(34,34,34,0.5)' }}>
@@ -71,20 +77,13 @@ export default function ImageView(props) {
                 </View>
         </View>
 
-        <PopUpErrorImage title="Error" content="Failed to load image" isOpenPopUp={isOpenPopUpErrorImage} setIsOpenPopUp={setIsOpenPopUpErrorImage} setIsOpenPopUpImage={setIsOpenPopUpImage} setImageError={setImageError} setImageHeight={setImageHeight}/>
+        <PopUpErrorImage title="Error" content="Failed to load image" isOpenPopUp={isOpenPopUpErrorImage} handleClose={handleClosePopUpErrorImage} />
     </View>
   )
 }
 
 export function PopUpErrorImage(props) {
-  const { title, content, isOpenPopUp, setIsOpenPopUp, setIsOpenPopUpImage, setImageError, setImageHeight } = props;
-
-  const handleClose = () => {
-    setIsOpenPopUp(false);
-    setIsOpenPopUpImage(false);
-    setImageError(false);
-    setImageHeight(0);
-  }
+  const { title, content, isOpenPopUp, handleClose } = props;
  
   return (
     <View className={`absolute top-0 bottom-0 left-0 right-0 ${isOpenPopUp ? 'block' : 'hidden'}`} style={{ backgroundColor: 'rgba(34,34,34,0.3)' }}>
@@ -96,7 +95,7 @@ export function PopUpErrorImage(props) {
                     <Text className="text-xl font-medium text-center">{ title || 'Title'}</Text>
                 </View>
 
-                <View className="py-3">
+                <View className="py-3 flex items-center">
                     <Text>{content}</Text>
                 </View>
             </View>

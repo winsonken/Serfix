@@ -21,8 +21,10 @@ const PhoneScreen = () => {
     const [location, setLocation] = useState([]);
     const [selectedLocation, setSelectedLocation] = useState("");
     const [notes, setNotes] = useState("");
-    const [errors, setErrors] = useState({ device: '', category: '', location: '' });
+    const [errors, setErrors] = useState({ device: '', category: '', location: '', notes: '' });
     axios.defaults.withCredentials = true;
+    const maxDeviceLength = 15;
+    const maxNotes = 35;
 
     function handleSubmit() {
         // Reset errors
@@ -32,13 +34,22 @@ const PhoneScreen = () => {
         if (!device) {
             setErrors(prev => ({ ...prev, device: 'Device name cannot be empty' }));
             return;
+        } else if (device?.length > maxDeviceLength) {
+            setErrors(prev => ({ ...prev, device: `Device name cannot exceed ${maxDeviceLength} characters` }));
+            return;
         }
+        
         if (!category1) {
             setErrors(prev => ({ ...prev, category: 'Category cannot be empty' }));
             return;
         }
         if (!selectedLocation) {
             setErrors(prev => ({ ...prev, location: 'Location cannot be empty' }));
+            return;
+        }
+
+        if (notes?.length > maxNotes) {
+            setErrors(prev => ({ ...prev, notes: `Notes name cannot exceed ${maxNotes} characters` }));
             return;
         }
 
@@ -211,7 +222,7 @@ const PhoneScreen = () => {
                         <View>
                             <View className="flex gap-3">
                                 <Text className="text-lg font-medium">Device</Text>
-                                <TextInput className="bg-[#CDF5FD] rounded-md px-3 py-2" placeholder="Device name" placeholderTextColor={"#00A9FF"} onChangeText={text => setDevice(text)}/>
+                                <TextInput className="bg-main-gray rounded-md px-3 py-2" placeholder="Device name" placeholderTextColor={"rgba(0,0,0,0.5)"} onChangeText={text => setDevice(text)}/>
                             </View>
                             {errors.device ? <Text className="text-red-500">{errors.device}</Text> : null}
                         </View>
@@ -226,10 +237,10 @@ const PhoneScreen = () => {
                                     valueField="value"
                                     placeholder="Select category"
                                     searchPlaceholder="Search category"
-                                    className="bg-[#CDF5FD] rounded-md px-3 py-2"
+                                    className="bg-main-gray rounded-md px-3 py-2"
                                     onChange={handleCategoryChange}
                                     value={category1}
-                                    placeholderStyle={{ color: "#00A9FF" }}
+                                    placeholderStyle={{ color: "rgba(0,0,0,0.5)" }}
                                 />
                             </View>
                             {errors.category ? <Text className="text-red-500">{errors.category}</Text> : null}
@@ -245,10 +256,10 @@ const PhoneScreen = () => {
                                     valueField="value"
                                     placeholder="Select location"
                                     searchPlaceholder="Search location"
-                                    className="bg-[#CDF5FD] rounded-md px-3 py-2"
+                                    className="bg-main-gray rounded-md px-3 py-2"
                                     onChange={handleLocationChange}
                                     value={selectedLocation}
-                                    placeholderStyle={{ color: "#00A9FF" }}
+                                    placeholderStyle={{ color: "rgba(0,0,0,0.5)" }}
                                 />
                             </View>
                             {errors.location ? <Text className="text-red-500">{errors.location}</Text> : null}
@@ -259,9 +270,12 @@ const PhoneScreen = () => {
                             <Text className="text-xl font-medium" onChangeText={text => setPrice(text)}>Rp. {price}</Text>
                         </View>
 
-                        <View className="flex flex-col gap-y-3">
-                            <Text className="text-lg font-medium">Notes</Text>
-                            <TextInput className="bg-[#CDF5FD] p-3 rounded-md" multiline numberOfLines={3} textAlignVertical="top" placeholder="Notes" placeholderTextColor="#00A9FF" onChangeText={text => setNotes(text)}/>
+                        <View>
+                            <View className="flex flex-col gap-y-3">
+                                <Text className="text-lg font-medium">Notes</Text>
+                                <TextInput className="bg-main-gray p-3 rounded-md" multiline numberOfLines={3} textAlignVertical="top" placeholder="Notes" placeholderTextColor="rgba(0,0,0,0.5)" onChangeText={text => setNotes(text)}/>
+                            </View>
+                            {errors.notes ? <Text className="text-red-500">{errors.notes}</Text> : null}
                         </View>
 
                         <View className="flex flex-col gap-y-3">
@@ -275,7 +289,7 @@ const PhoneScreen = () => {
                         </View>
                         
                         <View className="flex items-end">
-                            <TouchableOpacity className="bg-main-blue w-2/5 flex items-center py-2 rounded mt-3" onPress={handleSubmit}>
+                            <TouchableOpacity className="bg-main-blue w-2/5 flex items-center py-2 rounded-lg mt-3" onPress={handleSubmit}>
                                 <Text className="text-[#FFFFFF] text-lg font-medium">Checkout</Text>
                             </TouchableOpacity>
                         </View>

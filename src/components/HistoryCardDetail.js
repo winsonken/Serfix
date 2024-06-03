@@ -58,7 +58,10 @@ export default function HistoryCardDetail(props) {
                     <MaterialCommunityIcons name="devices" color="#222222" size={30} />
                     <Text className="text-lg">Device</Text>
                   </View>
-                  <Text className="text-lg">{ props.serviceHistoryDeviceName }</Text>
+
+                  <View className="flex items-end w-52">
+                    <Text className="text-base">{ props.serviceHistoryDeviceName }</Text>
+                  </View>
                 </View>
 
                 <View className="flex flex-row justify-between items-center">
@@ -115,7 +118,10 @@ export default function HistoryCardDetail(props) {
                     <MaterialCommunityIcons name="message-bulleted" color="#222222" size={30} />
                     <Text className="text-lg">Notes</Text>
                   </View>
-                  <Text className="text-lg">{ props.serviceHistoryNotes }</Text>
+
+                  <View className="flex items-end w-52">
+                    <Text className="text-base">{ props.serviceHistoryNotes }</Text>
+                  </View>
                 </View>
             </View>
         </BottomSheetModal>

@@ -70,23 +70,23 @@ const RegisterScreen = () => {
 
                             <View className="flex gap-y-5 w-full">
                                 <View>
-                                    <TextInput placeholder="Name" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setUsername(text)}/>
+                                    <TextInput placeholder="Name" className="bg-main-gray px-3 py-2 rounded-md placeholder:text-second-gray placeholder:font-medium" placeholderTextColor="rgba(0,0,0,0.5)" onChangeText={text => setUsername(text)}/>
                                 </View>
 
                                 <View>
-                                    <TextInput placeholder="Email" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setEmail(text)}/>
+                                    <TextInput placeholder="Email" className="bg-main-gray px-3 py-2 rounded-md placeholder:text-second-gray placeholder:font-medium" placeholderTextColor="rgba(0,0,0,0.5)" onChangeText={text => setEmail(text)}/>
                                 </View>
 
                                 <View>
-                                    <TextInput keyboardType='numeric' placeholder="Phone number" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setPhone(text)}/>
+                                    <TextInput keyboardType='numeric' placeholder="Phone number" className="bg-main-gray px-3 py-2 rounded-md placeholder:text-second-gray placeholder:font-medium" placeholderTextColor="rgba(0,0,0,0.5)" onChangeText={text => setPhone(text)}/>
                                 </View>
 
                                 <View className="relative">
-                                    <TextInput secureTextEntry={!showPassword} placeholder="Password" className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue" placeholderTextColor="#00A9FF" onChangeText={text => setPass(text)}/>
+                                    <TextInput secureTextEntry={!showPassword} placeholder="Password" className="bg-main-gray px-3 py-2 rounded-md placeholder:text-second-gray placeholder:font-medium" placeholderTextColor="rgba(0,0,0,0.5)" onChangeText={text => setPass(text)}/>
                                     <View style={{ position: 'absolute', top: '50%', right: 15, transform: [{ translateY: -12.5 }] }}>
                                         { !showPassword ? 
-                                            <MaterialCommunityIcons name="eye" color="#00A9FF" size={25} onPress={() => setShowPassword(!showPassword)}/> : 
-                                            <MaterialCommunityIcons name="eye-off" color="#00A9FF" size={25} onPress={() => setShowPassword(!showPassword)}/> 
+                                            <MaterialCommunityIcons name="eye" color="rgba(0,0,0,0.5)" size={25} onPress={() => setShowPassword(!showPassword)}/> : 
+                                            <MaterialCommunityIcons name="eye-off" color="rgba(0,0,0,0.5)" size={25} onPress={() => setShowPassword(!showPassword)}/> 
                                         }
                                     </View>
                                 </View>

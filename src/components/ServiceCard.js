@@ -48,8 +48,8 @@ export default function ServiceCard(props) {
                 </View>
 
                 <View className="flex flex-row space-x-1">
-                    <MaterialCommunityIcons name="timelapse" color="#222222" size={20} />
-                    <Text className="font-bold">{props.serviceStatus == 1 ? 'Waiting validation' : props.serviceStatus == 2 ? 'On going' : props.serviceStatus == 3 ? 'Completed' : props.serviceStatus == 4 ? 'Rejected' : ''}</Text>
+                    <MaterialCommunityIcons name="timelapse" color={`${props.serviceStatus == 1 ? '#fde047' : props.serviceStatus == 2 ? '#6b7280' : props.serviceStatus == 3 ? '#4d7c0f' : props.serviceStatus == 4 ? '#dc2626' : '#222222'}`} size={20} />
+                    <Text className={`font-bold ${props.serviceStatus == 1 ? 'text-yellow-300' : props.serviceStatus == 2 ? 'text-gray-500' : props.serviceStatus == 3 ? 'text-green-700' : props.serviceStatus == 4 ? 'text-red-600' : ''}`}>{props.serviceStatus == 1 ? 'Pending' : props.serviceStatus == 2 ? 'On going' : props.serviceStatus == 3 ? 'Completed' : props.serviceStatus == 4 ? 'Rejected' : ''}</Text>
                 </View>
             </View>
 

@@ -34,6 +34,8 @@ const LoginScreen = () => {
                     AsyncStorage.setItem('phone', JSON.stringify(res.data.phone));
                     AsyncStorage.setItem('role', res.data.role);
                     navigation.navigate('HomePage');
+                    setUser('');
+                    setPassword('');
                 } else {
                     handleErrors(res.data.message);
                 }
@@ -66,7 +68,7 @@ const LoginScreen = () => {
             navigation.navigate('HomePage');
         }
     }, [token]);    
-    
+  
     const [showPassword, setShowPassword] = useState(false);
 
     return (
@@ -87,9 +89,10 @@ const LoginScreen = () => {
                                 <View>
                                     <TextInput
                                         placeholder="Email"
-                                        className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue"
-                                        placeholderTextColor="#00A9FF"
+                                        className="bg-main-gray px-3 py-2 rounded-md placeholder:text-second-gray placeholder:font-medium"
+                                        placeholderTextColor="rgba(0,0,0,0.5)"
                                         onChangeText={text => setUser(text)}
+                                        value={user}
                                     />
                                     {emailError ? <Text className="text-red-500">{emailError}</Text> : null}
                                 </View>
@@ -99,13 +102,14 @@ const LoginScreen = () => {
                                         secureTextEntry={!showPassword}
                                         textContentType='password'
                                         placeholder="Password"
-                                        className="bg-second-blue px-3 py-2 rounded-md placeholder:text-main-blue"
-                                        placeholderTextColor="#00A9FF"
+                                        className="bg-main-gray px-3 py-2 rounded-md placeholder:text-second-gray placeholder:font-medium"
+                                        placeholderTextColor="rgba(0,0,0,0.5)"
                                         onChangeText={text => setPassword(text)}
+                                        value={password}
                                     />
                                     <View style={{ position: 'absolute', top: '50%', right: 15, transform: [{ translateY: -12.5 }] }}>
-                                        { !showPassword ? <MaterialCommunityIcons name="eye" color="#00A9FF" size={25} onPress={() => setShowPassword(!showPassword)}/>
-                                        : <MaterialCommunityIcons name="eye-off" color="#00A9FF" size={25} onPress={() => setShowPassword(!showPassword)}/> }
+                                        { !showPassword ? <MaterialCommunityIcons name="eye" color="rgba(0,0,0,0.5)" size={25} onPress={() => setShowPassword(!showPassword)}/>
+                                        : <MaterialCommunityIcons name="eye-off" color="rgba(0,0,0,0.5)" size={25} onPress={() => setShowPassword(!showPassword)}/> }
                                     </View>         
                                 </View>
                                 {passwordError ? <Text className="text-red-500">{passwordError}</Text> : null}

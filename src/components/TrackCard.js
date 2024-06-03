@@ -8,7 +8,7 @@ export default function TrackCard( props ) {
   const navigation = useNavigation();
   function presentModal() {
     props.bottomSheetModalRef.current?.present();
-    navigation.navigate('TrackScreen', { serviceTrackUser: props.serviceTrackUser, serviceTrackDeviceName: props.serviceTrackDeviceName, serviceTrackCategory: props.serviceTrackCategory, serviceTrackStore: props.serviceTrackStore, serviceTrackPrice: props.serviceTrackPrice, serviceTrackNotes: props.serviceTrackNotes, serviceTrackStatus: props.serviceTrackStatus, serviceTrackType: props.serviceTrackType, serviceTrackStartDate: props.serviceTrackStartDate })
+    navigation.navigate('TrackScreen', { serviceTrackUser: props.serviceTrackUser, serviceTrackImage: props.serviceTrackImage, serviceTrackDeviceName: props.serviceTrackDeviceName, serviceTrackCategory: props.serviceTrackCategory, serviceTrackStore: props.serviceTrackStore, serviceTrackPrice: props.serviceTrackPrice, serviceTrackNotes: props.serviceTrackNotes, serviceTrackStatus: props.serviceTrackStatus, serviceTrackType: props.serviceTrackType, serviceTrackStartDate: props.serviceTrackStartDate })
   }
 
   return (
@@ -32,8 +32,8 @@ export default function TrackCard( props ) {
           </View>
 
           <View className="flex flex-row space-x-1">
-            <MaterialCommunityIcons name="timelapse" color="#222222" size={20} />
-            <Text className="font-bold">{ props.serviceTrackStatus == 1 ? 'Waiting validation' : props.serviceTrackStatus == 2 ? 'On going' : props.serviceTrackStatus == 3 ? 'Completed' : props.serviceTrackStatus == 4 ? 'Rejected' : ''}</Text>
+            <MaterialCommunityIcons name="timelapse" color={`${props.serviceTrackStatus == 1 ? '#fde047' : props.serviceTrackStatus == 2 ? '#6b7280' : props.serviceTrackStatus == 4 ? '#dc2626' : '#222222'}`} size={20} />
+            <Text className={`font-bold ${props.serviceTrackStatus == 1 ? 'text-yellow-300' : props.serviceTrackStatus == 2 ? 'text-gray-500' : props.serviceTrackStatus == 4 ? 'text-red-600' : ''}`}>{ props.serviceTrackStatus == 1 ? 'Pending' : props.serviceTrackStatus == 2 ? 'On going' : props.serviceTrackStatus == 3 ? 'Completed' : props.serviceTrackStatus == 4 ? 'Rejected' : ''}</Text>
           </View>
         </View>
 

@@ -143,7 +143,11 @@ const PaymentScreen = () => {
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View className="w-full h-full flex space-y-3">
                     <View className="flex bg-second-blue h-fit rounded-xl px-5 py-3 space-y-3">
-                        <Text className="font-bold text-lg">Payment details</Text>
+                        <View className="flex flex-row items-center space-x-2">
+                            <MaterialCommunityIcons name="file-document" size={25} color="black" />
+                            <Text className="font-bold text-lg">Payment details</Text>
+                        </View>
+
                         <View className="flex w-full">
                             <View className="border-b-2 border-dotted pb-3">
                                 <View className="flex flex-row justify-between">
@@ -160,7 +164,9 @@ const PaymentScreen = () => {
                                 </View>
                                 <View className="flex flex-row justify-between">
                                     <Text className="text-sm">Notes</Text>
-                                    <Text className="text-sm">{notes}</Text>
+                                    <View className="w-52 items-end">
+                                        <Text className="text-sm">{notes}</Text>
+                                    </View>
                                 </View>
                             </View>
                             <View className="flex flex-row justify-between items-center pt-3">
@@ -171,7 +177,11 @@ const PaymentScreen = () => {
                     </View>
 
                     <View className="flex bg-second-blue h-fit rounded-xl px-5 py-3 space-y-1">
-                        <Text className="font-bold text-base">Payment account</Text>
+                    <View className="flex flex-row items-center space-x-2">
+                            <MaterialCommunityIcons name="card-account-details" size={25} color="black" />
+                            <Text className="font-bold text-lg">Payment account</Text>
+                        </View>
+
                         <View className="flex">
                             <View className="flex flex-row justify-between items-center">
                                 <Text className="text-base">BCA</Text>
@@ -187,7 +197,10 @@ const PaymentScreen = () => {
 
                     <View className="flex bg-second-blue h-fit rounded-xl px-5 py-3 space-y-1">
                         <View className="flex flex-row justify-between items-center">
-                            <Text className="font-bold text-base">Payment guide</Text>  
+                            <View className="flex flex-row items-center space-x-2">
+                                <MaterialCommunityIcons name="information" size={25} color="black" />
+                                <Text className="font-bold text-lg">Payment guide</Text>
+                            </View>
                             <TouchableWithoutFeedback onPress={() => { setShowPaymentGuide(!showPaymentGuide)}}>
                                 <MaterialCommunityIcons name={ showPaymentGuide ? 'chevron-up' : 'chevron-down'} color="#000000" size={30} />
                             </TouchableWithoutFeedback>   
@@ -206,7 +219,11 @@ const PaymentScreen = () => {
                     </View>
                     
                     <View className="flex bg-second-blue h-fit rounded-xl px-5 py-3 space-y-3">
-                        <Text className="font-bold text-lg">Upload your payment proof</Text>
+                        <View className="flex flex-row items-center space-x-2">
+                            <MaterialCommunityIcons name="upload" size={25} color="black" />
+                            <Text className="font-bold text-lg">Upload your payment proof</Text>
+                        </View>
+
                         <View className="flex flex-row justify-between items-center">
                             <Text className="text-base">{pickedDocument ? pickedDocument.name : 'No document selected'}</Text>
                             <TouchableOpacity onPress={pickDocument}>

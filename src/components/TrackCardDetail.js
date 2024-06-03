@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native'
-import React, { useCallback, useMemo, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
     BottomSheetBackdrop,
     BottomSheetModal,
@@ -9,9 +9,15 @@ import {
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { useFocusEffect } from '@react-navigation/native';
+import ImageView from './ImageView';
 
 function TrackCardDetail(props) {
     const bottomSheetModalRef = useRef(null);
+    const [imageLoading, setImageLoading] = useState(true);
+    const [imageError, setImageError] = useState(false);
+    const [image, setImage] = useState('');
+    const [isOpenPopUpImage, setIsOpenPopUpImage] = useState('');
+    const [isOpenPopUpErrorImage, setIsOpenPopUpErrorImage] = useState(false);
 
     // Close modal on button click
     function closeModal() {
@@ -30,6 +36,16 @@ function TrackCardDetail(props) {
       return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
+  const handleViewImage = (image) => {
+    setImage(image);
+    setIsOpenPopUpImage(true);
+  } 
+
+  useEffect(() => {
+      setIsOpenPopUpErrorImage(false);
+      setImageError(false);
+  }, [])
+
   return (
     <BottomSheetModalProvider>
         <BottomSheetModal
@@ -45,6 +61,16 @@ function TrackCardDetail(props) {
               <Text className="text-xl text-main-blue font-bold">Track Service</Text>
               
               <View className="flex gap-y-2">
+                <View className="flex flex-row justify-between items-center">
+                  <View className="flex flex-row items-center gap-x-3">
+                    <MaterialCommunityIcons name="file-image" color="#222222" size={30} />
+                    <Text className="text-lg">Payment</Text>
+                  </View>
+                  <TouchableOpacity className="bg-gray-300 flex justify-center items-center px-2 py-1 rounded-md" onPress={() => {handleViewImage(props?.serviceTrackImage)}}>
+                    <Text className="text-base">View image</Text>
+                  </TouchableOpacity>
+                </View>             
+
                 <View className="flex flex-row justify-between items-center">
                   <View className="flex flex-row items-center gap-x-3">
                     <MaterialCommunityIcons name="account" color="#222222" size={30} />
@@ -66,7 +92,10 @@ function TrackCardDetail(props) {
                     <MaterialCommunityIcons name="devices" color="#222222" size={30} />
                     <Text className="text-lg">Device</Text>
                   </View>
-                  <Text className="text-lg">{ props.serviceTrackDeviceName }</Text>
+
+                  <View className="flex items-end w-52">
+                    <Text className="text-base">{ props.serviceTrackDeviceName }</Text>
+                  </View>
                 </View>
 
                 <View className="flex flex-row justify-between items-center">
@@ -82,7 +111,7 @@ function TrackCardDetail(props) {
                     <MaterialCommunityIcons name="timelapse" color="#222222" size={30} />
                     <Text className="text-lg">Status</Text>
                   </View>
-                  <Text className="text-lg">{ props.serviceTrackStatus == 1 ? 'Waiting Validation' : props.serviceTrackStatus == 2 ? 'On going' : props.serviceTrackStatus == 4 ? 'Rejected' : '' }</Text>
+                  <Text className="text-lg">{ props.serviceTrackStatus == 1 ? 'Pending' : props.serviceTrackStatus == 2 ? 'On going' : props.serviceTrackStatus == 4 ? 'Rejected' : '' }</Text>
                 </View>
 
                 <View className="flex flex-row justify-between items-center">
@@ -114,11 +143,16 @@ function TrackCardDetail(props) {
                     <MaterialCommunityIcons name="message-bulleted" color="#222222" size={30} />
                     <Text className="text-lg">Notes</Text>
                   </View>
-                  <Text className="text-lg">{ props.serviceTrackNotes }</Text>
+
+                  <View className="flex items-end w-52">
+                    <Text className="text-base">{ props.serviceTrackNotes }</Text> 
+                  </View>
                 </View>
               </View>
             </View>
         </BottomSheetModal>
+        <ImageView image={image} imageLoading={imageLoading} setImageLoading={setImageLoading} imageError={imageError} setImageError={setImageError} isOpenPopUpImage={isOpenPopUpImage} setIsOpenPopUpImage={setIsOpenPopUpImage} isOpenPopUpErrorImage={isOpenPopUpErrorImage} setIsOpenPopUpErrorImage={setIsOpenPopUpErrorImage}/>
+
     </BottomSheetModalProvider>
     
   )

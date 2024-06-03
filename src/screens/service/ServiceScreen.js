@@ -47,13 +47,13 @@ function ServiceScreen({ route }) {
     };
 
     const tabs = [
-        { id: 1, name: 'Service' },
+        { id: 1, name: 'Pending' },
         { id: 2, name: 'On going' },
         { id: 3, name: 'Completed' },
         { id: 4, name: 'Rejected' },
     ];
 
-    const snapPoints = [activeTabs == 1 ? "85%" : activeTabs == 4 ? "70%" : "80%"];
+    const snapPoints = [activeTabs == 1 ? "85%" : activeTabs == 4 ? "70%" : "80%", "100%"];
 
     return (
         <View className="flex flex-1 bg-main-background px-5 py-5">
@@ -62,8 +62,8 @@ function ServiceScreen({ route }) {
                     {tabs.map((tab) => (
                         <View key={tab.id}>
                             <TouchableWithoutFeedback onPress={() => setActiveTabs(tab.id)}>
-                                <View className={`px-3 py-2 rounded-md ${activeTabs === tab.id ? 'bg-main-blue' : 'bg-second-blue'}`}>
-                                    <Text className="font-bold">{tab.name}</Text>
+                                <View className={`px-3 py-2 rounded-md ${activeTabs === tab.id ? 'bg-second-gray' : 'bg-main-gray'}`}>
+                                    <Text className={`font-bold ${activeTabs === tab.id ? 'text-white' : 'text-second-gray'}`}>{tab.name}</Text>
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>

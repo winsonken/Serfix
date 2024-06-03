@@ -113,7 +113,10 @@ function ServiceCardDetail(props) {
                                 <MaterialCommunityIcons name="devices" color="#222222" size={30} />
                                 <Text className="text-lg">Device</Text>
                             </View>
-                            <Text className="text-lg">{props.serviceDeviceName}</Text>
+
+                            <View className="flex items-end w-52">
+                                <Text className="text-base">{props.serviceDeviceName}</Text>
+                            </View>
                         </View>
 
                         <View className="flex flex-row justify-between items-center">
@@ -129,7 +132,7 @@ function ServiceCardDetail(props) {
                                 <MaterialCommunityIcons name="timelapse" color="#222222" size={30} />
                                 <Text className="text-lg">Status</Text>
                             </View>
-                            <Text className="text-lg">{props.serviceStatus == 1 ? 'Waiting validation' : props.serviceStatus == 2 ? 'On going' : props.serviceStatus == 3 ? 'Completed' : props.serviceStatus == 4 ? 'Rejected' : ''}</Text>
+                            <Text className="text-lg">{props.serviceStatus == 1 ? 'Pending' : props.serviceStatus == 2 ? 'On going' : props.serviceStatus == 3 ? 'Completed' : props.serviceStatus == 4 ? 'Rejected' : ''}</Text>
                         </View>
 
                         {(props.serviceStatus == 2 || props.serviceStatus == 3) &&
@@ -171,26 +174,29 @@ function ServiceCardDetail(props) {
                         <View className="flex flex-row justify-between items-center">
                             <View className="flex flex-row items-center gap-x-3">
                                 <MaterialCommunityIcons name="message-bulleted" color="#222222" size={30} />
-                                <Text className="text-lg">Notes</Text>
+                                <Text className="text-base">Notes</Text>
                             </View>
-                            <Text className="text-lg">{props.serviceNotes}</Text>
+
+                            <View className="flex items-end w-52">
+                                <Text className="text-sm">{props.serviceNotes}</Text>
+                            </View>
                         </View>
                     </View>
 
                     {props.serviceStatus == 1 &&
                         <View className="flex flex-row justify-end gap-3">
-                            <TouchableOpacity className="bg-red-500 flex justify-center items-center px-3 py-2 rounded-md" onPress={reject}>
+                            <TouchableOpacity className="bg-red-500 flex justify-center items-center px-5 py-2 rounded-lg" onPress={reject}>
                                 <Text className="text-xl text-[#FFFFFF] font-medium">Reject</Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity className="bg-green-500 flex justify-center items-center px-3 py-2 rounded-md" onPress={accept}>
+                            <TouchableOpacity className="bg-green-500 flex justify-center items-center px-5 py-2 rounded-lg" onPress={accept}>
                                 <Text className="text-xl text-[#FFFFFF] font-medium">Accept</Text>
                             </TouchableOpacity>
                         </View>
                     }
 
                     {props.serviceStatus == 2 &&
-                        <TouchableOpacity className="bg-main-blue flex justify-center items-center p-3 rounded-md" onPress={validation}>
+                        <TouchableOpacity className="bg-main-blue flex justify-center items-center p-3 rounded-lg" onPress={validation}>
                             <Text className="text-xl text-[#FFFFFF] font-medium">Finish</Text>
                         </TouchableOpacity>
                     }
