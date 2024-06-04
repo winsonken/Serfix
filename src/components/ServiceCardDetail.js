@@ -174,11 +174,11 @@ function ServiceCardDetail(props) {
                         <View className="flex flex-row justify-between items-center">
                             <View className="flex flex-row items-center gap-x-3">
                                 <MaterialCommunityIcons name="message-bulleted" color="#222222" size={30} />
-                                <Text className="text-base">Notes</Text>
+                                <Text className="text-lg">Notes</Text>
                             </View>
 
                             <View className="flex items-end w-52">
-                                <Text className="text-sm">{props.serviceNotes}</Text>
+                                <Text className="text-base">{props.serviceNotes}</Text>
                             </View>
                         </View>
                     </View>

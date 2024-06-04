@@ -49,7 +49,7 @@ const ReportBugScreen = () => {
                         <View>
                             <View className="flex gap-y-3">
                                 <Text className="text-xl font-bold">Bug type</Text>
-                                <TextInput className="bg-second-blue rounded-md px-3 py-3" placeholder="Ex: app crashes" placeholderTextColor="#00A9FF" onChangeText={text => setBug(text)}/>
+                                <TextInput className="bg-main-gray rounded-md px-3 py-3" placeholder="Ex: app crashes" placeholderTextColor="rgba(0,0,0,0.5)" onChangeText={text => setBug(text)}/>
                             </View>
                             {errors.bug ? <Text className="text-red-500">{errors.bug}</Text> : null}
                         </View>
@@ -57,7 +57,7 @@ const ReportBugScreen = () => {
                         <View>
                             <View className="flex gap-y-3">
                                 <Text className="text-xl font-bold">Description</Text>
-                                <TextInput className="bg-second-blue rounded-md px-3 py-3" placeholder="Write bug description" multiline textAlignVertical='top' numberOfLines={5} placeholderTextColor="#00A9FF" onChangeText={text => setDesc(text)}/>
+                                <TextInput className="bg-main-gray rounded-md px-3 py-3" placeholder="Write bug description" multiline textAlignVertical='top' numberOfLines={5} placeholderTextColor="rgba(0,0,0,0.5)" onChangeText={text => setDesc(text)}/>
                             </View>
                             {errors.desc ? <Text className="text-red-500">{errors.desc}</Text> : null}
                         </View>

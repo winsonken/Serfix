@@ -40,7 +40,7 @@ const FeedbackScreen = () => {
                             <View>
                                 <View className="flex gap-y-3 w-full">
                                     <Text className="text-base text-center font-medium text-main-blue">Leave your feedback & suggestion here</Text>
-                                    <TextInput className="bg-[#CDF5FD] py-3 px-3 rounded-md" multiline textAlignVertical='top' numberOfLines={5} placeholderTextColor="#39A7FF" onChangeText={text => setFeedback(text)}/>
+                                    <TextInput className="bg-main-gray py-3 px-3 rounded-md" multiline textAlignVertical='top' numberOfLines={5} placeholderTextColor="rgba(0,0,0,0.5)" onChangeText={text => setFeedback(text)}/>
                                 </View>
                                 {errors.feedback ? <Text className="text-red-500">{errors.feedback}</Text> : null}
                             </View>
