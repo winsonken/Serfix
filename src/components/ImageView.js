@@ -90,13 +90,13 @@ export function PopUpErrorImage(props) {
       <View className="w-full h-full flex justify-center items-center">
           <View className="bg-white w-4/5 h-fit min-h-20 flex justify-between rounded-md p-2">
             <View>
-                <View className="flex flex-row items-center space-x-2">
+                <View className="flex flex-row justify-center items-center space-x-2">
                     <MaterialCommunityIcons name="alert" color="#C40C0C" size={30}/>
                     <Text className="text-xl font-medium text-center">{ title || 'Title'}</Text>
                 </View>
 
-                <View className="py-3 flex items-center">
-                    <Text>{content}</Text>
+                <View className="py-3">
+                    <Text className="text-center">{content}</Text>
                 </View>
             </View>
 

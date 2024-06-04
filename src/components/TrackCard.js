@@ -32,8 +32,8 @@ export default function TrackCard( props ) {
           </View>
 
           <View className="flex flex-row space-x-1">
-            <MaterialCommunityIcons name="timelapse" color={`${props.serviceTrackStatus == 1 ? '#fde047' : props.serviceTrackStatus == 2 ? '#6b7280' : props.serviceTrackStatus == 4 ? '#dc2626' : '#222222'}`} size={20} />
-            <Text className={`font-bold ${props.serviceTrackStatus == 1 ? 'text-yellow-300' : props.serviceTrackStatus == 2 ? 'text-gray-500' : props.serviceTrackStatus == 4 ? 'text-red-600' : ''}`}>{ props.serviceTrackStatus == 1 ? 'Pending' : props.serviceTrackStatus == 2 ? 'On going' : props.serviceTrackStatus == 3 ? 'Completed' : props.serviceTrackStatus == 4 ? 'Rejected' : ''}</Text>
+            <MaterialCommunityIcons name="timelapse" color={`${props.serviceTrackStatus == 1 ? '#ca8a04' : props.serviceTrackStatus == 2 ? '#6b7280' : props.serviceTrackStatus == 4 ? '#dc2626' : '#222222'}`} size={20} />
+            <Text className={`font-bold ${props.serviceTrackStatus == 1 ? 'text-yellow-600' : props.serviceTrackStatus == 2 ? 'text-gray-500' : props.serviceTrackStatus == 4 ? 'text-red-600' : ''}`}>{ props.serviceTrackStatus == 1 ? 'Pending' : props.serviceTrackStatus == 2 ? 'On going' : props.serviceTrackStatus == 3 ? 'Completed' : props.serviceTrackStatus == 4 ? 'Rejected' : ''}</Text>
           </View>
         </View>
 

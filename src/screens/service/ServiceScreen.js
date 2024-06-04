@@ -57,13 +57,13 @@ function ServiceScreen({ route }) {
 
     return (
         <View className="flex flex-1 bg-main-background px-5 py-5">
-            <ScrollView horizontal={true} className="w-full" style={{ flexGrow: 0}}>
+            <ScrollView horizontal={true} className="w-full" style={{ flexGrow: 0}} showsHorizontalScrollIndicator={false}>
                 <View className="flex flex-row space-x-2">
                     {tabs.map((tab) => (
                         <View key={tab.id}>
                             <TouchableWithoutFeedback onPress={() => setActiveTabs(tab.id)}>
-                                <View className={`px-3 py-2 rounded-md ${activeTabs === tab.id ? 'bg-second-gray' : 'bg-main-gray'}`}>
-                                    <Text className={`font-bold ${activeTabs === tab.id ? 'text-white' : 'text-second-gray'}`}>{tab.name}</Text>
+                                <View className={`px-3 py-2 rounded-md ${activeTabs === tab.id ? 'bg-main-blue' : 'bg-second-blue'}`}>
+                                    <Text className={`font-bold ${activeTabs === tab.id ? 'text-white' : 'text-black'}`}>{tab.name}</Text>
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>

@@ -224,10 +224,9 @@ const PaymentScreen = () => {
                             <Text className="font-bold text-lg">Upload your payment proof</Text>
                         </View>
 
-                        <View className="flex flex-row justify-between items-center">
-                            <Text className="text-base">{pickedDocument ? pickedDocument.name : 'No document selected'}</Text>
+                        <View className="flex flex-row items-center">
                             <TouchableOpacity onPress={pickDocument}>
-                                <MaterialCommunityIcons name="upload" size={30} color="black" />
+                                <Text className="text-base">{pickedDocument ? pickedDocument.name : 'No document selected'}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
