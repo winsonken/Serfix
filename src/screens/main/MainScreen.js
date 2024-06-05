@@ -1,11 +1,23 @@
 import { View, Text, Image } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function MainScreen() {
     const navigation = useNavigation();
+    const [token, setToken] = useState('');
+
+    AsyncStorage.getItem('token').then(value => {
+        setToken(value);
+    });
+
+    useEffect(() => {
+        if (token) {
+            navigation.navigate('HomePage');
+        }
+    }, [token]);    
 
     return (
         <View className="flex flex-1 bg-main-background px-2 py-12">

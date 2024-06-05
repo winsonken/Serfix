@@ -8,20 +8,34 @@ export default function HistoryCard( props ) {
   const navigation = useNavigation();
   function presentModal() {
     props.bottomSheetModalRef.current?.present();
-    navigation.navigate('HistoryScreen', { serviceHistoryDevice: props.serviceHistoryDevice, serviceHistoryLocation: props.serviceHistoryLocation, serviceHistoryPrice: props.serviceHistoryPrice, serviceHistoryProblem: props.serviceHistoryProblem, serviceHistoryService: props.serviceHistoryService, serviceHistoryStartDate: props.serviceHistoryStartDate, serviceHistoryFinishDate: props.serviceHistoryFinishDate, serviceHistoryWarranty: props.serviceHistoryWarranty,  serviceHistoryWarrantyDate: props.serviceHistoryWarrantyDate, serviceHistoryStatus: props.serviceHistoryStatus, serviceHistoryIcon: props.serviceHistoryIcon})
+    navigation.navigate('HistoryScreen', { serviceHistoryUser: props.serviceHistoryUser, serviceHistoryDeviceName: props.serviceHistoryDeviceName, serviceHistoryCategory: props.serviceHistoryCategory, serviceHistoryStore: props.serviceHistoryStore, serviceHistoryPrice: props.serviceHistoryPrice, serviceHistoryNotes: props.serviceHistoryNotes, serviceHistoryStatus: props.serviceHistoryStatus, serviceHistoryType: props.serviceHistoryType, serviceHistoryStartDate: props.serviceHistoryStartDate, serviceHistoryEndDate: props.serviceHistoryEndDate })
   }
 
   return (
     <View className="bg-[#89CFF3] flex w-full rounded-xl shadow-sm mt-3 shadow-[#ACA9A9]">
-      <TouchableOpacity className="flex flex-row items-center p-3 rounded-xl" onPress={presentModal}>
+      <TouchableOpacity className="flex flex-row items-center space-x-2 p-3 rounded-xl" onPress={presentModal}>
         <View>
-          <MaterialCommunityIcons name={`${props.serviceHistoryIcon}`} color="#FFFFFF" size={90} />
+          <MaterialCommunityIcons name={`${props.serviceHistoryType?.toLowerCase() == 'laptop' ? 'laptop' : props.serviceHistoryType?.toLowerCase() == 'phone' ? 'cellphone' : props.serviceHistoryType?.toLowerCase() == 'pc' ? 'desktop-tower-monitor' : ''}`} color="#FFFFFF" size={90} /> 
         </View>
 
-        <View className="flex gap-y-1 ml-3">
-          <Text className="text-base font-bold">{ props.serviceHistoryDevice }</Text>
-          <Text>Service: { props.serviceHistoryService} { props.serviceHistoryProblem }</Text>    
-          <Text>Warranty: { props.serviceHistoryWarranty }</Text>
+        <View className="flex space-y-1">
+          <Text className="text-base font-bold">{ props.serviceHistoryDeviceName }</Text>
+          
+          <View className="flex flex-row">
+            <View className="flex flex-row">
+                <MaterialCommunityIcons name="account" color="#222222" size={20} />
+                <Text>{ props.serviceHistoryUser}</Text>    
+            </View>
+            <View className="flex flex-row space-x-1 ml-2">
+                <MaterialCommunityIcons name="tools" color="#222222" size={20} />
+                <Text>{ props.serviceHistoryType?.replace(/^\w/, c => c.toUpperCase())} { props.serviceHistoryCategory }</Text>    
+            </View>
+          </View>
+
+          <View className="flex flex-row space-x-1">
+            <MaterialCommunityIcons name="timelapse" color="#4d7c0f" size={20} />
+            <Text className="font-bold text-green-700">{ props.serviceHistoryStatus == 3 ? 'Completed' : ''}</Text>
+          </View>
         </View>
       </TouchableOpacity>
 

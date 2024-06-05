@@ -1,15 +1,97 @@
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { TextInput } from 'react-native-gesture-handler';
 import { Dropdown } from 'react-native-element-dropdown';
 import { StatusBar } from 'expo-status-bar';
+import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function PCScreen() {
+const PCScreen = () => {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
     const navigation = useNavigation();
+    const [id, setId] = useState("");
+    const [username,setUsername] = useState("");
     const [categoryValue, setCategoryValue] = useState("");
     const [locationValue, setLocationValue] = useState("");
     const [price, setPrice] = useState(0);
+    const [device, setDevice] = useState("");
+    const [category1, setCategory1] = useState("");
+    const [categories, setCategories] = useState([]);
+    const [location, setLocation] = useState([]);
+    const [selectedLocation, setSelectedLocation] = useState("");
+    const [notes, setNotes] = useState("");
+    const [errors, setErrors] = useState({ device: '', category: '', location: '', notes: '' });
+    const maxDeviceLength = 15;
+    const maxNotes = 35;
+    axios.defaults.withCredentials = true;
+
+    function handleSubmit() {
+        // Reset errors
+        setErrors({ device: '', category: '', location: '' });
+
+        // Validate inputs
+        if (!device) {
+            setErrors(prev => ({ ...prev, device: 'Device name cannot be empty' }));
+            return;
+        } else if (device?.length > maxDeviceLength) {
+            setErrors(prev => ({ ...prev, device: `Device name cannot exceed ${maxDeviceLength} characters` }));
+            return;
+        }
+
+        if (!category1) {
+            setErrors(prev => ({ ...prev, category: 'Category cannot be empty' }));
+            return;
+        }
+        if (!selectedLocation) {
+            setErrors(prev => ({ ...prev, location: 'Location cannot be empty' }));
+            return;
+        }
+
+        if (notes?.length > maxNotes) {
+            setErrors(prev => ({ ...prev, notes: `Notes name cannot exceed ${maxNotes} characters` }));
+            return;
+        }
+
+        const type = "PC"
+        navigation.navigate('PaymentScreen', { serviceId: id, price: price, category: category1, device:device, notes:notes, selectedLocation : selectedLocation, username : username, type : type });
+    }
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+    useEffect(() => {
+        if (category1) {
+            fetchLocation();
+        }
+    }, [category1]);
+
+    AsyncStorage.getItem('id').then(value => {
+        setId(value)
+    });
+
+    AsyncStorage.getItem('username').then(value => {
+        setUsername(value)
+    });
+
+    const fetchCategories = async () => {
+        try {
+            const response = await axios.get(`${API_URL}data/pc/categories?type=PC`);
+            setCategories(response.data.data);
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+        }
+    };
+
+    const fetchLocation = async () => {
+        try {
+            const response = await axios.get(`${API_URL}data/pc/location?type=PC&category=` + category1);
+            setLocation(response.data.data || []);
+        } catch (error) {
+            console.error('Error fetching location:', error);
+        }
+    };
 
     const category = [
         { label: "Thermalpaste", value: "Thermalpaste"},
@@ -88,17 +170,47 @@ export default function PCScreen() {
         }
     ]
 
-    function filterItem(item) {
-        const serviceLaptopAll = serviceLaptop.map(e => {
-            return e;
-        })
+    const handleCategoryChange = async (item) => {
+        setCategory1(item.value);
+        setPrice(0);
+        await fetchLocation();
+    };
 
-        const filtered = serviceLaptopAll.filter(e => {
-            return (e.storeName == item) && (categoryValue == e.categoryName);
-        })
-        
-        setPrice(filtered[0].price)
-        setLocationValue(item)
+    const handleLocationChange = async (item) => {
+        setSelectedLocation(item.value); // Update selected location
+        try {
+            const response = await axios.get(`${API_URL}data/pc/price?category=${category1}&location=${item.value}`);
+            const priceData = response.data.data;
+            if (priceData) {
+                setPrice(priceData.price);
+            } else {
+                setPrice(0);
+            }
+        } catch (error) {
+            console.error('Error fetching price:', error);
+            setPrice(0);
+        }
+    };
+
+    function filterItem(item) {
+        console.log("Selected item:", item);
+        console.log("Selected category:", category1);
+    
+        // Filter serviceLaptop array based on selected store and category
+        const filtered = serviceLaptop.find(e => e.storeName === item && e.categoryName === category1);
+        console.log("Filtered item:", filtered);
+    
+        if (filtered) {
+            // If a matching item is found, update the price state
+            console.log("Setting price:", filtered.price);
+            setPrice(filtered.price);
+            setLocationValue(item);
+        } else {
+            // If no matching item is found, set price to 0 and location value to empty string
+            console.log("No matching item found. Setting price to 0.");
+            setPrice(0);
+            setLocationValue('');
+        }
     }
     return (
         <View className="flex flex-1 bg-main-background px-5 py-5">
@@ -107,58 +219,74 @@ export default function PCScreen() {
                     <Text className="text-main-blue font-medium text-2xl text-center">PC Service</Text>
 
                     <View className="flex gap-y-2">
-                        <View className="flex gap-3">
-                            <Text className="text-lg font-medium">Device</Text>
-                            <TextInput className="bg-[#CDF5FD] rounded-md px-3 py-2" placeholder="Device name" placeholderTextColor="#00A9FF" />
+                        <View>
+                            <View className="flex gap-3">  
+                                <Text className="text-lg font-medium">Device</Text>
+                                <TextInput className="bg-main-gray rounded-md px-3 py-2" placeholder="Device name" placeholderTextColor="rgba(0,0,0,0.5)" onChangeText={text => setDevice(text)}/>
+                            </View>
+                            {errors.device ? <Text className="text-red-500">{errors.device}</Text> : null}
                         </View>
 
-                        <View className="flex gap-3">
-                            <Text className="text-lg font-medium">Category</Text>
-                            <Dropdown
-                                data={category}
-                                search
-                                labelField="label"
-                                valueField="value"
-                                placeholder="Select category"
-                                searchPlaceholder="Search category"
-                                className="bg-[#CDF5FD] rounded-md px-3 py-2"
-                                onChange={item => {
-                                    setCategoryValue(item.value);
-                                    setPrice(0);
-                                }}
-                                value={categoryValue}
-                                placeholderStyle={{ color: "#00A9FF" }}
-                            />
+                        <View>
+                            <View className="flex gap-3">
+                                <Text className="text-lg font-medium">Category</Text>
+                                <Dropdown
+                                    data={categories.map(cat => ({ label: cat.name, value: cat.name }))}
+                                    search
+                                    labelField="label"
+                                    valueField="value"
+                                    placeholder="Select category"
+                                    searchPlaceholder="Search category"
+                                    className="bg-main-gray rounded-md px-3 py-2"
+                                    onChange={handleCategoryChange}
+                                    value={category1}
+                                    placeholderStyle={{ color: "rgba(0,0,0,0.5)" }}
+                                />
+                            </View>
+                            {errors.category ? <Text className="text-red-500">{errors.category}</Text> : null}
                         </View>
 
                         <View className="flex gap-3">
                             <Text className="text-lg font-medium">Location</Text>
                             <Dropdown
-                                data={categoryValue != "" ? store : blankStore}
+                                data={location.map(loc => ({ label: loc.name, value: loc.name }))}
                                 search
                                 labelField="label"
                                 valueField="value"
                                 placeholder="Select location"
                                 searchPlaceholder="Search location"
-                                className="bg-[#CDF5FD] rounded-md px-3 py-2"
-                                onChange={(item) => {filterItem(item.value) }}
-                                value={locationValue}
-                                placeholderStyle={{ color: "#00A9FF" }}
+                                className="bg-main-gray rounded-md px-3 py-2"
+                                onChange={handleLocationChange}
+                                value={selectedLocation}
+                                placeholderStyle={{ color: "rgba(0,0,0,0.5)" }}
                             />
                         </View>
 
                         <View className="flex flex-row justify-between py-3">
                             <Text className="text-lg font-medium">Price</Text>
-                            <Text className="text-xl font-medium">Rp. {price}</Text>
+                            <Text className="text-xl font-medium" onChangeText={text => setPrice(text)}>Rp. {price}</Text>
+                        </View>
+
+                        <View>
+                            <View className="flex flex-col gap-y-3">
+                                <Text className="text-lg font-medium">Notes</Text>
+                                <TextInput className="bg-main-gray p-3 rounded-md" multiline numberOfLines={3} textAlignVertical="top" placeholder="Notes" placeholderTextColor="rgba(0,0,0,0.5)" onChangeText={text => setNotes(text)} />
+                            </View>
+                            {errors.notes ? <Text className="text-red-500">{errors.notes}</Text> : null}
                         </View>
 
                         <View className="flex flex-col gap-y-3">
-                            <Text className="text-lg font-medium">Notes</Text>
-                            <TextInput className="bg-[#CDF5FD] p-3 rounded-md" multiline numberOfLines={3} textAlignVertical="top" placeholder="Notes" placeholderTextColor="#00A9FF" />
+                            {/* <Text className="text-lg font-medium">User</Text> */}
+                            {/*  <Text className="text-xl font-medium" onChangeText={text => setId(text)}>{id}</Text> */}
+                        </View>
+
+                        <View className="flex flex-col gap-y-3">
+                            {/* <Text className="text-lg font-medium">User</Text> */}
+                            {/*  <Text className="text-xl font-medium" onChangeText={text => setUsername(text)}>{username}</Text> */}
                         </View>
                         
                         <View className="flex items-end">
-                            <TouchableOpacity className="bg-main-blue w-2/5 flex items-center py-2 rounded mt-3" onPress={() => { navigation.navigate('PaymentScreen')}}>
+                            <TouchableOpacity className="bg-main-blue w-2/5 flex items-center py-2 rounded-lg mt-3" onPress={handleSubmit}>
                                 <Text className="text-[#FFFFFF] text-lg font-medium">Checkout</Text>
                             </TouchableOpacity>
                         </View>
@@ -171,3 +299,4 @@ export default function PCScreen() {
         </View>
     )
 }
+export default PCScreen

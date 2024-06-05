@@ -1,14 +1,62 @@
 import { View, Text, Image } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
+import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BackHandler, ToastAndroid } from 'react-native';
 
-export default function HomeScreen() {
+const HomeScreen = () => {
+    const [username, setUsername] = useState("");
+    const [token, setToken] = useState('');
     const navigation = useNavigation();
     const insets = useSafeAreaInsets();
+    useEffect(() => {
+        AsyncStorage.getItem('username').then(value => {
+            setUsername(value)
+        });
+
+        AsyncStorage.getItem('token').then(value => {
+            setToken(value);
+        });
+    }, []);
+
+    useFocusEffect(
+        useCallback(() => {
+            let backPressCount = 0;
+            const TIMEOUT_DURATION = 2000; // 2 seconds
+
+            const backAction = () => {
+                if (token) {
+                    if (backPressCount === 1) {
+                        BackHandler.exitApp();
+                        return true;
+                    } else {
+                        backPressCount++;
+                        ToastAndroid.show('Press back again to close the app', ToastAndroid.SHORT);
+                        setTimeout(() => {
+                            backPressCount = 0;
+                        }, TIMEOUT_DURATION);
+                        return true;
+                    }
+                } else {
+                    return false;
+                }
+            };
+
+            const backHandler = BackHandler.addEventListener(
+                'hardwareBackPress',
+                backAction
+            );
+
+            return () => backHandler.remove();
+        }, [token])
+    );
+    
 
     return (
       <View className="flex flex-1 bg-main-background px-5" style={{ paddingTop: insets.top }}>
@@ -17,7 +65,7 @@ export default function HomeScreen() {
 
               <View className="w-full flex flex-row items-center">
                   <MaterialCommunityIcons name="account-circle" color="#00A9FF" size={35} onPress={() => { navigation.navigate('ProfileScreen') }}/>
-                  <Text className="text-left text-lg font-medium ml-3">Welcome back, Vincent!</Text>
+                  <Text className="text-left text-lg font-medium ml-3">Welcome back, {username}!</Text>
               </View>
 
               <View className="flex justify-center w-full">
@@ -105,3 +153,5 @@ export default function HomeScreen() {
       </View>
     )
 }
+
+export default HomeScreen
