@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useNavigation, Link } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import PopUpError from '../../components/PopUpError';
 
 const LoginScreen = () => {
     const API_URL = process.env.EXPO_PUBLIC_API_URL;
@@ -16,6 +17,9 @@ const LoginScreen = () => {
     const [token, setToken] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [isOpenPopUpError, setIsOpenPopUpError] = useState(false);
+    const [errorMessages, setErrorMessages] = useState('');
+
     const navigation = useNavigation();
 
     axios.defaults.withCredentials = true;
@@ -46,7 +50,8 @@ const LoginScreen = () => {
                 if (err.response && err.response.data && err.response.data.message) {
                     handleErrors(err.response.data.message);
                 } else {
-                    alert('An error occurred. Please try again.');
+                    setErrorMessages('An error occurred. Please try again.');
+                    setIsOpenPopUpError(true);
                 }
             });
     }
@@ -134,7 +139,9 @@ const LoginScreen = () => {
                 </ScrollView>
             </View>
 
+            <PopUpError title="Registration Error" content={errorMessages} isOpenPopUp={isOpenPopUpError} setIsOpenPopUp={setIsOpenPopUpError} />
             <StatusBar style="auto" />
+            
         </View>
     )
 }
