@@ -35,18 +35,14 @@ const ProfileScreen = () => {
         AsyncStorage.multiRemove(['token', 'username', 'email', 'phone', 'role'])
           .then(() => {
             console.log('Relevant AsyncStorage keys cleared'); // Debug log
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'LoginScreen' }],
-            });
             setIsOpenPopUpLogout(true);
           })
           .catch(error => {
-            console.error('Error clearing specific AsyncStorage keys:', error);
+            console.log('Error clearing specific AsyncStorage keys:', error);
           });
       })
       .catch(err => {
-        console.error('Error logging out:', err);
+        console.log('Error logging out:', err);
       });
   }
   
@@ -124,6 +120,10 @@ export function PopUpLogoutSuccess(props) {
   const navigation = useNavigation();
 
   const handleClick = () => {
+    navigation.reset({
+        index: 0,
+        routes: [{ name: 'LoginScreen' }],
+    });
     setIsOpenPopUp(false);
   }
 

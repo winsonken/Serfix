@@ -143,7 +143,7 @@ const LoginScreen = () => {
                 </ScrollView>
             </View>
 
-            <PopUpError title="Registration Error" content={errorMessages} isOpenPopUp={isOpenPopUpError} setIsOpenPopUp={setIsOpenPopUpError} />
+            <PopUpError title="Login Error" content={errorMessages} isOpenPopUp={isOpenPopUpError} setIsOpenPopUp={setIsOpenPopUpError} />
             <StatusBar style="auto" />
             
         </View>
