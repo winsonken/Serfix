@@ -31,7 +31,6 @@ const LoginScreen = () => {
         axios.post(`${API_URL}LoginScreen/`, { user, password })
           .then(res => {
             if (res.data.status === 'success') {
-              console.log('Login successful:', res.data); // Debug log
               AsyncStorage.setItem('id', JSON.stringify(res.data.id));
               AsyncStorage.setItem('token', res.data.token);
               AsyncStorage.setItem('username', res.data.name);

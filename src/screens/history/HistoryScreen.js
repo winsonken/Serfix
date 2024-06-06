@@ -48,7 +48,7 @@ function HistoryScreen({ route }) {
             if (error.response && error.response.status === 404) {
                 setServiceHistory([]);
             } else {
-                console.error('Error fetching data:', error);
+                console.log('Error fetching data:', error);
             }
         }
     };

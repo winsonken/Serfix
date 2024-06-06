@@ -34,7 +34,6 @@ const ProfileScreen = () => {
       .then(res => {
         AsyncStorage.multiRemove(['token', 'username', 'email', 'phone', 'role'])
           .then(() => {
-            console.log('Relevant AsyncStorage keys cleared'); // Debug log
             setIsOpenPopUpLogout(true);
           })
           .catch(error => {

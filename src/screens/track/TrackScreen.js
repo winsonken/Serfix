@@ -51,7 +51,7 @@ function TrackScreen({ route }) {
             if (error.response && error.response.status === 404) {
                 setServiceTrack([]);
             } else {
-                console.error('Error fetching data:', error);
+                console.log('Error fetching data:', error);
             }
         }
     };

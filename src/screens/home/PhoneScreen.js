@@ -80,7 +80,7 @@ const PhoneScreen = () => {
             const response = await axios.get(`${API_URL}data/phone/categories?type=Phone`);
             setCategories(response.data.data);
         } catch (error) {
-            console.error('Error fetching categories:', error);
+            console.log('Error fetching categories:', error);
         }
     };
 
@@ -89,7 +89,7 @@ const PhoneScreen = () => {
             const response = await axios.get(`${API_URL}data/phone/location?type=Phone&category=` + category1);
             setLocation(response.data.data || []);
         } catch (error) {
-            console.error('Error fetching location:', error);
+            console.log('Error fetching location:', error);
         }
     };
 
@@ -187,7 +187,7 @@ const PhoneScreen = () => {
                 setPrice(0);
             }
         } catch (error) {
-            console.error('Error fetching price:', error);
+            console.log('Error fetching price:', error);
             setPrice(0);
         }
     };
