@@ -33,23 +33,23 @@ export default function ServiceCard(props) {
                 <MaterialCommunityIcons name={`${props.serviceType?.toLowerCase() == 'laptop' ? 'laptop' : props.serviceType?.toLowerCase() == 'phone' ? 'cellphone' : props.serviceType?.toLowerCase() == 'pc' ? 'desktop-tower-monitor' : ''}`} color="#FFFFFF" size={90} />
             </View>
 
-            <View className="flex space-y-1">
-                <Text className="text-base font-bold">{props.serviceDeviceName}</Text>
+            <View className="flex">
+                <Text className="text-base font-bold mb-1">{props.serviceDeviceName}</Text>
 
-                <View className="flex flex-row">
-                    <View className="flex flex-row">
-                        <MaterialCommunityIcons name="account" color="#222222" size={20} />
-                        <Text>{props.serviceUser}</Text>
+                <View className="flex">
+                    <View className="flex flex-row items-center space-x-1">
+                        <MaterialCommunityIcons name="account" color="#222222" size={15} />
+                        <Text className="text-xs">{props.serviceUser}</Text>
                     </View>
-                    <View className="flex flex-row space-x-1 ml-2">
-                        <MaterialCommunityIcons name="tools" color="#222222" size={20} />
-                        <Text>{props.serviceType?.replace(/^\w/, c => c.toUpperCase())} {props.serviceCategory}</Text>
+                    <View className="flex flex-row items-center space-x-1">
+                        <MaterialCommunityIcons name="tools" color="#222222" size={15} />
+                        <Text className="text-xs">{props.serviceType?.replace(/^\w/, c => c.toUpperCase())} {props.serviceCategory}</Text>
                     </View>
                 </View>
 
-                <View className="flex flex-row space-x-1">
-                    <MaterialCommunityIcons name="timelapse" color={`${props.serviceStatus == 1 ? '#ca8a04' : props.serviceStatus == 2 ? '#6b7280' : props.serviceStatus == 3 ? '#4d7c0f' : props.serviceStatus == 4 ? '#dc2626' : '#222222'}`} size={20} />
-                    <Text className={`font-bold ${props.serviceStatus == 1 ? 'text-yellow-600' : props.serviceStatus == 2 ? 'text-gray-500' : props.serviceStatus == 3 ? 'text-green-700' : props.serviceStatus == 4 ? 'text-red-600' : ''}`}>{props.serviceStatus == 1 ? 'Pending' : props.serviceStatus == 2 ? 'On going' : props.serviceStatus == 3 ? 'Completed' : props.serviceStatus == 4 ? 'Rejected' : ''}</Text>
+                <View className="flex flex-row items-center space-x-1">
+                    <MaterialCommunityIcons name="timelapse" color={`${props.serviceStatus == 1 ? '#ca8a04' : props.serviceStatus == 2 ? '#6b7280' : props.serviceStatus == 3 ? '#4d7c0f' : props.serviceStatus == 4 ? '#dc2626' : '#222222'}`} size={15} />
+                    <Text className={`font-bold text-xs ${props.serviceStatus == 1 ? 'text-yellow-600' : props.serviceStatus == 2 ? 'text-gray-500' : props.serviceStatus == 3 ? 'text-green-700' : props.serviceStatus == 4 ? 'text-red-600' : ''}`}>{props.serviceStatus == 1 ? 'Pending' : props.serviceStatus == 2 ? 'On going' : props.serviceStatus == 3 ? 'Completed' : props.serviceStatus == 4 ? 'Rejected' : ''}</Text>
                 </View>
             </View>
 

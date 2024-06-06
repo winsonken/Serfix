@@ -12,35 +12,36 @@ export default function HistoryCard( props ) {
   }
 
   return (
-    <View className="bg-[#89CFF3] flex w-full rounded-xl shadow-sm mt-3 shadow-[#ACA9A9]">
-      <TouchableOpacity className="flex flex-row items-center space-x-2 p-3 rounded-xl" onPress={presentModal}>
+    <View className="bg-[#89CFF3] relative flex flex-row items-center w-full space-x-2 p-3 mt-3 rounded-xl shadow-sm shadow-[#ACA9A9]">
         <View>
           <MaterialCommunityIcons name={`${props.serviceHistoryType?.toLowerCase() == 'laptop' ? 'laptop' : props.serviceHistoryType?.toLowerCase() == 'phone' ? 'cellphone' : props.serviceHistoryType?.toLowerCase() == 'pc' ? 'desktop-tower-monitor' : ''}`} color="#FFFFFF" size={90} /> 
         </View>
 
-        <View className="flex space-y-1">
-          <Text className="text-base font-bold">{ props.serviceHistoryDeviceName }</Text>
+        <View className="flex">
+          <Text className="text-base font-bold mb-1">{ props.serviceHistoryDeviceName }</Text>
           
-          <View className="flex flex-row">
-            <View className="flex flex-row">
-                <MaterialCommunityIcons name="account" color="#222222" size={20} />
-                <Text>{ props.serviceHistoryUser}</Text>    
+          <View className="flex">
+            <View className="flex flex-row items-center space-x-1">
+                <MaterialCommunityIcons name="account" color="#222222" size={15} />
+                <Text className="text-xs">{ props.serviceHistoryUser}</Text>    
             </View>
-            <View className="flex flex-row space-x-1 ml-2">
-                <MaterialCommunityIcons name="tools" color="#222222" size={20} />
-                <Text>{ props.serviceHistoryType?.replace(/^\w/, c => c.toUpperCase())} { props.serviceHistoryCategory }</Text>    
+            <View className="flex flex-row items-center space-x-1">
+                <MaterialCommunityIcons name="tools" color="#222222" size={15} />
+                <Text className="text-xs">{ props.serviceHistoryType?.replace(/^\w/, c => c.toUpperCase())} { props.serviceHistoryCategory }</Text>    
             </View>
           </View>
 
-          <View className="flex flex-row space-x-1">
-            <MaterialCommunityIcons name="timelapse" color="#4d7c0f" size={20} />
-            <Text className="font-bold text-green-700">{ props.serviceHistoryStatus == 3 ? 'Completed' : ''}</Text>
+          <View className="flex flex-row items-center space-x-1">
+              <MaterialCommunityIcons name="timelapse" color="#4d7c0f" size={15} />
+              <Text className="font-bold text-xs text-green-700">{ props.serviceHistoryStatus == 3 ? 'Completed' : ''}</Text>
           </View>
         </View>
-      </TouchableOpacity>
 
+        <View className="absolute right-3 bottom-3">
+            <TouchableOpacity className="bg-main-blue px-3 py-1 rounded-md" onPress={presentModal}>
+                <Text className="text-sm text-[#FFFFFF] font-bold">View</Text>
+            </TouchableOpacity>
+        </View>
     </View>
-
-    
   )
 }

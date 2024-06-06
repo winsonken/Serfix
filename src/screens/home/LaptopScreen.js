@@ -175,7 +175,7 @@ const LaptopScreen = () => {
 
                         <View className="flex flex-row justify-between py-3">
                             <Text className="text-lg font-medium">Price</Text>
-                            <Text className="text-xl font-medium">Rp. {price}</Text>
+                            <Text className="text-xl font-medium">Rp. {price?.toLocaleString("id-ID")}</Text>
                         </View>
 
                         <View>

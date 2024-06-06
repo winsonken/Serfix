@@ -225,7 +225,7 @@ const PaymentScreen = () => {
                         </View>
 
                         <View className="flex flex-row items-center">
-                            <TouchableOpacity onPress={pickDocument}>
+                            <TouchableOpacity onPress={pickDocument} className="w-full">
                                 <Text className="text-base">{pickedDocument ? pickedDocument.name : 'No document selected'}</Text>
                             </TouchableOpacity>
                         </View>

@@ -54,7 +54,7 @@ function HistoryScreen({ route }) {
     };
 
     const bottomSheetModalRef = useRef(null);
-    const snapPoints = ["80%"];
+    const snapPoints = ["85%"];
 
     return (
         <View className="flex flex-1 bg-main-background px-5 py-5">

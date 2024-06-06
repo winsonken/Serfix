@@ -17,23 +17,23 @@ export default function TrackCard( props ) {
           <MaterialCommunityIcons name={`${props.serviceTrackType?.toLowerCase() == 'laptop' ? 'laptop' : props.serviceTrackType?.toLowerCase() == 'phone' ? 'cellphone' : props.serviceTrackType?.toLowerCase() == 'pc' ? 'desktop-tower-monitor' : ''}`} color="#FFFFFF" size={90} /> 
         </View>
 
-        <View className="flex space-y-1">
-          <Text className="text-base font-bold">{ props.serviceTrackDeviceName }</Text>
+        <View className="flex">
+          <Text className="text-base font-bold mb-1">{ props.serviceTrackDeviceName }</Text>
           
-          <View className="flex flex-row">
-            <View className="flex flex-row">
-                <MaterialCommunityIcons name="account" color="#222222" size={20} />
-                <Text>{ props.serviceTrackUser}</Text>    
+          <View className="flex">
+            <View className="flex flex-row items-center space-x-1">
+                <MaterialCommunityIcons name="account" color="#222222" size={15} />
+                <Text className="text-xs">{ props.serviceTrackUser}</Text>    
             </View>
-            <View className="flex flex-row space-x-1 ml-2">
-                <MaterialCommunityIcons name="tools" color="#222222" size={20} />
-                <Text>{ props.serviceTrackType?.replace(/^\w/, c => c.toUpperCase())} { props.serviceTrackCategory }</Text>    
+            <View className="flex flex-row items-center space-x-1">
+                <MaterialCommunityIcons name="tools" color="#222222" size={15} />
+                <Text className="text-xs">{ props.serviceTrackType?.replace(/^\w/, c => c.toUpperCase())} { props.serviceTrackCategory }</Text>    
             </View>
           </View>
 
-          <View className="flex flex-row space-x-1">
-            <MaterialCommunityIcons name="timelapse" color={`${props.serviceTrackStatus == 1 ? '#ca8a04' : props.serviceTrackStatus == 2 ? '#6b7280' : props.serviceTrackStatus == 4 ? '#dc2626' : '#222222'}`} size={20} />
-            <Text className={`font-bold ${props.serviceTrackStatus == 1 ? 'text-yellow-600' : props.serviceTrackStatus == 2 ? 'text-gray-500' : props.serviceTrackStatus == 4 ? 'text-red-600' : ''}`}>{ props.serviceTrackStatus == 1 ? 'Pending' : props.serviceTrackStatus == 2 ? 'On going' : props.serviceTrackStatus == 3 ? 'Completed' : props.serviceTrackStatus == 4 ? 'Rejected' : ''}</Text>
+          <View className="flex flex-row items-center space-x-1">
+            <MaterialCommunityIcons name="timelapse" color={`${props.serviceTrackStatus == 1 ? '#ca8a04' : props.serviceTrackStatus == 2 ? '#6b7280' : props.serviceTrackStatus == 4 ? '#dc2626' : '#222222'}`} size={15} />
+            <Text className={`font-bold text-xs ${props.serviceTrackStatus == 1 ? 'text-yellow-600' : props.serviceTrackStatus == 2 ? 'text-gray-500' : props.serviceTrackStatus == 4 ? 'text-red-600' : ''}`}>{ props.serviceTrackStatus == 1 ? 'Pending' : props.serviceTrackStatus == 2 ? 'On going' : props.serviceTrackStatus == 3 ? 'Completed' : props.serviceTrackStatus == 4 ? 'Rejected' : ''}</Text>
           </View>
         </View>
 

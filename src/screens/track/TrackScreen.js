@@ -57,7 +57,7 @@ function TrackScreen({ route }) {
     };
 
     const bottomSheetModalRef = useRef(null);
-    const snapPoints = [activeTabs == 1 ? "85%" : activeTabs == 4 ? "70%" : "80%"];
+    const snapPoints = ["85%"];
 
     const tabs = [
         { id: 1, name: 'Pending', status: 1 },
