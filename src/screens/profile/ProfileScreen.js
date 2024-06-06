@@ -10,13 +10,14 @@ import PopUp from '../../components/PopUp'
 
 const ProfileScreen = () => {
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
-    const navigation = useNavigation();
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [isOpenPopUpLogout, setIsOpenPopUpLogout] = useState(false);
-    axios.defaults.withCredentials = true;
+  const navigation = useNavigation();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [isOpenPopUpLogout, setIsOpenPopUpLogout] = useState(false);
+  axios.defaults.withCredentials = true;
 
+  useEffect(() => {
     AsyncStorage.getItem('username').then(value => {
       setUsername(value)
     });
@@ -26,24 +27,30 @@ const ProfileScreen = () => {
     AsyncStorage.getItem('phone').then(value => {
       setPhone(value)
     });
+  }, []);
 
-    function handleDelete() {
-      axios.get(`${API_URL}logout`)
-        .then(res => {
-          AsyncStorage.clear()
-            .then(() => {
-              setIsOpenPopUpLogout(true);
-            })
-            .catch(error => {
-              console.error('Error clearing AsyncStorage:', error);
+  function handleDelete() {
+    axios.get(`${API_URL}logout`)
+      .then(res => {
+        AsyncStorage.multiRemove(['token', 'username', 'email', 'phone', 'role'])
+          .then(() => {
+            console.log('Relevant AsyncStorage keys cleared'); // Debug log
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'LoginScreen' }],
             });
-        })
-        .catch(err => {
-          console.error('Error logging out:', err);
-        });
-    }
-    
-    return (
+            setIsOpenPopUpLogout(true);
+          })
+          .catch(error => {
+            console.error('Error clearing specific AsyncStorage keys:', error);
+          });
+      })
+      .catch(err => {
+        console.error('Error logging out:', err);
+      });
+  }
+  
+  return (
     <View className="flex flex-1 bg-main-background px-2 py-5">
       
       <View className="flex w-full h-full">
@@ -107,7 +114,7 @@ const ProfileScreen = () => {
       <StatusBar style="auto" />
       <PopUpLogoutSuccess title="Logout success" content="You have been logged out!" isOpenPopUp={isOpenPopUpLogout} setIsOpenPopUp={setIsOpenPopUpLogout}/>
     </View>
-    )
+  )
 }
 
 export default ProfileScreen
@@ -118,7 +125,6 @@ export function PopUpLogoutSuccess(props) {
 
   const handleClick = () => {
     setIsOpenPopUp(false);
-    navigation.navigate('LoginScreen');
   }
 
   return (

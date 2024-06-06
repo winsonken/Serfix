@@ -27,34 +27,38 @@ const LoginScreen = () => {
     function handleSubmit() {
         setEmailError('');
         setPasswordError('');
-        
+      
         axios.post(`${API_URL}LoginScreen/`, { user, password })
-            .then(res => {
-                if (res.data.status === 'success') {
-                    AsyncStorage.setItem('id', JSON.stringify(res.data.id));
-                    AsyncStorage.setItem('token', res.data.token);
-                    AsyncStorage.setItem('username', res.data.name);
-                    AsyncStorage.setItem('email', res.data.email);
-                    AsyncStorage.setItem('phone', JSON.stringify(res.data.phone));
-                    AsyncStorage.setItem('role', res.data.role);
-                    navigation.navigate('HomePage');
-                    setUser('');
-                    setPassword('');
-                } else {
-                    handleErrors(res.data.message);
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                // If the error is due to the server not responding with a specific message, handle it here
-                if (err.response && err.response.data && err.response.data.message) {
-                    handleErrors(err.response.data.message);
-                } else {
-                    setErrorMessages('An error occurred. Please try again.');
-                    setIsOpenPopUpError(true);
-                }
-            });
-    }
+          .then(res => {
+            if (res.data.status === 'success') {
+              console.log('Login successful:', res.data); // Debug log
+              AsyncStorage.setItem('id', JSON.stringify(res.data.id));
+              AsyncStorage.setItem('token', res.data.token);
+              AsyncStorage.setItem('username', res.data.name);
+              AsyncStorage.setItem('email', res.data.email);
+              AsyncStorage.setItem('phone', JSON.stringify(res.data.phone));
+              AsyncStorage.setItem('role', res.data.role);
+      
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'HomePage' }],
+              });
+              setUser('');
+              setPassword('');
+            } else {
+              handleErrors(res.data.message);
+            }
+          })
+          .catch(err => {
+            console.log('Login error:', err); // Debug log
+            if (err.response && err.response.data && err.response.data.message) {
+              handleErrors(err.response.data.message);
+            } else {
+              setErrorMessages('An error occurred. Please try again.');
+              setIsOpenPopUpError(true);
+            }
+          });
+      }
 
     function handleErrors(message) {
         if (message === 'Akun tidak Terdaftar') {
